@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlashLabs × Banyan Risk — AI Gateway for Agentic Underwriting</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #000;
+    color: #fff;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 32px; }
+
+  /* HERO */
+  .hero {
+    padding: 100px 0 80px;
+    border-bottom: 1px solid #1a1a1a;
+    position: relative;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .badge {
+    display: inline-block;
+    background: #fff;
+    color: #000;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin-bottom: 24px;
+    letter-spacing: 0.5px;
+  }
+  h1 {
+    font-size: 56px;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -1.5px;
+    margin-bottom: 24px;
+  }
+  h1 span { color: #666; }
+  .hero p {
+    font-size: 20px;
+    color: #888;
+    max-width: 640px;
+    margin-bottom: 40px;
+  }
+  .btn-group {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-block;
+    padding: 14px 32px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .btn-primary {
+    background: #fff;
+    color: #000;
+  }
+  .btn-primary:hover { background: #e0e0e0; }
+  .btn-secondary {
+    background: transparent;
+    color: #fff;
+    border: 1px solid #333;
+  }
+  .btn-secondary:hover { border-color: #fff; }
+
+  /* KEY STATS */
+  .stats {
+    padding: 60px 0;
+    border-bottom: 1px solid #1a1a1a;
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+  }
+  .stat-number {
+    font-size: 48px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 4px;
+  }
+  .stat-label { color: #888; font-size: 14px; }
+
+  /* SECTION TITLES */
+  .section {
+    padding: 80px 0;
+    border-bottom: 1px solid #1a1a1a;
+  }
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #666;
+    margin-bottom: 16px;
+  }
+  h2 {
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 16px;
+  }
+  .section-subtitle {
+    font-size: 17px;
+    color: #888;
+    max-width: 600px;
+    margin-bottom: 48px;
+  }
+
+  /* PROBLEM CARDS */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  .card {
+    background: #0a0a0a;
+    border: 1px solid #1a1a1a;
+    border-radius: 12px;
+    padding: 32px;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: #333; }
+  .card-icon { font-size: 28px; margin-bottom: 16px; }
+  .card h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+  .card p { color: #888; font-size: 14px; }
+
+  /* SOLUTION */
+  .solution-visual {
+    background: #0a0a0a;
+    border: 1px solid #1a1a1a;
+    border-radius: 16px;
+    padding: 48px;
+    margin-bottom: 60px;
+  }
+  .stack-layer {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 0;
+    border-bottom: 1px solid #1a1a1a;
+  }
+  .stack-layer:last-child { border-bottom: none; }
+  .stack-num {
+    width: 32px; height: 32px;
+    background: #fff; color: #000;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 14px;
+    flex-shrink: 0;
+  }
+  .stack-num.primary { background: #fff; }
+  .stack-num.secondary { background: #333; color: #fff; }
+  .stack-label { font-weight: 600; font-size: 15px; min-width: 180px; }
+  .stack-value { color: #888; font-size: 14px; }
+  .stack-highlight { color: #fff; font-weight: 600; background: #1a1a1a; padding: 2px 10px; border-radius: 4px; font-size: 13px; margin-left: 8px; }
+
+  /* BENEFITS */
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: #1a1a1a;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .benefit {
+    background: #000;
+    padding: 32px;
+    text-align: center;
+  }
+  .benefit h4 { font-size: 40px; font-weight: 800; margin-bottom: 4px; }
+  .benefit p { color: #888; font-size: 13px; }
+
+  /* WHY NOW */
+  .timeline {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 48px;
+    overflow-x: auto;
+  }
+  .timeline-item {
+    flex: 1;
+    min-width: 200px;
+    background: #0a0a0a;
+    border: 1px solid #1a1a1a;
+    border-radius: 12px;
+    padding: 24px;
+  }
+  .timeline-date {
+    font-size: 11px;
+    font-weight: 700;
+    color: #666;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .timeline-item h4 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+  .timeline-item p { color: #888; font-size: 13px; }
+
+  /* QUOTE */
+  .quote-block {
+    border-left: 3px solid #fff;
+    padding: 16px 24px;
+    margin: 48px 0;
+  }
+  .quote-block p {
+    font-size: 20px;
+    font-weight: 600;
+    font-style: italic;
+    margin-bottom: 8px;
+  }
+  .quote-block span { color: #888; font-size: 13px; }
+
+  /* CTA */
+  .cta-section {
+    padding: 80px 0;
+    text-align: center;
+  }
+  .cta-section h2 { margin-bottom: 12px; }
+  .cta-section p { color: #888; font-size: 17px; max-width: 500px; margin: 0 auto 32px; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid #1a1a1a;
+    padding: 40px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #666;
+    font-size: 13px;
+  }
+
+  .product-pill {
+    display: inline-block;
+    background: #1a1a1a;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-right: 8px;
+    margin-bottom: 8px;
+  }
+  .product-pill.active { background: #fff; color: #000; }
+
+  @media (max-width: 768px) {
+    h1 { font-size: 36px; }
+    .cards, .benefits-grid, .stats-grid { grid-template-columns: 1fr; }
+    .solution-visual { padding: 24px; }
+    .stack-layer { flex-wrap: wrap; gap: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="container">
+    <div class="badge">FOR BANYAN RISK</div>
+    <h1>The AI infrastructure<br>layer <span>for agentic<br>underwriting</span></h1>
+    <p>Banyan is pushing the frontier with Hyperexponential's agentic underwriting suite across four markets. But every AI agent needs a reliable, auditable, and cost-optimized gateway underneath. That's where we come in.</p>
+    <div class="btn-group">
+      <a href="#solution" class="btn btn-primary">See How It Works</a>
+      <a href="#contact" class="btn btn-secondary">Talk to Us</a>
+    </div>
+  </div>
+</header>
+
+<!-- STATS -->
+<section class="stats">
+  <div class="container">
+    <div class="stats-grid">
+      <div>
+        <div class="stat-number">200+</div>
+        <div class="stat-label">AI models accessible through a single API</div>
+      </div>
+      <div>
+        <div class="stat-number">99.99%</div>
+        <div class="stat-label">Uptime with auto-failover across providers</div>
+      </div>
+      <div>
+        <div class="stat-number">40–60%</div>
+        <div class="stat-label">Reduction in LLM inference costs with intelligent routing</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- THE PROBLEM -->
+<section class="section" id="problem">
+  <div class="container">
+    <div class="section-label">THE PROBLEM</div>
+    <h2>Your underwriting agents<br>have a blind spot</h2>
+    <p class="section-subtitle">Banyan deployed Hyperexponential's agentic suite — ingestion agents, underwriting agents, actuarial agents. But what sits between those agents and the LLMs powering them?</p>
+    <div class="cards">
+      <div class="card">
+        <div class="card-icon">🔌</div>
+        <h3>Single Point of Failure</h3>
+        <p>If OpenAI goes down while pricing a $10M D&O policy, your agent stalls. No auto-failover = missed submissions and lost premium.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📋</div>
+        <h3>Regulatory Audit Gap</h3>
+        <p>Bermuda Monetary Authority compliance requires traceability. Which model made which underwriting decision, when, and why? Without a gateway, you can't prove it.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">💸</div>
+        <h3>Runaway AI Costs</h3>
+        <p>Agentic workflows chain multiple LLM calls per submission. Without intelligent routing to the cheapest capable model, your inference bill scales faster than your premium.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔒</div>
+        <h3>Vendor Lock-In Risk</h3>
+        <p>Your underwriting code calls OpenAI's API directly. Switching means rewriting your agents. That's not a technology choice — it's a trap.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE SOLUTION -->
+<section class="section" id="solution">
+  <div class="container">
+    <div class="section-label">THE SOLUTION</div>
+    <h2>OrcaRouter: The AI Gateway<br>for Agentic Underwriting</h2>
+    <p class="section-subtitle">One API endpoint. 200+ models. Auto-failover. Complete audit trail. Deploy in hours, not weeks.</p>
+
+    <div class="solution-visual">
+      <div style="text-align:center;font-size:12px;font-weight:700;letter-spacing:1px;color:#666;margin-bottom:32px;">YOUR STACK WITH ORCAROUTER</div>
+
+      <div class="stack-layer">
+        <div class="stack-num secondary">1</div>
+        <div class="stack-label">Broker Submissions</div>
+        <div class="stack-value">Email, portal, and API submissions from brokers across US, UK, Canada, Bermuda</div>
+      </div>
+
+      <div class="stack-layer">
+        <div class="stack-num secondary">2</div>
+        <div class="stack-label">Hyperexponential hx</div>
+        <div class="stack-value">Agentic underwriting suite — Ingestion, Underwriting & Actuarial Agents</div>
+        <span class="stack-highlight">ALREADY LIVE</span>
+      </div>
+
+      <div class="stack-layer">
+        <div class="stack-num primary">3</div>
+        <div class="stack-label" style="color:#fff;">OrcaRouter ← NEW</div>
+        <div class="stack-value">Model routing, auto-failover, cost optimization, audit logging, rate limiting</div>
+        <span class="stack-highlight" style="background:#fff;color:#000;">WE ADD THIS</span>
+      </div>
+
+      <div class="stack-layer">
+        <div class="stack-num secondary">4</div>
+        <div class="stack-label">AI Providers</div>
+        <div class="stack-value">OpenAI · Anthropic · Google Gemini · DeepSeek · Meta Llama · Mistral · Cohere</div>
+      </div>
+
+      <div class="stack-layer">
+        <div class="stack-num secondary">5</div>
+        <div class="stack-label">Policy Admin & Data Warehouse</div>
+        <div class="stack-value">Existing Banyan systems receive priced, governed, ready-to-bind submissions</div>
+      </div>
+    </div>
+
+    <div class="benefits-grid">
+      <div class="benefit">
+        <h4>&lt;50ms</h4>
+        <p>Added latency. Underwriting agents feel no difference.</p>
+      </div>
+      <div class="benefit">
+        <h4>Drop-in</h4>
+        <p>Replace your API key. No code changes to your underwriting agents.</p>
+      </div>
+      <div class="benefit">
+        <h4>BMA-Ready</h4>
+        <p>Complete audit trail for every AI decision — model, prompt, response, timestamp.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY NOW -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">WHY NOW</div>
+    <h2>Banyan's AI moment is right now</h2>
+    <p class="section-subtitle">The window to build AI infrastructure before it becomes technical debt is narrow.</p>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-date">MAR 2026</div>
+        <h4>Hyperexponential Partnership</h4>
+        <p>First MGA to deploy full agentic underwriting suite across 4 markets. AI is now core to Banyan's operating model.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">APR 2026</div>
+        <h4>Lloyd's Coverholder Status</h4>
+        <p>Expanding market access means more submissions, more AI decisions, more regulatory scrutiny.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">NOW</div>
+        <h4>Infrastructure Gap</h4>
+        <p>Agentic underwriting is live, but the AI gateway layer is missing. Every week without it is compounding risk.</p>
+      </div>
+    </div>
+
+    <div class="quote-block">
+      <p>"We have built a lean team and are looking to achieve one of the best track records in the business, hinging off our experience, best-in-class technology and artificial intelligence, and innovation."</p>
+      <span>— Tim Usher-Jones, Co-CEO, Banyan Risk (2022 Annual Report)</span>
+    </div>
+  </div>
+</section>
+
+<!-- ALSO FLASHREV -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">ALSO RELEVANT</div>
+    <h2>FlashRev for Banyan's<br>broker outreach</h2>
+    <p class="section-subtitle">While OrcaRouter is the primary play, Banyan's commercial team — led by Jamie Powell (CCO) and Dan Malloy (Exec MD) — is actively expanding broker relationships across new geographies. FlashRev gives them real-time enrichment, sequencing, and AI-powered outreach to identify and engage new broker partners faster.</p>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <span class="product-pill active">OrcaRouter — Primary</span>
+      <span class="product-pill">FlashRev — Broker Growth</span>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <div class="container">
+    <h2>Ready to make your AI<br>underwriting bulletproof?</h2>
+    <p>We'd love to show Radhika and the operations team how OrcaRouter slots into the Hyperexponential stack — 20 minutes, no commitment.</p>
+    <a href="https://orcarouter.ai" class="btn btn-primary">Visit orcarouter.ai</a>
+  </div>
+</section>
+
+<footer class="container">
+  <span>FlashLabs · flashlabs.ai &nbsp;|&nbsp; OrcaRouter · orcarouter.ai</span>
+  <span style="color:#444;">Prepared for Banyan Risk · July 2026</span>
+</footer>
+
+</body>
+</html>

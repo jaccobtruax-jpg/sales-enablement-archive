@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<!--
+  FlashLabs internal session page
+  Enablement + Product Update, September 2026
+  Internal use only. Not for customer distribution.
+
+  SECTIONS
+  1. Hero          session title, date, audience
+  2. Agenda        timing + topics
+  3. Product news  FlashRev / FlashAI / FlashClick / OrcaRouter
+  4. Enablement    deep dive: the gateway conversation (LiteLLM, Portkey, Orca)
+  5. Momentum      real internal numbers
+  6. Open floor    Q&A
+  7. Labor Day     Monday Sept 7. Day off. Confetti included.
+
+  Facts grounded in: enablement-litellm-portkey-vs-orca.md (checked 2026-09-02),
+  wiki flashlabs-agent-brief, wiki enablement library. Orca catalog = 168 models
+  / 11 providers, never 200+.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enablement + Product Update | FlashLabs</title>
+<style>
+  :root{
+    --bg:#f5f6fa;
+    --card:#ffffff;
+    --ink:#0f172a;
+    --muted:#5b6472;
+    --line:#e5e8f0;
+    --brand:#4f46e5;
+    --brand-ink:#3730a3;
+    --accent:#0891b2;
+    --gold:#d97706;
+    --green:#15803d;
+    --radius:16px;
+    --shadow:0 1px 2px rgba(15,23,42,.05),0 8px 24px -12px rgba(15,23,42,.12);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+  /* hero */
+  .hero{
+    background:
+      radial-gradient(900px 400px at 85% -10%, rgba(79,70,229,.45), transparent 60%),
+      radial-gradient(700px 350px at -10% 110%, rgba(8,145,178,.35), transparent 60%),
+      linear-gradient(160deg,#0f172a 0%,#1e1b4b 100%);
+    color:#eef0ff;padding:72px 0 56px;position:relative;overflow:hidden;
+  }
+  .hero::after{
+    content:"";position:absolute;inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),
+                     linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
+    background-size:44px 44px;pointer-events:none;
+  }
+  .hero .wrap{position:relative;z-index:1}
+  .kicker{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+    color:#a5b4fc;background:rgba(79,70,229,.25);
+    border:1px solid rgba(165,180,252,.3);
+    padding:6px 14px;border-radius:999px;margin-bottom:22px;
+  }
+  .kicker .dot{width:7px;height:7px;border-radius:50%;background:#34d399;box-shadow:0 0 0 3px rgba(52,211,153,.25)}
+  h1{font-size:clamp(30px,5vw,52px);line-height:1.08;font-weight:800;letter-spacing:-.02em;margin-bottom:14px}
+  h1 .grad{
+    background:linear-gradient(90deg,#a5b4fc,#67e8f9);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .sub{font-size:clamp(16px,2vw,19px);color:#c7cbe8;max-width:660px;margin-bottom:28px}
+  .meta{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:26px}
+  .chip{
+    font-size:13.5px;font-weight:500;color:#dde1ff;
+    background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);
+    padding:6px 13px;border-radius:999px;display:inline-flex;align-items:center;gap:7px;
+  }
+  .hero-actions{display:flex;flex-wrap:wrap;gap:12px}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:11px 20px;border-radius:11px;font-weight:600;font-size:14.5px;
+    text-decoration:none;transition:transform .15s ease,box-shadow .15s ease;
+  }
+  .btn:hover{transform:translateY(-1px)}
+  .btn-primary{background:#4f46e5;color:#fff;box-shadow:0 6px 18px -6px rgba(79,70,229,.6)}
+  .btn-ghost{background:rgba(255,255,255,.08);color:#e0e3ff;border:1px solid rgba(255,255,255,.2)}
+  .btn-ghost:hover{background:rgba(255,255,255,.14)}
+  .btn-gold{background:#fde68a;color:#78350f}
+
+  /* nav */
+  nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(255,255,255,.85);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:56px}
+  .nav-brand{font-weight:800;font-size:15px;letter-spacing:-.01em}
+  .nav-brand span{color:var(--brand)}
+  .nav-links{display:flex;gap:4px;overflow-x:auto}
+  .nav-links a{
+    font-size:13.5px;font-weight:600;color:var(--muted);text-decoration:none;
+    padding:7px 12px;border-radius:9px;white-space:nowrap;transition:background .15s,color .15s;
+  }
+  .nav-links a:hover{background:#eef0fb;color:var(--ink)}
+
+  /* sections */
+  section{padding:64px 0 8px}
+  .sec-head{margin-bottom:28px}
+  .sec-label{
+    font-size:12.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--brand);margin-bottom:8px;display:flex;align-items:center;gap:8px;
+  }
+  .sec-label::before{content:"";width:22px;height:2px;background:var(--brand);border-radius:2px;display:inline-block}
+  h2{font-size:clamp(24px,3.4vw,34px);font-weight:800;letter-spacing:-.02em;line-height:1.15}
+  .sec-note{color:var(--muted);margin-top:8px;max-width:760px;font-size:15.5px}
+
+  /* agenda */
+  .agenda{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+  .agenda-row{display:flex;gap:18px;align-items:center;padding:16px 22px;border-bottom:1px solid var(--line)}
+  .agenda-row:last-child{border-bottom:none}
+  .agenda-time{
+    flex:0 0 74px;font-variant-numeric:tabular-nums;font-weight:700;font-size:14px;
+    color:var(--brand-ink);background:#eef0fb;border-radius:9px;padding:7px 0;text-align:center;
+  }
+  .agenda-topic{flex:1;font-weight:600;font-size:15.5px}
+  .agenda-topic small{display:block;font-weight:400;color:var(--muted);font-size:13px;margin-top:2px}
+  .agenda-who{font-size:13px;color:var(--muted);font-weight:500;white-space:nowrap}
+  .agenda-num{
+    flex:0 0 30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    background:#f1f2f7;color:var(--muted);font-weight:700;font-size:13px;
+  }
+  .agenda-row.hot{background:linear-gradient(90deg,rgba(79,70,229,.05),transparent)}
+
+  /* product cards */
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow);padding:24px;display:flex;flex-direction:column;gap:13px;
+  }
+  .p-head{display:flex;align-items:center;gap:12px}
+  .p-logo{
+    width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:16px;color:#fff;flex-shrink:0;
+  }
+  .p-logo.fr{background:linear-gradient(135deg,#4f46e5,#7c3aed)}
+  .p-logo.fa{background:linear-gradient(135deg,#0891b2,#06b6d4)}
+  .p-logo.fc{background:linear-gradient(135deg,#d97706,#f59e0b)}
+  .p-logo.or{background:linear-gradient(135deg,#0f172a,#334155)}
+  .p-name{font-weight:800;font-size:17px;letter-spacing:-.01em}
+  .p-tag{font-size:13px;color:var(--muted);font-weight:500}
+  ul.bullets{list-style:none;display:flex;flex-direction:column;gap:8px}
+  ul.bullets li{position:relative;padding-left:20px;font-size:14.5px;color:#2b3242}
+  ul.bullets li::before{content:"";position:absolute;left:2px;top:8px;width:7px;height:7px;border-radius:2px;background:var(--brand)}
+  ul.bullets li b{color:var(--ink)}
+  .steal{
+    margin-top:auto;background:#f5f7ff;border-left:3px solid var(--brand);
+    border-radius:0 10px 10px 0;padding:11px 14px;font-size:13.5px;color:#3d4460;
+  }
+  .steal b{color:var(--brand-ink)}
+
+  /* enablement */
+  .split{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}
+  @media(max-width:840px){.split{grid-template-columns:1fr}}
+  .learn-card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow);padding:24px;
+  }
+  .learn-card h3{font-size:16px;font-weight:800;margin-bottom:6px;display:flex;align-items:center;gap:9px}
+  .learn-card .lbl{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+  .mini{display:flex;flex-direction:column;gap:12px}
+  .mini-item{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:#fbfcfe}
+  .mini-item h4{font-size:14px;font-weight:700;margin-bottom:5px;color:var(--brand-ink)}
+  .mini-item p,.mini-item div{font-size:13.5px;color:#3d4460}
+  .mini-item li{font-size:13.5px;color:#3d4460;margin:4px 0 4px 16px}
+  .deep-link{margin-top:14px;font-size:13.5px}
+  .deep-link a{color:var(--brand);font-weight:600;text-decoration:none}
+  .deep-link a:hover{text-decoration:underline}
+
+  /* comparison table */
+  .table-wrap{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+  table{border-collapse:collapse;width:100%;min-width:640px;font-size:14px}
+  th,td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:#f8f9fd;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  tr:last-child td{border-bottom:none}
+  td:first-child{font-weight:700;color:var(--brand-ink);white-space:nowrap}
+  .tbl-note{font-size:13px;color:var(--muted);margin-top:10px}
+
+  .warning{
+    background:#fffbeb;border:1px solid #fde68a;border-radius:var(--radius);
+    padding:18px 20px;margin-top:18px;font-size:14.5px;color:#713f12;
+  }
+  .warning b{color:#92400e}
+  .warning ul{margin:8px 0 0 18px}
+  .warning li{margin:4px 0}
+
+  /* momentum */
+  .wins{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+  .win-stat{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow);padding:22px;text-align:center;
+  }
+  .win-num{font-size:32px;font-weight:800;letter-spacing:-.03em;color:var(--brand);line-height:1.1}
+  .win-lbl{font-size:13.5px;color:var(--muted);margin-top:6px}
+  .win-note{font-size:12.5px;color:var(--muted);margin-top:8px;border-top:1px dashed var(--line);padding-top:8px}
+  .win-stat.hl .win-num{color:var(--green)}
+
+  /* labor day */
+  .labor{
+    margin:56px 0 0;border-radius:24px;overflow:hidden;position:relative;
+    background:
+      radial-gradient(700px 300px at 90% -20%, rgba(52,211,153,.35), transparent 60%),
+      radial-gradient(600px 300px at 0% 120%, rgba(251,191,36,.22), transparent 60%),
+      linear-gradient(150deg,#0f172a 0%,#064e3b 130%);
+    color:#ecfdf5;padding:64px 24px;text-align:center;
+  }
+  .labor .emoji-row{font-size:38px;margin-bottom:14px;letter-spacing:6px}
+  .labor h2{color:#fff;font-size:clamp(28px,4vw,44px);margin-bottom:12px}
+  .labor p{color:#c9e9dc;font-size:17px;max-width:560px;margin:0 auto 10px}
+  .labor .big{font-weight:800;color:#6ee7b7}
+  #countdown{
+    font-size:15px;font-weight:700;color:#fde68a;background:rgba(251,191,36,.1);
+    border:1px solid rgba(251,191,36,.3);border-radius:999px;
+    display:inline-block;padding:8px 18px;margin:18px 0 6px;font-variant-numeric:tabular-nums;
+  }
+  .labor .btn{margin-top:18px;background:#10b981;color:#022c22}
+  canvas#confetti{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+
+  footer{padding:36px 0 60px;color:var(--muted);font-size:13.5px;text-align:center}
+  footer b{color:var(--ink)}
+</style>
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker"><span class="dot"></span> FlashLabs internal session</div>
+    <h1>Enablement +<br><span class="grad">Product Update</span></h1>
+    <p class="sub">What is new across the stack, the gateway conversation handled once and for all, and the one thing everyone needs to know before Monday.</p>
+    <div class="meta">
+      <span class="chip">🗓️ Friday, Sept 4, 2026</span>
+      <span class="chip">⏱️ ~60 minutes</span>
+      <span class="chip">👥 AE + SDR teams</span>
+      <span class="chip">🔒 Internal use only</span>
+    </div>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#agenda">Jump to agenda</a>
+      <a class="btn btn-gold" href="#labor">Skip to the good part</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============ NAV ============ -->
+<nav>
+  <div class="wrap">
+    <div class="nav-brand">Flash<span>Labs</span></div>
+    <div class="nav-links">
+      <a href="#agenda">Agenda</a>
+      <a href="#product">Product news</a>
+      <a href="#enablement">Enablement</a>
+      <a href="#momentum">Momentum</a>
+      <a href="#qa">Open floor</a>
+      <a href="#labor">Labor Day</a>
+    </div>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <!-- ============ AGENDA ============ -->
+  <section id="agenda">
+    <div class="sec-head">
+      <div class="sec-label">Plan for the hour</div>
+      <h2>Agenda</h2>
+      <p class="sec-note">Product news first, then the enablement deep dive. The deep dive borrows the run of show from the full gateway doc, which is linked below.</p>
+    </div>
+    <div class="agenda">
+      <div class="agenda-row"><span class="agenda-num">1</span><span class="agenda-time">0-5</span><div class="agenda-topic">Welcome, why we are here<small>The three ways customers bring up LiteLLM or Portkey. Who has heard each one this month?</small></div><span class="agenda-who">Jaccob</span></div>
+      <div class="agenda-row"><span class="agenda-num">2</span><span class="agenda-time">5-20</span><div class="agenda-topic">Product news across the stack<small>FlashRev, FlashAI, FlashClick, OrcaRouter. What to know and the line to steal.</small></div><span class="agenda-who">Product</span></div>
+      <div class="agenda-row hot"><span class="agenda-num">3</span><span class="agenda-time">20-50</span><div class="agenda-topic">Deep dive: the gateway conversation<small>Three portraits, four lenses, buyer signals. Then roleplay in pairs, LiteLLM and Portkey tracks.</small></div><span class="agenda-who">All</span></div>
+      <div class="agenda-row"><span class="agenda-num">4</span><span class="agenda-time">50-60</span><div class="agenda-topic">Momentum, wins, open floor<small>Numbers that matter, then questions on anything in this hour or in your pipeline.</small></div><span class="agenda-who">All</span></div>
+      <div class="agenda-row"><span class="agenda-num">5</span><span class="agenda-time">60</span><div class="agenda-topic">Close. And one very good reason to finish on time.<small>Scroll down. It is a good one.</small></div><span class="agenda-who">Jaccob</span></div>
+    </div>
+  </section>
+
+  <!-- ============ PRODUCT NEWS ============ -->
+  <section id="product">
+    <div class="sec-head">
+      <div class="sec-label">What to know</div>
+      <h2>Product news across the stack</h2>
+      <p class="sec-note">Facts grounded in the wiki and the September enablement docs. For each product: what it does, the number to keep straight, and the one-liner for a call. If there are fresh releases to announce in the room, this is the slot for them.</p>
+    </div>
+    <div class="grid">
+
+      <div class="card">
+        <div class="p-head"><div class="p-logo fr">FR</div><div><div class="p-name">FlashRev</div><div class="p-tag">GTM OS, revenue acceleration</div></div></div>
+        <ul class="bullets">
+          <li><b>The whole motion in one seat:</b> real-time enrichment, people and company search, sequences, parallel dialing, AI roleplay, FlashGenie.</li>
+          <li><b>SuperAgent layer:</b> 12 agents from Pipeline Manager to Deep Research to GTM Decks, so the platform runs the busywork behind the AE.</li>
+          <li><b>Seat-based pricing</b> aligned with flashlabs.ai. Position it as the operating system, not another point tool.</li>
+        </ul>
+        <div class="steal"><b>One line to steal:</b> "FlashRev is where the motion runs: enrich, dial, sequence, coach. One seat, every step."</div>
+      </div>
+
+      <div class="card">
+        <div class="p-head"><div class="p-logo fa">FA</div><div><div class="p-name">FlashAI</div><div class="p-tag">Voice agents</div></div></div>
+        <ul class="bullets">
+          <li><b>Autonomous voice agents</b> on proprietary Chroma models with RAG, handling outbound and inbound calls. The voice layer inside FlashRev too.</li>
+          <li><b>Usage-based, not per seat:</b> $1.50 per conversation (connected call or auto VM drop), $750/mo floor at 500 calls.</li>
+          <li><b>Volume tiers:</b> 5K calls $1.35, 10K $1.20, 20K $1.05, 30K $0.90, 50K+ $0.75 per conversation.</li>
+        </ul>
+        <div class="steal"><b>One line to steal:</b> "You pay per real conversation, not per line. The agent only bills when it talks to a human."</div>
+      </div>
+
+      <div class="card">
+        <div class="p-head"><div class="p-logo fc">FC</div><div><div class="p-name">FlashClick</div><div class="p-tag">Partner enablement</div></div></div>
+        <ul class="bullets">
+          <li><b>Partnership management:</b> find, engage, and scale partner relationships from one place.</li>
+          <li><b>Tracking and analytics:</b> pixel and SSL tracking for conversion attribution, plus performance and ROI views.</li>
+          <li><b>Fraud protection:</b> bot traffic prevention, unique attribution IDs, advertiser security tokens, IP whitelists. No paying partners for bots.</li>
+        </ul>
+        <div class="steal"><b>One line to steal:</b> "FlashClick tells you which partner actually sent the deal, and stops you paying for the traffic that was never real."</div>
+      </div>
+
+      <div class="card">
+        <div class="p-head"><div class="p-logo or">OR</div><div><div class="p-name">OrcaRouter</div><div class="p-tag">LLM gateway</div></div></div>
+        <ul class="bullets">
+          <li><b>168 models across 11 providers</b> on one endpoint, live-verified. Never say 200+.</li>
+          <li><b>Zero markup on tokens at every tier.</b> Revenue is the flat fee: Hacker free, Team $499/mo for 10 seats, enterprise custom.</li>
+          <li><b>Zero data retention by default.</b> Adaptive routing, guardrails, agent firewall, signed compliance reports at Team tier.</li>
+        </ul>
+        <div class="steal"><b>One line to steal:</b> "We win when you stay and scale, not when you burn tokens. Flat fee, zero markup."</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ ENABLEMENT ============ -->
+  <section id="enablement">
+    <div class="sec-head">
+      <div class="sec-label">Deep dive</div>
+      <h2>The gateway conversation: LiteLLM, Portkey, and Orca</h2>
+      <p class="sec-note">Customers bring these names up in discovery, usually one of three ways: "we already run LiteLLM", "we evaluated Portkey", or "we are looking at gateways right now". When you do not know what those products actually are, you freeze, oversell, or back down. This hour fixes that. By the end you can explain each in plain words, concede where they genuinely win, and land the question that matters: who runs it, and what does it really cost?</p>
+    </div>
+
+    <div class="table-wrap" style="margin-bottom:18px">
+      <table>
+        <tr><th></th><th>LiteLLM</th><th>Portkey</th><th>Orca</th></tr>
+        <tr><td>One line</td><td>Free engine, you are the mechanic</td><td>Gateway + dashboard, owned by Palo Alto Networks</td><td>Hosted, and routing is the product</td></tr>
+        <tr><td>Who runs it</td><td>Your customer's engineers</td><td>Portkey / Palo Alto, mostly SaaS</td><td>Us</td></tr>
+        <tr><td>Cost</td><td>$0 software, then engineer hours and an enterprise license quote</td><td>$49/mo Pro, then $9 per 100k logs. Metered on log volume</td><td>$499/mo Team flat, $0 markup on tokens</td></tr>
+        <tr><td>Routing</td><td>Rules-based, beta adaptive (needs Postgres to remember)</td><td>Rules-based, no adaptive documented</td><td>Adaptive, learns from real traffic</td></tr>
+        <tr><td>Governance</td><td>Audit, RBAC, SSO past 5 users are license features</td><td>Compliance certs at enterprise only</td><td>Guardrails, firewall, signed reports at Team tier</td></tr>
+        <tr><td>Data</td><td>Their logs, their retention problem</td><td>Logs kept 30 days on Pro</td><td>Zero retention by default</td></tr>
+        <tr><td>Ask them</td><td>Who upgrades it?</td><td>Which tier, and what is the log bill?</td><td>Who runs it, and what does it really cost?</td></tr>
+      </table>
+    </div>
+    <p class="tbl-note" style="margin:0 0 18px">The category moved twice this year: Palo Alto Networks bought Portkey (closed May 29, GA July 16 as Prisma AIRS AI Gateway). LiteLLM rewrote its core in Rust in July and only supports its four newest versions, so operators upgrade roughly monthly. "We use Portkey" can mean three different products. Always find out which one.</p>
+
+    <div class="split">
+      <div class="learn-card">
+        <div class="lbl">Three portraits, plain words</div>
+        <div class="mini">
+          <div class="mini-item"><h4>LiteLLM: the WordPress of AI gateways</h4><p>Powerful, free, and everything around it is the customer's job: hosting, upgrades, security patches, monitoring. No hosted product exists to buy. The catch is never the code. It is that someone is the mechanic forever, and the moment they want audit-grade governance, the free story ends.</p></div>
+          <div class="mini-item"><h4>Portkey: the nice dashboard, now owned by the firewall company</h4><p>Genuinely good observability. The meter is log volume, so the bill grows as the customer grows, and compliance starts at enterprise. Roadmap now belongs to Palo Alto. Repo has been quiet since the acquisition closed in May.</p></div>
+          <div class="mini-item"><h4>Orca: hosted, routing is the product</h4><p>Change the base URL to api.orcarouter.ai/v1 and you are live. Adaptive routing that learns from real traffic, fallback chains, $0 markup, zero retention. We monetize the infrastructure, not token spend.</p></div>
+        </div>
+      </div>
+      <div class="learn-card">
+        <div class="lbl">Make it stick</div>
+        <div class="mini">
+          <div class="mini-item"><h4>Learn</h4><div>The reframe that pays for the hour: <b>free software is not a free gateway. Someone runs it.</b> LiteLLM charges in engineering hours and a license. Portkey charges in log volume. We charge a flat fee.</div></div>
+          <div class="mini-item"><h4>Practice (10 min, pairs)</h4><div>One rep plays the LiteLLM-running platform engineer, the other runs track 1. Swap. Then the Portkey track. Goal: land the two moves, concede what is true, then ask who runs it and what it really costs.</div></div>
+          <div class="mini-item"><h4>Steal</h4>
+            <ul>
+              <li>"If you are on one self-hosted model with the team to run it, you don't need us."</li>
+              <li>"Every gateway charges you somewhere. LiteLLM charges hours, Portkey charges log volume, we charge a flat fee."</li>
+              <li>"We make money on the subscription, not your tokens."</li>
+            </ul>
+          </div>
+        </div>
+        <div class="deep-link">Full session doc (50-min version, buyer signals, all objection tracks): <a href="https://docs.google.com/document/d/1D5UyW8RHDgFaFKn-d5kepohMNTONM3Gp_kM9A16v5Bk/edit" target="_blank" rel="noopener">The gateway conversation</a>. Selling methodology version: <a href="https://docs.google.com/document/d/1CXUXBS2ck76llqFFLbzHYQTb2qWkTTl8pQOnZOC2glo/edit" target="_blank" rel="noopener">Orca with the 7 Habits</a>.</div>
+      </div>
+    </div>
+
+    <div class="warning">
+      <b>What not to say (read this one out loud in the room).</b>
+      <ul>
+        <li>Do not call LiteLLM bad. It is genuinely good software, and engineers who run it will smell the lie.</li>
+        <li>Do not imply Portkey is dying. It is backed by Palo Alto, the opposite of dying. The honest line is ownership, not weakness.</li>
+        <li>Do not claim 200+ models. The verified number is <b>168 across 11 providers</b>. A technical buyer will check.</li>
+        <li>Do not promise a savings percentage. Routing savings depend on workload mix. Never guaranteed.</li>
+        <li>Do not quote internal benchmarks or performance numbers in front of customers.</li>
+        <li>Do not bash competitors in writing. One sentence about our model beats ten about theirs in an email.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ MOMENTUM ============ -->
+  <section id="momentum">
+    <div class="sec-head">
+      <div class="sec-label">Momentum</div>
+      <h2>Where the model is winning</h2>
+      <p class="sec-note">Numbers from pipeline analysis and the wiki, current as of early September. If you closed something since Tuesday, this is the floor to name it.</p>
+    </div>
+    <div class="wins">
+      <div class="win-stat hl"><div class="win-num">63.6%</div><div class="win-lbl">AE-sourced win rate</div><div class="win-note">Self-sourced deals close at 63.6% vs 5.8% for SDR-sourced. Your own pipeline is your best pipeline. Keep sourcing.</div></div>
+      <div class="win-stat"><div class="win-num">2 live</div><div class="win-lbl">Japan pipelines</div><div class="win-note">Net New Japan and JP Partners, with three AEs on the ground and one ramping. The Japan motion is real.</div></div>
+      <div class="win-stat"><div class="win-num">168 / 11</div><div class="win-lbl">Models / providers live on OrcaRouter</div><div class="win-note">Live-verified catalog. This is the number on every gateway call, not 200+.</div></div>
+      <div class="win-stat"><div class="win-num">3-tier</div><div class="win-lbl">Lead support in place</div><div class="win-note">Discovery research, contact enrichment, and API integration (Apollo / ZoomInfo) behind AE-sourced leads.</div></div>
+    </div>
+  </section>
+
+  <!-- ============ Q&A ============ -->
+  <section id="qa">
+    <div class="sec-head">
+      <div class="sec-label">Your turn</div>
+      <h2>Open floor</h2>
+      <p class="sec-note">Questions on the products, the gateway conversation, or deals in flight. No dumb questions, no spectators: if you ran a call this week and a buyer said something that surprised you, that belongs here too. That is how the next enablement doc gets written.</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ LABOR DAY ============ -->
+<section id="labor" class="labor">
+  <canvas id="confetti"></canvas>
+  <div class="wrap">
+    <div class="emoji-row">🎆 🏖️ ☀️</div>
+    <h2>Monday is Labor Day.</h2>
+    <p>No meetings. No Slack pings. No "quick question". The whole team is off. Close the laptop, enjoy the day.</p>
+    <p class="big">You have earned this. See everyone Tuesday, Sept 8.</p>
+    <div id="countdown">Counting down to the day off...</div>
+    <br>
+    <button class="btn" id="party">Celebrate early 🎉</button>
+  </div>
+</section>
+
+<footer>
+  FlashLabs internal session page. <b>Internal use only.</b> Built Sept 3, 2026.<br>
+  Facts grounded in the gateway enablement doc (checked Sept 2, 2026) and the wiki. Orca catalog: 168 models / 11 providers. If a number looks off, say so in the room.
+</footer>
+
+<script>
+  // Labor Day 2026 = Monday, September 7
+  var target = new Date(2026, 8, 7, 0, 0, 0); // months are 0-indexed: 8 = September
+  var cd = document.getElementById("countdown");
+  function tick(){
+    var now = new Date();
+    var diff = target - now;
+    if(diff <= 0){ cd.textContent = "It is Labor Day. Go outside. 🎉"; return; }
+    var days = Math.floor(diff / 86400000);
+    var hours = Math.floor((diff % 86400000) / 3600000);
+    var mins = Math.floor((diff % 3600000) / 60000);
+    var parts = [];
+    if(days > 0) parts.push(days + (days === 1 ? " day" : " days"));
+    if(hours > 0 || days > 0) parts.push(hours + "h");
+    parts.push(mins + "m");
+    cd.textContent = "Day off in: " + parts.join(" ");
+  }
+  tick();
+  setInterval(tick, 30000);
+
+  // Confetti
+  var canvas = document.getElementById("confetti");
+  var ctx = canvas.getContext("2d");
+  var pieces = [];
+  var running = false;
+  var colors = ["#6ee7b7", "#fde68a", "#67e8f9", "#a5b4fc", "#f9a8d4", "#fca5a5"];
+
+  function resize(){ canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; }
+  window.addEventListener("resize", resize);
+
+  function burst(){
+    resize();
+    var w = canvas.width, h = canvas.height;
+    pieces = [];
+    for(var i = 0; i < 160; i++){
+      pieces.push({
+        x: w / 2 + (Math.random() - 0.5) * w * 0.6,
+        y: h * 0.35,
+        vx: (Math.random() - 0.5) * 9,
+        vy: -Math.random() * 11 - 3,
+        size: 5 + Math.random() * 7,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        rot: Math.random() * Math.PI,
+        vr: (Math.random() - 0.5) * 0.3,
+        shape: Math.random() < 0.4 ? "circle" : "rect"
+      });
+    }
+    if(!running){ running = true; requestAnimationFrame(step); }
+  }
+
+  function step(){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    var alive = false;
+    for(var i = 0; i < pieces.length; i++){
+      var p = pieces[i];
+      p.x += p.vx; p.y += p.vy; p.vy += 0.25; p.rot += p.vr;
+      if(p.y < canvas.height + 20 && p.y > -40 && p.x > -40 && p.x < canvas.width + 40){ alive = true; }
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      ctx.fillStyle = p.color;
+      if(p.shape === "circle"){ ctx.beginPath(); ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2); ctx.fill(); }
+      else { ctx.fillRect(-p.size / 2, -p.size / 4, p.size, p.size / 2); }
+      ctx.restore();
+    }
+    if(alive){ requestAnimationFrame(step); } else { running = false; ctx.clearRect(0, 0, canvas.width, canvas.height); }
+  }
+
+  document.getElementById("party").addEventListener("click", burst);
+
+  var seen = false;
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting && !seen){ seen = true; setTimeout(burst, 400); }
+    });
+  }, {threshold: 0.4});
+  obs.observe(document.getElementById("labor"));
+</script>
+
+</body>
+</html>

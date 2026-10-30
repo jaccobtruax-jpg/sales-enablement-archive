@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OrcaRouter — Colin Call Prep: Q&A Brief (July 2026)</title>
+    <style>
+        :root {
+            --bg: #ffffff;
+            --text: #1a1a1a;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --accent: #0f172a;
+            --accent-bg: #f8fafc;
+            --highlight: #0ea5e9;
+            --tag-bg: #f1f5f9;
+            --tag-text: #334155;
+            --code-bg: #f1f5f9;
+            --table-stripe: #f8fafc;
+            --strong: #0891b2;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 24px 80px;
+        }
+        .badge {
+            display: inline-block;
+            background: var(--accent);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+        h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            margin-bottom: 8px;
+        }
+        .meta {
+            color: var(--muted);
+            font-size: 0.875rem;
+            margin-bottom: 40px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .section {
+            border-top: 2px solid var(--border);
+            padding-top: 32px;
+            margin-top: 32px;
+        }
+        .section:first-of-type {
+            border-top: none;
+            padding-top: 0;
+            margin-top: 0;
+        }
+        h2 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            margin-bottom: 16px;
+            color: var(--accent);
+        }
+        h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin: 20px 0 10px;
+            color: var(--accent);
+        }
+        p { margin-bottom: 14px; }
+        ul, ol { margin: 0 0 16px 20px; }
+        li { margin-bottom: 6px; }
+        strong { color: var(--strong); }
+        code {
+            background: var(--code-bg);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.85em;
+        }
+        pre {
+            background: var(--code-bg);
+            padding: 12px 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+            border: 1px solid var(--border);
+        }
+        blockquote {
+            border-left: 3px solid var(--highlight);
+            padding: 12px 20px;
+            margin: 16px 0;
+            background: var(--accent-bg);
+            border-radius: 0 8px 8px 0;
+            color: var(--muted);
+            font-style: italic;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0 24px;
+            font-size: 0.875rem;
+        }
+        th, td {
+            padding: 10px 14px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        th {
+            background: var(--accent);
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.8rem;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+        tr:nth-child(even) td {
+            background: var(--table-stripe);
+        }
+        .tag {
+            display: inline-block;
+            background: var(--tag-bg);
+            color: var(--tag-text);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin: 0 2px;
+        }
+        .win { color: #059669; font-weight: 700; }
+        .draw { color: #d97706; font-weight: 600; }
+        .callout {
+            background: #f0fdf4;
+            border: 1px solid #86efac;
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin: 16px 0;
+            font-size: 0.9rem;
+        }
+        .callout-title {
+            font-weight: 700;
+            color: #166534;
+            margin-bottom: 6px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .update-note {
+            background: #fffbeb;
+            border: 1px solid #fcd34d;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-size: 0.85rem;
+            color: #92400e;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 32px 0;
+        }
+        .footer {
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.8rem;
+            margin-top: 48px;
+        }
+        /* Responsive table */
+        @media (max-width: 700px) {
+            body { padding: 32px 16px 60px; }
+            h1 { font-size: 1.5rem; }
+            table { font-size: 0.75rem; }
+            th, td { padding: 6px 8px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="badge">Call Prep Brief — v2</div>
+
+<h1>OrcaRouter — Colin Call Prep: Q&amp;A Brief</h1>
+
+<div class="meta">
+    <span>📅 <strong>Prepared:</strong> July 9, 2026</span>
+    <span>🎯 <strong>Meeting:</strong> Colin (prospect) — technical deep dive + competitive</span>
+</div>
+
+<div class="update-note">
+    <strong>🔄 Updates in v2:</strong> 11-provider model catalog (not 7), zero-retention-as-default, Fusion billing detail, data handling specifics
+</div>
+
+<p><strong>Sources:</strong> orcarouter.ai (live scrape), docs.orcarouter.ai (all pages), api.orcarouter.ai/v1/models, openrouter.ai/pricing</p>
+
+<!-- Section 1 -->
+<div class="section">
+    <h2>1. "Is there a best use multi model?" — Multi-Model Routing</h2>
+
+    <p><strong>Short answer:</strong> Yes, and OrcaRouter has the strongest implementation in market.</p>
+
+    <h3>Fusion (Fable 5-level replacement)</h3>
+    <p>Call a curated panel of frontier models behind one slug. They answer in parallel, and a judge returns the single strongest answer cross-checked against the rest.</p>
+    <blockquote>"Fable 5 is gone. This is the answer you can call today." <br>OpenAI-compatible, no waitlist.</blockquote>
+
+    <h3>How Fusion works:</h3>
+    <ul>
+        <li>You call a single model slug (e.g., <code>orcarouter/fusion</code>)</li>
+        <li>OrcaRouter fans out to N frontier models in parallel</li>
+        <li>Each model answers independently</li>
+        <li>A judge model evaluates all answers, cross-checks them, and returns the single strongest verbatim</li>
+        <li>Not a black-box blend — you get one model's actual output, just the best one</li>
+    </ul>
+
+    <p><strong>Fusion billing:</strong> You pay for each model leg + the judge. Parallel fan-out means N× token cost per call. Transparent in the usage object.</p>
+
+    <h3>Other routing strategies:</h3>
+    <ul>
+        <li><strong>Auto Router</strong> (<code>orcarouter/auto</code>): Cheapest live model per request</li>
+        <li><strong>Model Fallbacks</strong>: Chain via <code>extra_body.models</code> — if primary 5xx/429, next serves transparently</li>
+        <li><strong>Named Routers</strong>: Save strategies, invoke by name</li>
+        <li><strong>Routing DSL</strong>: YAML + CEL programmable routing with shadow/canary rollout</li>
+    </ul>
+
+    <p><strong>Versus OpenRouter:</strong> OpenRouter has model fallback. It does <em>not</em> have Fusion (parallel panel + judge), Named Routers, or a programmable routing DSL.</p>
+</div>
+
+<!-- Section 2 -->
+<div class="section">
+    <h2>2. Guardrails &amp; Limitations — "Per Person" AI Governance</h2>
+
+    <p><strong>Short answer:</strong> Yes. OrcaRouter has a workspace-scoped guardrail engine + agent firewall that bind per-API-key, giving per-person/per-team controls.</p>
+
+    <h3>Guardrails (Content Policy Engine)</h3>
+    <ul>
+        <li>Attach once, every bound key screened on next call — no redeploy, no SDK change</li>
+        <li><strong>Input-stage:</strong> Block/mask/flag PII, secrets, prompt injection, sensitive words, brand-unsafe content</li>
+        <li><strong>Output-stage:</strong> Screen model responses for same categories</li>
+        <li><strong>PII Shield:</strong> One-click redaction (SSN, credit cards, emails, phones, addresses). Custom PII entities supported.</li>
+        <li><strong>Prompt injection detection:</strong> Direct + indirect injection protection</li>
+        <li><strong>Code security:</strong> Regex-based dangerous pattern detection</li>
+        <li><strong>Cost guardrails:</strong> Cap spend per key/workspace</li>
+        <li><strong>Stream-safe:</strong> All rules work on streaming responses</li>
+    </ul>
+
+    <h3>Agent Firewall (Tool Governance)</h3>
+    <ul>
+        <li><strong>4 stages:</strong> Inbound, Response, MCP, Egress</li>
+        <li><strong>6 verdicts:</strong> Allow, Audit, Deny, Sanitize, Pending Approval, Cap Cost</li>
+        <li><strong>Tool allow-listing:</strong> Default-deny with glob patterns</li>
+        <li><strong>Argument validation:</strong> JSONPath clauses (eq, contains, regex, in, cidr_match)</li>
+        <li><strong>Egress control:</strong> Host/CIDR allow/deny for SSRF prevention</li>
+        <li><strong>Human approvals:</strong> <code>pending_approval</code> verdict + webhook with HMAC signing</li>
+        <li><strong>Cost circuit breaker:</strong> Per-run spend limits</li>
+        <li><strong>Sequence rules:</strong> Detect attack chains static rules miss</li>
+        <li><strong>Shadow mode:</strong> Dry-run against live traffic before enforcing</li>
+    </ul>
+
+    <h3>MCP Security (subset of Firewall)</h3>
+    <ul>
+        <li>Register MCP servers behind single audited gateway</li>
+        <li>Every <code>tools/call</code> firewall-evaluated before execution</li>
+        <li>SSRF protection, encrypted credentials</li>
+        <li>Rug-pull defense: detect when MCP server behavior changes</li>
+        <li>Schema-drift detection</li>
+    </ul>
+
+    <h3>Firewall: Skills</h3>
+    <p>Scan and risk-score agent capabilities (skills, MCP servers, plugins) before they run. Deterministic scanner assigns risk band + enforcement mode.</p>
+
+    <h3>Per-Person Controls (Scoped API Keys)</h3>
+    <ul>
+        <li>Unlimited scoped keys, each bound to specific policies</li>
+        <li><strong>Model limits:</strong> Restrict which models a key can access (Intern → GPT-4o-mini, Senior → Claude Opus)</li>
+        <li><strong>IP allow-list:</strong> Lock keys to specific IPs/VPNs</li>
+        <li><strong>Quotas, caps, expiry:</strong> Per-key rate limits, token caps, auto-expiring keys</li>
+        <li><strong>Environments:</strong> Tag keys as production/staging/testing with different policies</li>
+    </ul>
+
+    <p><strong>Versus OpenRouter:</strong> OpenRouter has rate limits and model access control. It does not have a guardrail content engine, agent firewall, MCP security, or skills scanner. If Colin wants to control "what each person can do" — OrcaRouter wins decisively.</p>
+</div>
+
+<!-- Section 3 -->
+<div class="section">
+    <h2>3. Pricing — "$500/month vs. $50/month" Comparison</h2>
+
+    <p>Colin asked: <em>"How does that compare to your five hundred dollar a month, which is fifty a month?"</em></p>
+
+    <p><strong>OrcaRouter Team: $499/month ≈ $50/seat (up to 10 seats)</strong></p>
+    <p>What you get at Team tier:</p>
+    <ul>
+        <li>$0 markup on ALL token costs — you pay exactly provider-published prices</li>
+        <li>10 team seats</li>
+        <li>Compliance enforcement &amp; signed Ed25519 reports (11 frameworks)</li>
+        <li>Unlimited scoped API keys with per-key policies</li>
+        <li>Guardrails + Agent Firewall + MCP Security + Skills Scanner</li>
+        <li>Priority support</li>
+    </ul>
+
+    <h3>Token cost comparison (the real math):</h3>
+    <table>
+        <tr><th>Provider</th><th>Token Markup</th><th>1M GPT-4o Tokens</th></tr>
+        <tr><td><strong>OrcaRouter</strong></td><td>$0</td><td>Exactly OpenAI's price</td></tr>
+        <tr><td>OpenRouter</td><td>~5% implicit fee</td><td>OpenAI price + 5%</td></tr>
+    </table>
+
+    <div class="callout">
+        <div class="callout-title">💰 The Real Savings</div>
+        <strong>For a $20K/mo token burn:</strong> OrcaRouter saves ~$500/month in markup fees — the Team plan pays for itself on token savings alone. <strong>Annual savings: ~$6,000.</strong>
+    </div>
+
+    <p><strong>Free Tier:</strong> OrcaRouter Hacker — $0/month, $0 markup, pay provider cost only. No hard request limits. OpenRouter Free: 50 req/day, 20 rpm limit.</p>
+    <p><strong>Enterprise:</strong> Custom pricing. Private/on-prem deployment, 99.99% SLA, dedicated infrastructure, dedicated support. Custom provider integrations available.</p>
+</div>
+
+<!-- Section 4 -->
+<div class="section">
+    <h2>4. On-Prem / Private Deployment</h2>
+
+    <p><strong>Short answer:</strong> Yes — OrcaRouter Enterprise tier explicitly offers private/on-prem deployment.</p>
+
+    <blockquote>"Enterprise: Everything in Team, private / on-prem deployment, 99.99% uptime SLA, dedicated infrastructure, dedicated support &amp; custom pricing."</blockquote>
+
+    <h3>What's included:</h3>
+    <ul>
+        <li>Deploy on your infrastructure (AWS VPC, GCP project, bare metal)</li>
+        <li>99.99% uptime SLA</li>
+        <li>Dedicated infrastructure (no multi-tenant)</li>
+        <li>Dedicated support team</li>
+        <li>All Team features: guardrails, firewall, compliance packs, unlimited keys</li>
+    </ul>
+
+    <p><strong>Zero data retention + on-prem = strongest data sovereignty story in market.</strong> Prompts and outputs are processed in memory and never written to disk by OrcaRouter. Combined with on-prem deployment, your data never leaves your network AND never touches OrcaRouter's disk.</p>
+
+    <h3>Talking points for Colin:</h3>
+    <ul>
+        <li>"We deploy inside your VPC — your data never leaves your network"</li>
+        <li>"Zero data retention is our DEFAULT, not a checkbox you opt into"</li>
+        <li>"Compliance packs still work on-prem — same signed reports, same audit trail"</li>
+    </ul>
+
+    <p><strong>OpenRouter Enterprise:</strong> Also offers enterprise with SSO, SLAs, invoicing. On-prem availability should be confirmed — not as publicly explicit.</p>
+</div>
+
+<!-- Section 5 -->
+<div class="section">
+    <h2>5. Nebius Integration</h2>
+
+    <p><strong>Short answer:</strong> Nebius is not currently in the OrcaRouter model catalog, but the architecture supports adding it.</p>
+
+    <h3>Current model catalog (as of July 2026)</h3>
+    <p>168 models across <strong>11 upstream providers</strong>:</p>
+
+    <table>
+        <tr><th>Prefix</th><th>Provider</th></tr>
+        <tr><td><code>openai/</code></td><td>OpenAI</td></tr>
+        <tr><td><code>anthropic/</code></td><td>Anthropic</td></tr>
+        <tr><td><code>google/</code></td><td>Google Gemini</td></tr>
+        <tr><td><code>deepseek/</code></td><td>DeepSeek</td></tr>
+        <tr><td><code>grok/</code></td><td>xAI Grok</td></tr>
+        <tr><td><code>qwen/</code></td><td>Alibaba Qwen</td></tr>
+        <tr><td><code>kimi/</code></td><td>Moonshot Kimi</td></tr>
+        <tr><td><code>minimax/</code></td><td>MiniMax</td></tr>
+        <tr><td><code>z-ai/</code></td><td>Z-AI</td></tr>
+        <tr><td><code>kling/</code></td><td>Kling (video)</td></tr>
+        <tr><td><code>byteplus/</code></td><td>ByteDance Seedance (video)</td></tr>
+    </table>
+
+    <p>Nebius exposes an OpenAI-compatible API → integration is straightforward.</p>
+
+    <h3>What to tell Colin:</h3>
+    <ul>
+        <li>"Nebius isn't in the catalog today but our architecture is designed for adding providers. Nebius uses OpenAI-compatible APIs — our native protocol."</li>
+        <li>"For Enterprise customers, we can fast-track provider integrations. Let's discuss timeline."</li>
+        <li>If Nebius is critical to his workflow, this is an Enterprise discussion — custom provider integrations are an Enterprise-tier feature.</li>
+    </ul>
+</div>
+
+<!-- Section 6 -->
+<div class="section">
+    <h2>6. OpenRouter's Markup — Competitive Intel</h2>
+
+    <h3>What OpenRouter charges:</h3>
+    <ul>
+        <li>FAQ says <em>"We do not mark up provider pricing"</em></li>
+        <li>BUT pricing page contains: <strong>"5% Fee discounts available"</strong> — you don't discount a fee that doesn't exist</li>
+        <li>The 5% is baked into their credit pricing model</li>
+        <li>Pay-as-you-go: Buy prepaid credits</li>
+        <li>Enterprise: "Pricing is based on volume, prepayment credits, annual commits"</li>
+    </ul>
+
+    <h3>OrcaRouter's position:</h3>
+    <ul>
+        <li>$0 markup, ever. Revenue comes from optional paid subscription plans, not from inflating your token cost.</li>
+        <li>No prepaid credits — pay for what you use at cost</li>
+        <li>Transparent: <code>X-Orca-*</code> response headers show exactly how your request was routed and what it cost</li>
+    </ul>
+</div>
+
+<!-- Section 7 -->
+<div class="section">
+    <h2>7. Open Source — "You're not open source. Right?"</h2>
+
+    <p><strong>Short answer: Yes, we are open source.</strong></p>
+
+    <p>GitHub: <a href="https://github.com/Continuum-AI-Corp/OrcaRouter-O2" target="_blank" rel="noopener"><strong><code>github.com/Continuum-AI-Corp/OrcaRouter-O2</code></strong></a></p>
+
+    <h3>What's open source:</h3>
+    <ul>
+        <li>The OrcaRouter gateway code (O2 repo)</li>
+        <li>Provider integration patterns</li>
+        <li>Routing engine</li>
+        <li>Can be self-hosted</li>
+    </ul>
+
+    <h3>What paid plans add:</h3>
+    <ul>
+        <li>Managed hosting / SaaS</li>
+        <li>Guardrails &amp; Agent Firewall management plane</li>
+        <li>Compliance packs with signed Ed25519 reports</li>
+        <li>Priority/Enterprise support</li>
+        <li>99.99% SLA</li>
+        <li>Team management UI, scoped keys dashboard</li>
+    </ul>
+
+    <p><strong>Versus OpenRouter:</strong> OpenRouter is NOT open source — closed SaaS. OrcaRouter is open core. Colin can inspect the code, self-host, contribute back. This is a strong win for engineering-led buyers.</p>
+</div>
+
+<!-- Section 8 -->
+<div class="section">
+    <h2>8. Co-Marketing — Webinars, Free Credits, Partnerships</h2>
+
+    <h3>Signals:</h3>
+    <ul>
+        <li>Nav includes "Rewards" link — suggests affiliate/referral/credits program</li>
+        <li>Active on X/Twitter (<code>@OrcaRouter</code>)</li>
+        <li>15+ documented agent integrations show active community engagement</li>
+        <li>Docs in 16 languages</li>
+    </ul>
+
+    <h3>Recommended offers for Colin:</h3>
+    <ul>
+        <li>Free credits for Team trial (e.g., 2-week Team tier at no cost)</li>
+        <li>Co-branded webinar: "Securing AI Agents in Production" or "Multi-Model Routing at Scale"</li>
+        <li>Joint case study if his company adopts</li>
+        <li>Integration partnership if he has complementary tooling</li>
+    </ul>
+
+    <p><strong>Positioning:</strong> "The secure, compliant, open-source alternative to OpenRouter" is sharp positioning.</p>
+</div>
+
+<!-- Data Handling -->
+<div class="section">
+    <h2>Data Handling &amp; Zero Retention (Key Differentiator)</h2>
+
+    <p><strong>Zero Data Retention is the DEFAULT</strong> — not a per-request opt-in, not a checkbox. Every request, every response, every time.</p>
+
+    <h3>What OrcaRouter NEVER stores:</h3>
+    <ul>
+        <li>Prompt content, messages, tool call payloads</li>
+        <li>Model outputs (text, images, TTS audio)</li>
+        <li>Uploaded audio, images, files</li>
+        <li>Tool call arguments or results</li>
+        <li>Full error payloads (only truncated error messages for debugging)</li>
+    </ul>
+
+    <h3>What IS stored (metadata only):</h3>
+    <ul>
+        <li>Timestamp, API key identifier (not secret), model requested</li>
+        <li>Token counts, latency, HTTP status code, cost</li>
+        <li>Whether model was resolved from a router</li>
+        <li>This is for billing, security, and debugging</li>
+    </ul>
+
+    <p><strong>Privacy commitment:</strong> "We never sell your data."</p>
+    <p><strong>Caveat:</strong> Upstream providers (OpenAI, Anthropic, etc.) still receive your data. OrcaRouter's zero-retention applies to the gateway layer. Provider data policies apply downstream.</p>
+
+    <div class="callout">
+        <div class="callout-title">🔒 Massive Differentiator vs OpenRouter</div>
+        OpenRouter does not document their data retention policy publicly. Zero-retention-as-default is a major trust signal for enterprise buyers.
+    </div>
+</div>
+
+<!-- Critical Differentiators -->
+<div class="section">
+    <h2>Critical Differentiators Summary (v2)</h2>
+
+    <table>
+        <tr>
+            <th style="width:28%">Dimension</th>
+            <th style="width:36%">OrcaRouter</th>
+            <th style="width:36%">OpenRouter</th>
+        </tr>
+        <tr>
+            <td>Token markup</td>
+            <td class="win">✅ $0 — pay provider cost</td>
+            <td>⚠️ ~5% implicit fee</td>
+        </tr>
+        <tr>
+            <td>Team plan</td>
+            <td class="win">✅ $499/mo ($50/seat, 10 seats)</td>
+            <td>Enterprise only (custom)</td>
+        </tr>
+        <tr>
+            <td>Free tier limits</td>
+            <td class="win">✅ No hard request limits</td>
+            <td>50 req/day, 20 rpm</td>
+        </tr>
+        <tr>
+            <td>Open source</td>
+            <td class="win">✅ Yes (GitHub O2)</td>
+            <td>No (closed SaaS)</td>
+        </tr>
+        <tr>
+            <td>Guardrails</td>
+            <td class="win">✅ Built-in content + agent engine</td>
+            <td>Not available</td>
+        </tr>
+        <tr>
+            <td>Agent firewall</td>
+            <td class="win">✅ 4-stage, 6-verdict, MCP security</td>
+            <td>Not available</td>
+        </tr>
+        <tr>
+            <td>Compliance packs</td>
+            <td class="win">✅ 11 frameworks, signed Ed25519</td>
+            <td>Not available</td>
+        </tr>
+        <tr>
+            <td>Zero data retention</td>
+            <td class="win">✅ Default (not opt-in)</td>
+            <td>Not documented</td>
+        </tr>
+        <tr>
+            <td>On-prem deployment</td>
+            <td class="win">✅ Enterprise tier (explicit)</td>
+            <td>Enterprise (confirm)</td>
+        </tr>
+        <tr>
+            <td>Models</td>
+            <td>168 (11 providers)</td>
+            <td class="win">✅ 400+ (70+ providers)</td>
+        </tr>
+        <tr>
+            <td>Routing</td>
+            <td class="win">✅ 5 strategies incl. Fusion</td>
+            <td>Model fallback only</td>
+        </tr>
+        <tr>
+            <td>Per-user controls</td>
+            <td class="win">✅ Scoped keys, model limits, IP lists</td>
+            <td>Rate limits only</td>
+        </tr>
+        <tr>
+            <td>Protocol translation</td>
+            <td class="win">✅ OpenAI ↔ Anthropic ↔ Gemini native</td>
+            <td>OpenAI-compatible only</td>
+        </tr>
+        <tr>
+            <td>Video generation</td>
+            <td class="win">✅ Kling + Seedance</td>
+            <td>Not available</td>
+        </tr>
+        <tr>
+            <td>Data handling policy</td>
+            <td class="win">✅ Fully documented, public</td>
+            <td>Not documented</td>
+        </tr>
+    </table>
+
+    <h3>Colin's Apparent Priorities (based on his questions):</h3>
+    <ol>
+        <li><strong>Multi-model routing</strong> → OrcaRouter's Fusion wins (OpenRouter has no parallel-judge equivalent)</li>
+        <li><strong>Guardrails per person</strong> → OrcaRouter wins (OpenRouter has none)</li>
+        <li><strong>Pricing</strong> → OrcaRouter $0 markup saves real money at scale</li>
+        <li><strong>On-prem</strong> → Both offer it, OrcaRouter more explicit + zero-retention makes it stronger</li>
+        <li><strong>Nebius</strong> → Not in catalog, but OpenAI-compatible = easy add. Enterprise fast-track.</li>
+        <li><strong>Open source</strong> → OrcaRouter yes, OpenRouter no (decisive win for engineering buyers)</li>
+        <li><strong>Co-marketing</strong> → Rewards program exists. Webinar + free trial credits is the play.</li>
+    </ol>
+</div>
+
+<!-- Loose Threads -->
+<div class="section">
+    <h2>Loose Threads / Questions for Noah or Product</h2>
+
+    <ol>
+        <li><strong>Nebius ETA:</strong> Can we commit a timeline? OpenAI-compatible API = fast integration. Worth prioritizing if it closes Colin.</li>
+        <li><strong>On-prem pricing:</strong> What's Enterprise on-prem starting price? Does Colin's team size justify Enterprise or would Team + self-hosted OSS work?</li>
+        <li><strong>Co-marketing budget:</strong> Do we have free credits to offer? What's the Rewards program structure?</li>
+        <li><strong>Fusion pricing clarity:</strong> Confirm N× token cost is clearly communicated — avoid sticker shock. Frame as "you pay for quality, not markup."</li>
+        <li><strong>11 vs 7 provider discrepancy:</strong> The docs list 11 provider prefixes but the API returned 7. Clarify which are live vs documented. Don't overpromise.</li>
+    </ol>
+</div>
+
+<hr>
+
+<div class="footer">
+    <p>Generated from OrcaRouter — Colin Call Prep: Q&amp;A Brief (v2) · July 2026</p>
+    <p>Sources: orcarouter.ai · docs.orcarouter.ai · api.orcarouter.ai/v1/models · openrouter.ai/pricing</p>
+</div>
+
+</body>
+</html>

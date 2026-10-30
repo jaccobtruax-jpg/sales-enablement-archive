@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlashLabs — Proposal for Patrick McGuire</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: #f5f5f5;
+      color: #1a1a1a;
+    }
+    /* Nav */
+    .top-nav {
+      background: #1a1a1a;
+      padding: 0 32px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .top-nav .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+      font-weight: 800;
+      font-size: 20px;
+      letter-spacing: -0.5px;
+    }
+    .top-nav .logo .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: #fff;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 800;
+      color: #1a1a1a;
+    }
+    .top-nav .logo span { color: #666; font-weight: 400; }
+    .nav-links {
+      display: flex;
+      gap: 2px;
+    }
+    .nav-links a {
+      color: #888;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 10px 22px;
+      border-radius: 10px;
+      transition: all 0.2s;
+      letter-spacing: -0.2px;
+    }
+    .nav-links a:hover { color: #fff; background: rgba(255,255,255,0.08); }
+    .nav-links a.active { color: #fff; background: rgba(255,255,255,0.12); }
+
+    /* Hero */
+    .hero {
+      background: #1a1a1a;
+      padding: 64px 48px 56px;
+      color: #fff;
+    }
+    .hero-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .hero .pre-title {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 12px;
+    }
+    .hero h1 {
+      font-size: 40px;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 16px;
+      letter-spacing: -1px;
+    }
+    .hero h1 .highlight { color: #fff; }
+    .hero p {
+      font-size: 16px;
+      color: #999;
+      max-width: 650px;
+      line-height: 1.6;
+    }
+    .hero .entities {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+    .hero .entities span {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 500;
+      background: rgba(255,255,255,0.08);
+      padding: 5px 14px;
+      border-radius: 20px;
+      color: #ccc;
+    }
+    .hero .entities span strong { color: #fff; }
+
+    /* Content */
+    .main-content {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 48px 20px 60px;
+    }
+
+    .section { display: none; }
+    .section.active { display: block; }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 28px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid #1a1a1a;
+    }
+    .section-header .icon { font-size: 30px; }
+    .section-header h2 { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; }
+    .section-header .pill {
+      font-size: 11px;
+      font-weight: 600;
+      background: #e8e8e8;
+      padding: 4px 12px;
+      border-radius: 10px;
+      color: #666;
+    }
+    .section-header .pill.core { background: #1a1a1a; color: #fff; }
+
+    .card { background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); margin-bottom: 20px; }
+    .card-title { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+    .card p { font-size: 14px; line-height: 1.6; color: #555; }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+
+    .cap-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .cap-card h4 { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+    .cap-card p { font-size: 13px; line-height: 1.5; color: #555; }
+    .cap-card .tags {
+      display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px;
+    }
+    .cap-card .tags span {
+      font-size: 11px; font-weight: 500; background: #f0f0f0; padding: 2px 8px; border-radius: 6px; color: #666;
+    }
+
+    .use-case {
+      background: #fff;
+      border-radius: 12px;
+      padding: 28px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      border-left: 4px solid #1a1a1a;
+      margin-bottom: 20px;
+    }
+    .use-case h3 { font-size: 17px; font-weight: 600; margin-bottom: 8px; }
+    .use-case h3 .entity-tag {
+      font-size: 11px;
+      font-weight: 600;
+      background: #1a1a1a;
+      color: #fff;
+      padding: 2px 10px;
+      border-radius: 8px;
+      vertical-align: middle;
+      margin-left: 8px;
+    }
+    .use-case p { font-size: 14px; line-height: 1.6; color: #555; }
+    .use-case .outcome {
+      display: inline-block;
+      font-size: 12px; font-weight: 600;
+      background: #e8e8e8; padding: 4px 12px; border-radius: 10px; margin-top: 12px;
+    }
+
+    /* Flow */
+    .flow {
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+      background: #fff; border-radius: 12px; padding: 24px 28px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06); margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .flow-step { flex: 1; min-width: 85px; text-align: center; }
+    .flow-step .num {
+      display: inline-block; width: 26px; height: 26px;
+      background: #1a1a1a; color: #fff; font-size: 13px; font-weight: 700;
+      border-radius: 50%; line-height: 26px; margin-bottom: 6px;
+    }
+    .flow-step .label { font-size: 12px; font-weight: 500; color: #555; line-height: 1.3; }
+    .flow-arrow { font-size: 18px; color: #ccc; flex-shrink: 0; }
+
+    /* Pricing */
+    .pricing-box { background: #fff; border-radius: 12px; padding: 28px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); margin-bottom: 20px; }
+    .pricing-row {
+      display: flex; align-items: baseline; justify-content: space-between;
+      padding: 14px 0; border-bottom: 1px solid #eee;
+    }
+    .pricing-row:last-child { border-bottom: none; }
+    .pricing-row .label { font-size: 14px; font-weight: 500; }
+    .pricing-row .desc { font-size: 13px; color: #888; }
+    .pricing-row .price { font-size: 18px; font-weight: 700; }
+    .pricing-tier {
+      background: #fff; border-radius: 12px; padding: 24px;
+      border: 1px solid #e5e5e5;
+      display: flex;
+      flex-direction: column;
+    }
+    .pricing-tier.featured { border-color: #1a1a1a; border-width: 2px; position: relative; }
+    .pricing-tier.featured::before {
+      content: 'BEST FOR SCALING';
+      position: absolute; top: -10px; right: 16px;
+      background: #1a1a1a; color: #fff;
+      font-size: 9px; font-weight: 600; letter-spacing: 1px;
+      padding: 3px 12px; border-radius: 8px;
+    }
+    .pricing-tier h4 { font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #888; margin-bottom: 4px; }
+    .pricing-tier .price { font-size: 32px; font-weight: 700; margin-bottom: 4px; }
+    .pricing-tier .price span { font-size: 14px; font-weight: 400; color: #888; }
+    .pricing-tier .why-text {
+      font-size: 12px;
+      color: #1a1a1a;
+      background: #f5f5f5;
+      padding: 8px 12px;
+      border-radius: 8px;
+      margin: 8px 0 12px;
+      line-height: 1.4;
+      font-weight: 500;
+    }
+    .pricing-tier ul { list-style: none; flex: 1; }
+    .pricing-tier ul li {
+      font-size: 13px; color: #555; padding: 4px 0;
+      padding-left: 18px; position: relative;
+    }
+    .pricing-tier ul li::before { content: '✓'; position: absolute; left: 0; color: #1a1a1a; font-weight: 600; }
+    .pricing-tier .cta-tier {
+      margin-top: 16px;
+      padding: 10px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 8px;
+      background: #f5f5f5;
+      color: #1a1a1a;
+    }
+    .pricing-tier.featured .cta-tier { background: #1a1a1a; color: #fff; }
+
+    .pricing-note {
+      font-size: 13px; color: #888; margin-top: 16px; text-align: center; line-height: 1.5;
+    }
+
+    /* Timeline */
+    .timeline { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+    .tl-item { background: #fff; border-radius: 10px; padding: 18px 14px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .tl-item .week { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #888; margin-bottom: 6px; }
+    .tl-item .desc { font-size: 13px; font-weight: 500; line-height: 1.4; }
+
+    /* Problem/Solution */
+    .prob-sol { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+    .prob { background: #fff6f0; border-radius: 10px; padding: 20px; border: 1px solid #f0ddd0; }
+    .prob h4 { font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #c44; }
+    .prob p { font-size: 13px; line-height: 1.5; color: #666; }
+    .sol { background: #f0f7f0; border-radius: 10px; padding: 20px; border: 1px solid #d0e0d0; }
+    .sol h4 { font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #2a7a2a; }
+    .sol p { font-size: 13px; line-height: 1.5; color: #666; }
+
+    /* CTA */
+    .cta-box {
+      background: #1a1a1a; border-radius: 14px; padding: 32px;
+      color: #fff; text-align: center; margin-top: 8px;
+    }
+    .cta-box h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+    .cta-box p { font-size: 14px; color: #999; margin-bottom: 20px; max-width: 500px; margin-left: auto; margin-right: auto; }
+    .cta-box .steps { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+    .cta-box .steps span {
+      background: rgba(255,255,255,0.1); padding: 8px 18px; border-radius: 8px;
+      font-size: 13px; font-weight: 500;
+    }
+
+    .intro-block {
+      background: #f9f9f9; border-radius: 12px; padding: 24px;
+      font-size: 14px; line-height: 1.7; color: #444;
+      border-left: 4px solid #1a1a1a; margin-bottom: 20px;
+    }
+
+    .pricing-note {
+      font-size: 13px; color: #888; margin-top: 16px; text-align: center; line-height: 1.5;
+    }
+
+    .scenario-flow {
+      background: #f9f9f9; border-radius: 8px; padding: 12px 16px; margin-top: 12px;
+    }
+    .scenario-flow div {
+      font-size: 13px; padding: 5px 0; color: #555; display: flex; align-items: center; gap: 8px;
+    }
+    .scenario-flow div::before { content: '→'; color: #1a1a1a; font-weight: 600; }
+
+    .when-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+    .when-box { background: #fff; border-radius: 12px; padding: 24px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .when-box .icon { font-size: 32px; margin-bottom: 10px; }
+    .when-box h4 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+    .when-box p { font-size: 13px; color: #555; line-height: 1.5; }
+
+    .section-subtitle {
+      font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+      color: #888; margin: 32px 0 16px;
+    }
+
+    .brand-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #f0f0f0;
+      padding: 4px 12px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-right: 6px;
+    }
+
+    .footer { text-align: center; padding: 32px 24px; font-size: 11px; color: #bbb; border-top: 1px solid #e5e5e5; max-width: 900px; margin: 0 auto; }
+
+    /* For you section */
+    .for-you {
+      background: #fff;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      margin-bottom: 20px;
+      border: 1px dashed #ddd;
+    }
+    .for-you h4 {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #888;
+      margin-bottom: 10px;
+    }
+    .for-you .company-chips {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .for-you .company-chips span {
+      font-size: 13px;
+      font-weight: 500;
+      background: #1a1a1a;
+      color: #fff;
+      padding: 5px 14px;
+      border-radius: 20px;
+    }
+
+    @media (max-width: 700px) {
+      .hero { padding: 40px 24px; }
+      .hero h1 { font-size: 28px; }
+      .top-nav { padding: 0 16px; height: 60px; }
+      .top-nav .logo { font-size: 16px; }
+      .top-nav .logo .logo-icon { width: 26px; height: 26px; font-size: 13px; }
+      .nav-links a { font-size: 12px; padding: 8px 12px; }
+      .grid-2 { grid-template-columns: 1fr; }
+      .grid-3 { grid-template-columns: 1fr; }
+      .timeline { grid-template-columns: 1fr 1fr; }
+      .prob-sol { grid-template-columns: 1fr; }
+      .when-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Nav -->
+  <nav class="top-nav">
+    <div class="logo">
+      <div class="logo-icon">FL</div>
+      FlashLabs
+    </div>
+    <div class="nav-links">
+      <a href="#" class="active" data-section="flashrev">📞 FlashRev</a>
+      <a href="#" data-section="orca">🐳 OrcaRouter</a>
+      <a href="#" data-section="flashai">🎙️ FlashAI</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="pre-title">FlashLabs — Tailored Proposal</div>
+      <h1>For <span class="highlight">Patrick McGuire</span></h1>
+      <p>A complete sales engagement and AI orchestration stack purpose-built for your three businesses. FlashRev for high-volume outbound. OrcaRouter for AI orchestration across silos. FlashAI for autonomous voice conversations.</p>
+      <div class="entities">
+        <span><strong>🏒 FanatiXX</strong> — Sports Sponsorship Sales</span>
+        <span><strong>🏕️ RVMHP Acquisitions</strong> — RV Park Outreach</span>
+        <span><strong>🚀 Empowered Founders</strong> — Autonomous Fundraising</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-content">
+
+    <!-- ============ FLASHREV ============ -->
+    <div class="section active" id="section-flashrev">
+      <div class="section-header">
+        <div class="icon">📞</div>
+        <h2>FlashRev</h2>
+        <span class="pill core">Core Product</span>
+      </div>
+
+      <div class="for-you">
+        <h4>Tailored for your stack</h4>
+        <div class="company-chips">
+          <span>🏒 FanatiXX — Lead gen & outreach</span>
+          <span>🏕️ RVMHP Acquisitions — Cold outreach at scale</span>
+        </div>
+      </div>
+
+      <div class="intro-block">
+        <strong>What it is.</strong> A sales engagement platform — parallel dialer, multi-channel sequences (email, SMS, calls, LinkedIn, X), AI-powered call summaries, and HubSpot sync. Automates everything that happens after you have a lead: outreach cadences, follow-up triggered by call outcomes, tracking, and pipeline visibility.
+      </div>
+
+      <div class="section-subtitle">Your Use Cases</div>
+
+      <div class="use-case">
+        <h3>🏒 FanatiXX — Sports Sponsorship Sales <span class="entity-tag">Priority #1</span></h3>
+        <p>Prospect tier 2/3 pro, emerging pro, and junior league teams. Upload team executive lists, run parallel dialer + SMS + email + LinkedIn sequences. Every "Interested" disposition triggers HubSpot deal creation, SMS confirmation, and follow-up — automatically. <strong>You said FlashLabs needs to bring the leads so you can close.</strong></p>
+        <div class="outcome">Target: 2 HIO deals/month to break even</div>
+      </div>
+
+      <div class="use-case">
+        <h3>🏕️ RVMHP — RV Park Acquisitions <span class="entity-tag">Mid-Term ROI</span></h3>
+        <p>Same platform, different target. Scrape RV park owner contact data, run cold outreach sequences across channels, track responses, automate follow-up. The 40:1 offers-to-closed ratio means you need massive volume to generate 40+ offer letters per year. <strong>FlashRev gets you to more conversations faster. Your edge is what you do with them.</strong></p>
+        <div class="outcome">Target: 4 RV parks closed annually</div>
+      </div>
+
+      <div class="section-subtitle">How It Works</div>
+      <div class="flow">
+        <div class="flow-step"><div class="num">1</div><div class="label">Import or build target list</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="num">2</div><div class="label">Segment by league / profile</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="num">3</div><div class="label">Dialer + SMS + Email + LinkedIn/X</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="num">4</div><div class="label">AI summaries → HubSpot</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="num">5</div><div class="label">Markdown → Obsidian</div></div>
+      </div>
+
+      <div class="section-subtitle">Key Capabilities</div>
+      <div class="grid-3">
+        <div class="cap-card">
+          <h4>📞 Parallel Dialer</h4>
+          <p>Dial multiple numbers simultaneously. 17-20% connect rates on warmed numbers. No per-minute charges — dial as much as you need.</p>
+        </div>
+        <div class="cap-card">
+          <h4>📧 Multi-Channel Sequences</h4>
+          <p>Email + SMS + calls <strong>+ LinkedIn + X</strong> in automated cadences. Disposition-based triggers move prospects through the pipeline.</p>
+          <div class="tags"><span>LinkedIn</span><span>X/Twitter</span><span>Email</span><span>SMS</span><span>Phone</span></div>
+        </div>
+        <div class="cap-card">
+          <h4>🤖 AI Call Summaries</h4>
+          <p>Every call gets AI-powered summaries on the HubSpot contact record. No manual note-taking. Know what happened without listening to recordings.</p>
+        </div>
+        <div class="cap-card">
+          <h4>🔄 HubSpot Sync</h4>
+          <p>Two-way sync. Deals created automatically on positive dispositions. <strong>Separate integrations per entity</strong> — FanatiXX, RVMHP, and Empowered Founders each get their own pipeline.</p>
+        </div>
+        <div class="cap-card">
+          <h4>🔍 Lead Discovery & Enrichment</h4>
+          <p>SuperAgent researches targets by vertical. Foundational data to start dialing. API integration with Apollo, ZoomInfo, and premium providers when you need deeper coverage.</p>
+        </div>
+        <div class="cap-card">
+          <h4>📊 Markdown → Obsidian</h4>
+          <p>Pipeline status, call outcomes, and rep activity pushed to markdown. One-click into Obsidian for reference and insights — exactly as you specified.</p>
+        </div>
+      </div>
+
+      <div class="section-subtitle">Pricing & Why Commander Makes Sense for You</div>
+      <div class="grid-2">
+        <div class="pricing-tier">
+          <h4>Operator Seat</h4>
+          <div class="price">$249 <span>/month</span></div>
+          <div class="why-text">Good for testing the waters — one rep, one outbound motion</div>
+          <ul>
+            <li>Core outbound rep seat</li>
+            <li>Parallel dialer access</li>
+            <li>Email + SMS + LinkedIn/X sequences</li>
+            <li>AI call summaries</li>
+            <li>HubSpot sync</li>
+            <li>Consumption-based SMS (~3 tokens/SMS)</li>
+            <li>AI tokens at ~1.1¢ each</li>
+          </ul>
+          <div class="cta-tier">Start here for a FanatiXX pilot</div>
+        </div>
+        <div class="pricing-tier featured">
+          <h4>Commander Seat</h4>
+          <div class="price">$500 <span>/month</span></div>
+          <div class="why-text">Why Commander? You run three businesses. Commander's multi-entity reporting and dashboard views let you see FanatiXX, RVMHP, and Empowered Founders side-by-side. You can't do that on an Operator seat.</div>
+          <ul>
+            <li>Everything in Operator</li>
+            <li><strong>Multi-entity dashboard</strong> — separate views per business</li>
+            <li><strong>Advanced reporting</strong> — compare connect rates, conversion, and ROI across entities</li>
+            <li>Team oversight if you add a rep later</li>
+            <li>Custom dashboard views</li>
+            <li>Priority support</li>
+          </ul>
+          <div class="cta-tier">Best for running all 3 businesses</div>
+        </div>
+      </div>
+      <div class="pricing-note">
+        <strong>Contract:</strong> Annual commitment &bull; <strong>POC:</strong> 60- or 90-day window — if FlashRev does not deliver, you walk with no further obligation.
+      </div>
+
+      <div class="section-subtitle">Timeline</div>
+      <div class="timeline">
+        <div class="tl-item"><div class="week">Week 1-2</div><div class="desc">Email warm-up, SMS registration, list upload, sequence build</div></div>
+        <div class="tl-item"><div class="week">Week 3-4</div><div class="desc">Full outbound live — dialer, sequences firing, HubSpot syncing</div></div>
+        <div class="tl-item"><div class="week">Day 30</div><div class="desc">Review connect rates, meeting volume, adjust targeting</div></div>
+        <div class="tl-item"><div class="week">Day 60/90</div><div class="desc">POC review — convert to annual or walk</div></div>
+      </div>
+
+      <div class="cta-box">
+        <h3>Start with FanatiXX. Scale from there.</h3>
+        <p>One Operator seat to test. Upgrade to Commander once FanatiXX proves out and you layer in RVMHP.</p>
+        <div class="steps">
+          <span>1. Confirm FanatiXX as priority</span>
+          <span>2. Define target team/league profile</span>
+          <span>3. Identify who is dialing</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ ORCAROUTER ============ -->
+    <div class="section" id="section-orca">
+      <div class="section-header">
+        <div class="icon">🐳</div>
+        <h2>OrcaRouter</h2>
+        <span class="pill">Add-on Service</span>
+      </div>
+
+      <div class="for-you">
+        <h4>Tailored for your stack</h4>
+        <div class="company-chips">
+          <span>🏒 FanatiXX — Proposal gen & competitive intel</span>
+          <span>🏕️ RVMHP — Market monitoring & data validation</span>
+          <span>🚀 Empowered Founders — Fully autonomous silo</span>
+        </div>
+      </div>
+
+      <div class="intro-block">
+        You are running a <strong>Hermes/OpenClaw setup on an M4 Studio</strong> — routing AI tasks across models yourself. OrcaRouter is the managed, production-grade version of exactly what you are building. <strong>200+ models, cost-optimized routing, enterprise infrastructure</strong> — without managing the stack yourself. For a three-business operator, this is where the leverage lives.
+      </div>
+
+      <div class="section-subtitle">What You Have → What OrcaRouter Fixes</div>
+      <div class="prob-sol">
+        <div class="prob">
+          <h4>⚠️ Three separate businesses, one brain</h4>
+          <p>FanatiXX, RVMHP, and Empowered Founders running in the same headspace. Manual context switching. Risk of cross-contamination between knowledge bases.</p>
+        </div>
+        <div class="sol">
+          <h4>✅ Isolated knowledge environments per entity</h4>
+          <p>Each business gets its own KB. Ask about FanatiXX sports → pulls from that silo. Ask about RV parks → switches. No manual switching. No cross-contamination.</p>
+        </div>
+      </div>
+
+      <div class="section-subtitle">Capabilities Tailored to Your Stack</div>
+      <div class="grid-2">
+        <div class="cap-card">
+          <h4>🏢 Siloed Knowledge Bases</h4>
+          <p>Isolated KBs for FanatiXX, RVMHP, and Empowered Founders. Auto-routing to the correct silo. You raised this as your top priority — OrcaRouter ships with it.</p>
+          <div class="tags"><span>FanatiXX</span><span>RVMHP</span><span>Empowered Founders</span></div>
+        </div>
+        <div class="cap-card">
+          <h4>✉️ Email Validation Pipeline</h4>
+          <p>Scraped emails defaulting to Gmail and returning bad data? OrcaRouter routes each email through multiple validation models in parallel — domain check, mailbox verify, pattern cross-ref — before it touches your list. Higher accuracy than any single validation tool.</p>
+          <div class="tags"><span>No manual review</span><span>Multi-model validation</span></div>
+        </div>
+        <div class="cap-card">
+          <h4>⚔️ A/B Testing Orchestrator</h4>
+          <p>Running your DIY Hermes/OpenClaw against FlashRev? OrcaRouter formalizes the test — routes identical tasks to both pipelines, tracks which model-and-setup combination performs better per task type, generates comparison reports. Rigorous and documented instead of anecdotal.</p>
+        </div>
+        <div class="cap-card">
+          <h4>📡 Competitive Intel Monitoring</h4>
+          <p>Three businesses = three landscapes to track. OrcaRouter runs daily scheduled sweeps across sports sponsorships (FanatiXX), RV park acquisitions (RVMHP), and fundraising/investor landscape (Empowered Founders). Flags changes, pushes markdown to Obsidian.</p>
+        </div>
+        <div class="cap-card">
+          <h4>📄 FanatiXX Tiered Proposal Generator</h4>
+          <p>Your pricing runs from Free through Full Season ($1K-$15K). OrcaRouter auto-generates tailored proposals based on prospect team size, league type, and needs — priced to the right tier. Prospect info in, tiered proposal out as markdown.</p>
+          <div class="tags"><span>6 pricing tiers</span><span>Markdown output</span></div>
+        </div>
+        <div class="cap-card">
+          <h4>🔗 LinkedIn/X Outreach Orchestration</h4>
+          <p>You are running "Claw" for LinkedIn. OrcaRouter orchestrates the full pipeline — scraping → personalized drafting → multi-model quality check (since you do not trust single outputs) → scheduled sending — through the cheapest capable model per step.</p>
+        </div>
+      </div>
+
+      <div class="section-subtitle">Pricing</div>
+      <div class="pricing-box">
+        <div class="pricing-row">
+          <div><div class="label">Base — 10 Seats</div><div class="desc">Full OrcaRouter access, 200+ models, cost-optimized routing, isolated KBs</div></div>
+          <div class="price">$500<span style="font-size:13px;font-weight:400;color:#888;">/month</span></div>
+        </div>
+        <div class="pricing-row">
+          <div><div class="label">Per Additional Seat</div><div class="desc">Scale beyond the 10-seat base when you add team members</div></div>
+          <div class="price">$50<span style="font-size:13px;font-weight:400;color:#888;">/month</span></div>
+        </div>
+        <div class="pricing-note">
+          <strong>Contract:</strong> Annual with monthly payments &bull; <strong>POC:</strong> 90-day exit freedom — same structure as FlashRev. If OrcaRouter does not deliver by day 90, you walk.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Is This Right for You?</div>
+        <p>The <strong>siloed knowledge bases and email validation</strong> alone make the case at your current volume — those are problems you are dealing with <em>right now</em>. The <strong>A/B testing orchestrator</strong> is useful the moment you start comparing DIY vs FlashRev. <strong>Competitive intel, proposals, and LinkedIn/X orchestration</strong> grow into it. I would not pitch this to a single-business shop. <strong>You are running three. That changes the math.</strong></p>
+      </div>
+
+      <div class="cta-box">
+        <h3>Layer in from week one</h3>
+        <p>Start with knowledge bases and email validation. Scale into competitive intel, proposals, and LinkedIn/X orchestration from there.</p>
+        <div class="steps">
+          <span>90-day risk-free POC</span>
+          <span>Same contract terms as FlashRev</span>
+          <span>Separate service — add when ready</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ FLASHAI ============ -->
+    <div class="section" id="section-flashai">
+      <div class="section-header">
+        <div class="icon">🎙️</div>
+        <h2>FlashAI</h2>
+        <span class="pill">Add-on Service</span>
+      </div>
+
+      <div class="for-you">
+        <h4>Tailored for your stack</h4>
+        <div class="company-chips">
+          <span>🏒 FanatiXX — Autonomous outbound calling at scale</span>
+          <span>🚀 Empowered Founders — Fully autonomous inbound sales</span>
+        </div>
+      </div>
+
+      <div class="intro-block">
+        Your DIY Hermes/OpenClaw stack handles a lot — but one thing it <strong>cannot do natively is handle actual voice conversations</strong>. FlashAI fills that gap. An <strong>AI voice agent</strong> that places outbound calls and answers inbound calls, conducts natural conversations, qualifies interest, and books meetings — all autonomously. <strong>This is the difference between a tool that helps your rep dial faster and a tool that replaces the dialing entirely.</strong>
+      </div>
+
+      <div class="section-subtitle">Two Scenarios</div>
+
+      <div class="use-case">
+        <h3>📞 FanatiXX — Autonomous Outbound <span class="entity-tag">At Scale</span></h3>
+        <p>FlashAI places the initial outreach calls to sports team directors and executives — tier 2/3 pro, emerging pro, junior leagues. The agent introduces the FanatiXX value prop, gauges interest, answers questions about packages, and books meetings with genuinely interested prospects. No human rep dialing.</p>
+        <div class="scenario-flow">
+          <div>AI dials through target list</div>
+          <div>Natural conversation about sponsorship packages</div>
+          <div>Qualifies interest level</div>
+          <div>Books meeting or hands off to Patrick's rep</div>
+          <div>Disposition → FlashRev follow-up sequence fires</div>
+        </div>
+      </div>
+
+      <div class="use-case">
+        <h3>🤖 Empowered Founders — Autonomous Inbound <span class="entity-tag">Set & Forget</span></h3>
+        <p>You said Empowered Founders should be "fully autonomous" and is not your primary focus. FlashAI handles inbound calls from your landing pages — qualifying founder leads, answering questions about fundraising and investor databases, and booking upgrade calls with you at $5K+ only when the lead is ready. <strong>Zero human time until a high-value opportunity surfaces.</strong></p>
+        <div class="scenario-flow">
+          <div>Landing page → inbound call to FlashAI</div>
+          <div>AI qualifies founder ($1K-$2K self-serve path)</div>
+          <div>Delivers value autonomously</div>
+          <div>Upgrades to Patrick ($5K+) only when hot</div>
+          <div>Zero human time until high-value</div>
+        </div>
+      </div>
+
+      <div class="section-subtitle">Key Capabilities</div>
+      <div class="grid-2">
+        <div class="cap-card"><h4>🎙️ Natural Voice Conversations</h4><p>Fluid, context-aware conversations. Answers questions, handles objections, builds rapport. Does not sound like a robot — your prospects will not know it is AI.</p></div>
+        <div class="cap-card"><h4>📋 Smart Qualification</h4><p>Built-in logic. Determines whether a prospect is worth booking or needs nurturing. No wasted time on unqualified leads.</p></div>
+        <div class="cap-card"><h4>📅 Meeting Booking</h4><p>Books directly into your calendar when a lead is interested. No back-and-forth scheduling emails. One less touch point for your team.</p></div>
+        <div class="cap-card"><h4>🔄 FlashRev Handoff</h4><p>Call outcomes flow into FlashRev as dispositions. "Interested" triggers SMS + email intro + HubSpot deal auto-creation. Seamless handoff between AI and human.</p></div>
+        <div class="cap-card"><h4>📝 AI Call Summaries</h4><p>Full summaries with key points, sentiment, and next steps — landed directly on the HubSpot contact record. Same format as human-placed calls.</p></div>
+        <div class="cap-card"><h4>📊 Analytics Dashboard</h4><p>Call volume, connect rates, conversion, and dollar value influenced — all in one view. Measure ROI per conversation.</p></div>
+      </div>
+
+      <div class="section-subtitle">Pricing</div>
+      <div class="pricing-box">
+        <div class="pricing-row">
+          <div><div class="label">Per Connected Conversation</div><div class="desc">Only pay for conversations that actually connect — no charge for unanswered calls, busy signals, or voicemails</div></div>
+          <div class="price">$1.50</div>
+        </div>
+        <div class="pricing-row">
+          <div><div class="label">Monthly Minimum</div><div class="desc">500 connected conversations per month to make the economics work</div></div>
+          <div class="price">$750<span style="font-size:13px;font-weight:400;color:#888;">/mo floor</span></div>
+        </div>
+        <div class="pricing-note">
+          <strong>Math:</strong> 500 conversations at $1.50 = $750/month. If FanatiXX closes 2 HIO deals, that single month covers itself many times over. <strong>Available as a separate add-on — add when outbound volume justifies removing the human rep, or day 1 for Empowered Founders inbound.</strong>
+        </div>
+      </div>
+
+      <div class="section-subtitle">When to Add FlashAI</div>
+      <div class="when-row">
+        <div class="when-box">
+          <div class="icon">🚀</div>
+          <h4>FanatiXX — When Volume Exceeds Rep Capacity</h4>
+          <p>Start with a human rep on FlashRev. Once the list is validated and you need to 3x dialing volume without adding headcount — add FlashAI for the initial outreach layer. Your rep only takes qualified meetings.</p>
+        </div>
+        <div class="when-box">
+          <div class="icon">⚡</div>
+          <h4>Empowered Founders — Day 1</h4>
+          <p>Since this is not your primary focus and you want it fully autonomous, FlashAI handles inbound from day one. No human involvement until a $5K+ upgrade opportunity surfaces. Set it and forget it.</p>
+        </div>
+      </div>
+
+      <div class="cta-box">
+        <h3>The full autonomous stack</h3>
+        <p>FlashAI handles the calls. FlashRev handles the follow-up sequences. Together they are the autonomous sales engine you described — and the piece your DIY Hermes/OpenClaw stack cannot do.</p>
+        <div class="steps">
+          <span>Start FlashRev first for FanatiXX</span>
+          <span>Add FlashAI when volume scales</span>
+          <span>Or day 1 for Empowered Founders inbound</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    FlashLabs — Confidential — Prepared for Patrick McGuire | FanatiXX &bull; RVMHP Acquisitions &bull; Empowered Founders
+  </div>
+
+  <script>
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const section = this.dataset.section;
+        document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.getElementById('section-' + section).classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+  </script>
+</body>
+</html>

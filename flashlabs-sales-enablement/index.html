@@ -1,0 +1,2026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlashLabs Sales Enablement Hub</title>
+    <style>
+        :root {
+            --black: #000000;
+            --white: #ffffff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --accent: #000000;
+            --border: #e5e7eb;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.05);
+            --radius: 8px;
+            --radius-lg: 12px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-900);
+            line-height: 1.6;
+        }
+
+        /* NAVIGATION */
+        .top-nav {
+            background: var(--black);
+            color: var(--white);
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .top-nav .logo {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .top-nav .logo span { color: var(--gray-400); font-weight: 400; }
+        .top-nav .badge {
+            background: var(--white);
+            color: var(--black);
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 100px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        /* SIDEBAR */
+        .layout {
+            display: flex;
+            min-height: calc(100vh - 56px);
+        }
+        .sidebar {
+            width: 260px;
+            background: var(--white);
+            border-right: 1px solid var(--border);
+            padding: 20px 0;
+            position: sticky;
+            top: 56px;
+            height: calc(100vh - 56px);
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+        .sidebar-section {
+            margin-bottom: 8px;
+        }
+        .sidebar-section-title {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--gray-400);
+            padding: 8px 20px;
+        }
+        .sidebar a {
+            display: block;
+            padding: 7px 20px;
+            font-size: 13.5px;
+            color: var(--gray-700);
+            text-decoration: none;
+            transition: all 0.15s;
+            border-left: 3px solid transparent;
+        }
+        .sidebar a:hover, .sidebar a.active {
+            background: var(--gray-50);
+            color: var(--black);
+            border-left-color: var(--black);
+        }
+
+        /* MAIN */
+        .main {
+            flex: 1;
+            padding: 32px 40px;
+            max-width: 960px;
+        }
+        .main h1 {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 6px;
+        }
+        .main h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-top: 48px;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--black);
+        }
+        .main h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 32px;
+            margin-bottom: 12px;
+        }
+        .main h4 {
+            font-size: 15px;
+            font-weight: 600;
+            margin-top: 20px;
+            margin-bottom: 8px;
+            color: var(--gray-800);
+        }
+        .main p {
+            margin-bottom: 12px;
+            color: var(--gray-700);
+        }
+        .subtitle {
+            font-size: 15px;
+            color: var(--gray-500);
+            margin-bottom: 32px;
+        }
+
+        /* CARDS */
+        .card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+        .card-header {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .card-header .icon {
+            font-size: 20px;
+        }
+
+        /* STAT GRID */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        .stat-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+        .stat-value {
+            font-size: 36px;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            color: var(--black);
+            line-height: 1;
+        }
+        .stat-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--gray-500);
+            margin-top: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* TABLE */
+        .table-wrap {
+            overflow-x: auto;
+            margin: 16px 0 24px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13.5px;
+        }
+        thead th {
+            background: var(--black);
+            color: var(--white);
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        thead th:first-child { border-radius: var(--radius) 0 0 0; }
+        thead th:last-child { border-radius: 0 var(--radius) 0 0; }
+        tbody td {
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--gray-200);
+            color: var(--gray-700);
+        }
+        tbody tr:nth-child(even) { background: var(--gray-50); }
+        tbody tr:hover { background: var(--gray-100); }
+
+        /* QUOTE BLOCK */
+        .talk-track {
+            background: var(--gray-100);
+            border-left: 4px solid var(--black);
+            padding: 14px 18px;
+            margin: 12px 0;
+            border-radius: 0 var(--radius) var(--radius) 0;
+            font-style: italic;
+            color: var(--gray-800);
+            font-size: 14px;
+        }
+        .talk-track strong {
+            font-style: normal;
+            color: var(--black);
+        }
+
+        /* TAGS */
+        .tag {
+            display: inline-block;
+            background: var(--gray-100);
+            color: var(--gray-700);
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 100px;
+            margin: 2px 4px 2px 0;
+            letter-spacing: 0.3px;
+        }
+        .tag.green { background: #ecfdf5; color: #065f46; }
+        .tag.red { background: #fef2f2; color: #991b1b; }
+        .tag.blue { background: #eff6ff; color: #1e40af; }
+
+        /* BADGE */
+        .product-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .product-badge.flashrev { background: var(--black); color: var(--white); }
+        .product-badge.flashai { background: var(--gray-800); color: var(--white); }
+        .product-badge.orcarouter { background: var(--gray-600); color: var(--white); }
+
+        /* OBJECTION */
+        .objection-item {
+            padding: 16px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        .objection-item:last-child { border-bottom: none; }
+        .objection-q {
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 4px;
+        }
+        .objection-a {
+            color: var(--gray-600);
+            font-size: 14px;
+        }
+
+        /* CHECKLIST */
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+        .checklist li {
+            padding: 6px 0;
+            color: var(--gray-700);
+            font-size: 14px;
+        }
+        .checklist li::before {
+            content: "☐ ";
+            color: var(--gray-400);
+            font-size: 16px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .main { padding: 20px; }
+            .stat-grid { grid-template-columns: repeat(2, 1fr); }
+            .top-nav { padding: 0 16px; }
+        }
+
+        /* SMOOTH SCROLL */
+        html { scroll-behavior: smooth; }
+
+        /* PRODUCT HEADER */
+        .product-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="top-nav">
+    <div class="logo">FlashLabs <span>Sales Enablement</span></div>
+    <div class="badge">July 2026</div>
+</nav>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+    <div class="sidebar-section">
+        <div class="sidebar-section-title">Overview</div>
+        <a href="#dashboard">📊 Dashboard</a>
+        <a href="#products">📦 Product Suite</a>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-section-title">Talk Tracks</div>
+        <a href="#flashrev-talk">FlashRev</a>
+        <a href="#flashai-talk">FlashAI</a>
+        <a href="#orcarouter-talk">OrcaRouter</a>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-section-title">Battle Cards</div>
+        <a href="#battle-vici">Vici / ViciDial</a>
+        <a href="#battle-five9">Five9</a>
+        <a href="#battle-calltools">CallTools</a>
+        <a href="#battle-readymode">Readymode</a>
+        <a href="#battle-manual">Manual / No Dialer</a>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-section-title">Objections</div>
+        <a href="#objections-flashrev">FlashRev (5)</a>
+        <a href="#objections-flashai">FlashAI (4)</a>
+        <a href="#objections-orcarouter">OrcaRouter (6)</a>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-section-title">Frameworks</div>
+        <a href="#discovery">Discovery</a>
+        <a href="#demo-flow">Demo Flow</a>
+        <a href="#email-templates">Email Templates</a>
+        <a href="#poc">POC & Closing</a>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-section-title">Operations</div>
+        <a href="#sourcing">Sourcing Playbook</a>
+        <a href="#dispositions">Call Dispositions</a>
+        <a href="#personas">Buyer Personas</a>
+        <a href="#performance">Performance Data</a>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-section-title">Rep Analysis</div>
+        <a href="#danny-deepdive">🎧 Danny Tsao Deep-Dive</a>
+        <a href="#danny-patterns">🔴 Call Patterns</a>
+        <a href="#danny-coaching">🎯 Coaching Priorities</a>
+        <a href="#danny-takeaways">💡 Takeaways</a>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-section-title">OrcaRouter Prospecting</div>
+        <a href="#orca-signals">🚨 5 Urgency Signals</a>
+        <a href="#orca-scan">✅ Quick-Scan Checklist</a>
+        <a href="#orca-archetypes">🎯 Buyer Archetypes</a>
+        <a href="#orca-anti">❌ What NOT to Chase</a>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-section-title">LinkedIn Outreach</div>
+        <a href="#li-influencers">👑 Influencers to Follow</a>
+        <a href="#li-orca">🔐 OrcaRouter Outreach</a>
+        <a href="#li-flashai">🎙️ FlashAI Outreach</a>
+        <a href="#li-cadence">📅 Daily Cadence</a>
+        <a href="#li-content">📝 Content Calendar</a>
+        <a href="#li-safety">🛡️ Safety Rules</a>
+        <a href="#li-meetings">🎧 From the Meetings</a>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-section-title">Quick Ref</div>
+        <a href="#quick-ref">At a Glance</a>
+    </div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+<!-- ===== DASHBOARD ===== -->
+<section id="dashboard">
+    <h1>Sales Enablement Hub</h1>
+    <p class="subtitle">The complete rep-facing manual — everything an AE or SDR needs to find, qualify, demo, and close FlashRev, FlashAI, FlashClick &amp; OrcaRouter deals.</p>
+
+    <div class="stat-grid">
+        <div class="stat-card">
+            <div class="stat-value">63.6%</div>
+            <div class="stat-label">AE-Sourced Win Rate</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">$4,800</div>
+            <div class="stat-label">Median Deal Size</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">37</div>
+            <div class="stat-label">Median Days to Close</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">11×</div>
+            <div class="stat-label">AE vs SDR Win Rate</div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== PRODUCT SUITE ===== -->
+<section id="products">
+    <h2>📦 Product Suite</h2>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th>Pricing</th>
+                    <th>One-Liner</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td><strong>FlashRev GTM OS</strong></td>
+                    <td>Revenue Acceleration</td>
+                    <td>Seat-based ($250-500/seat)</td>
+                    <td>AI-powered enrichment + dialer + sequences + AI agents</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td><strong>FlashAI Voice Agents</strong></td>
+                    <td>AI Voice / Contact Center</td>
+                    <td>$1.50/call ($750/mo floor)</td>
+                    <td>Autonomous voice agents — #1 of 10 in quality</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td><strong>FlashClick</strong></td>
+                    <td>Partner Enablement</td>
+                    <td>Contact for quote</td>
+                    <td>Tracking, analytics, fraud protection for partnerships</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td><strong>OrcaRouter</strong></td>
+                    <td>AI Gateway</td>
+                    <td>Free / $499/mo / Custom</td>
+                    <td>200+ models, zero markup, one line, enterprise security</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td><strong>AI-Enabled SDRs</strong></td>
+                    <td>Pipeline as a Service</td>
+                    <td>Managed service</td>
+                    <td>AI-powered managed SDR service</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>SuperAgent — 12 Autonomous AI Agents</h3>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px;">
+        <span class="tag">Pipeline Manager</span>
+        <span class="tag">Account Executive</span>
+        <span class="tag">AI Call Agent</span>
+        <span class="tag">Deal Strategist</span>
+        <span class="tag">Data Analyst</span>
+        <span class="tag">Territory & Persona</span>
+        <span class="tag">Social Selling</span>
+        <span class="tag">Meeting Agent</span>
+        <span class="tag">Deep Research</span>
+        <span class="tag">GTM Decks</span>
+        <span class="tag">Playbooks</span>
+        <span class="tag">Web & App</span>
+    </div>
+</section>
+
+<!-- ===== TALK TRACKS ===== -->
+<section id="flashrev-talk">
+    <h2>🗣️ Master Talk Tracks</h2>
+
+    <h3><span class="product-badge flashrev">FlashRev</span> — MCA / SMB Lending</h3>
+
+    <h4>The Hook</h4>
+    <div class="talk-track">
+        "We work with a lot of MCA shops — guys running 5 to 50 reps on predictive dialers, managing SMS manually, trying to keep follow-up from falling through the cracks. I want to understand your setup and see if there is a fit. Twenty minutes, no pitch, at the end we both decide if there is a next step. Sound fair?"
+    </div>
+
+    <h4>Pain Probe</h4>
+    <ul style="color:var(--gray-700);font-size:14px;margin-bottom:16px;">
+        <li>"What dialer are you on right now?"</li>
+        <li>"How do you handle SMS after a call — automated or manual?"</li>
+        <li>"What happens to a lead after your opener dispositions it?"</li>
+        <li>"If I asked your reps what frustrates them most, what would they say?"</li>
+    </ul>
+
+    <h4>The Kill Shot</h4>
+    <div class="talk-track">
+        "You have 20 apps out a week on Vici after ten years of optimization. LB Capital switched and hit 14 in week four. That is before they even finished onboarding. What do you think your number looks like at full ramp?"
+    </div>
+</section>
+
+<section id="flashai-talk">
+    <h3 style="margin-top:40px;"><span class="product-badge flashai">FlashAI</span> — Voice Agent</h3>
+
+    <h4>The Hook</h4>
+    <div class="talk-track">
+        "Your reps are spending hours dialing manually and leaving voicemails. What if an AI handled the outbound — calling, qualifying, following up via SMS — and your reps only talked to ready-to-close leads?"
+    </div>
+
+    <h4>The Numbers</h4>
+    <div class="talk-track">
+        "$1.50 per connected conversation. Minimum 500 calls per month — that's $750. Your best rep costs you what, $4-5K/mo plus commissions? FlashAI makes 10x the dials for a fraction of the cost. And it doesn't call in sick."
+    </div>
+
+    <h4>Volume Pricing</h4>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Tier</th><th>Rate per Call</th></tr></thead>
+            <tbody>
+                <tr><td>Standard (500/mo)</td><td>$1.50</td></tr>
+                <tr><td>5,000 calls/mo</td><td>$1.35</td></tr>
+                <tr><td>10,000 calls/mo</td><td>$1.20</td></tr>
+                <tr><td>20,000 calls/mo</td><td>$1.05</td></tr>
+                <tr><td>30,000 calls/mo</td><td>$0.90</td></tr>
+                <tr><td>50,000+ calls/mo</td><td><strong>$0.75</strong></td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section id="orcarouter-talk">
+    <h3 style="margin-top:40px;"><span class="product-badge orcarouter">OrcaRouter</span> — Security/Fear (Most Effective)</h3>
+
+    <h4>The Hook</h4>
+    <div class="talk-track">
+        "I noticed you're using [Claude/ChatGPT/Gemini] for business applications. Quick heads-up: if your AI bot gets hacked, whoever hacks it gets access to everything you've given that bot access to — passwords, client data, business information. We built a system to prevent exactly that."
+    </div>
+
+    <h4>The Close</h4>
+    <div class="talk-track">
+        "OrcaRouter puts a security layer between your AI and the world. It screens every prompt, governs every tool call, and logs everything. You keep using the models you already use — we add the safety net. No extra charge to use your current systems."
+    </div>
+
+    <h4>Cost Savings Angle (Secondary)</h4>
+    <div class="talk-track">
+        "Most companies using AI are overpaying 30-50%. They're routing every question — even 'what's the weather?' — through an expensive model. OrcaRouter automatically routes simple questions to cheap models and complex ones to powerful models. Same quality, 40% less spend."
+    </div>
+
+    <h4>Healthcare/Compliance Angle</h4>
+    <div class="talk-track">
+        "Healthcare companies using AI run a massive compliance risk. If an AI bot handling patient data gets compromised, you're looking at HIPAA violations, data breach notifications, and regulatory fines. We make AI HIPAA-compliant at the gateway level."
+    </div>
+</section>
+
+<!-- ===== BATTLE CARDS ===== -->
+<section id="battle-vici">
+    <h2>⚔️ Battle Cards</h2>
+
+    <h3>Vici / ViciDial</h3>
+    <div class="card">
+        <div class="card-header">🔴 What They Are</div>
+        <p>Open-source predictive dialer, per-minute pricing, used by most MCA shops with 5+ reps. Their win: Dated UI but reps know it. Cheap per-minute cost. Does one thing — dials.</p>
+
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Vici Pain</th><th>FlashRev Answer</th></tr></thead>
+                <tbody>
+                    <tr><td>Manual SMS — reps text from personal phone</td><td>Automated SMS on disposition — one click, done</td></tr>
+                    <tr><td>No AI call summaries — managers can't audit</td><td>AI call summaries on every call, manager dashboard</td></tr>
+                    <tr><td>No sequences — follow-up is manual or dead</td><td>Sequences: email, SMS, tasks, automated</td></tr>
+                    <tr><td>Ugly UI — new reps hate training</td><td>Modern interface, coach mode, live listen-in</td></tr>
+                    <tr><td>No CRM integration — data in a silo</td><td>CRM sync, webhooks, API, DaaS on Snowflake/Databricks</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h4>Discovery Questions for Vici Users</h4>
+        <ul style="color:var(--gray-700);font-size:14px;">
+            <li>"When a rep gets a connect on Vici — what happens after they hang up?"</li>
+            <li>"How do you know which of your reps are performing and which are coasting?"</li>
+            <li>"How long does it take to train a new rep on Vici?"</li>
+        </ul>
+    </div>
+</section>
+
+<section id="battle-five9">
+    <h3>Five9</h3>
+    <div class="card">
+        <div class="card-header">🔴 What They Are</div>
+        <p>Enterprise cloud contact center, broad platform, heavy implementation. Their win: Enterprise-grade reliability. Omnichannel + WFM. Brand-name safe choice.</p>
+
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Five9 Pain</th><th>FlashRev Answer</th></tr></thead>
+                <tbody>
+                    <tr><td>Enterprise pricing — built for 100+ seats</td><td>$250-500/seat, POC terms, exit anytime</td></tr>
+                    <tr><td>Slow setup — weeks to months</td><td>Onboarding in days, not months</td></tr>
+                    <tr><td>Generic — not built for MCA workflows</td><td>MCA-specific dispositions, automations, sequences</td></tr>
+                    <tr><td>Annual contracts, heavy commitment</td><td>90-day POC, monthly payments</td></tr>
+                    <tr><td>No MCA AI — summaries generic</td><td>AI call summaries trained on lending conversations</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h4>The Kill Shot</h4>
+        <div class="talk-track">
+            "Five9 is a great platform for call centers. But you are not running a call center — you are running an MCA shop. The workflow is different. The dispositions are different. We built for your world. They built for everyone."
+        </div>
+    </div>
+</section>
+
+<section id="battle-calltools">
+    <h3>CallTools</h3>
+    <div class="card">
+        <div class="card-header">🔴 What They Are</div>
+        <p>Cloud-based predictive dialer. Better UI than Vici. Limited automation and AI. Their win: Modern cloud UI without Vici's retro look.</p>
+
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>CallTools Gap</th><th>FlashRev Answer</th></tr></thead>
+                <tbody>
+                    <tr><td>Limited AI — no call summaries, no agent assist</td><td>Full AI call summaries, agent assist, sentiment</td></tr>
+                    <tr><td>Basic SMS — no multichannel sequences</td><td>Multichannel: SMS, email, sequences together</td></tr>
+                    <tr><td>No AI routing or SuperAgent capabilities</td><td>12 AI agents across full GTM workflow</td></tr>
+                    <tr><td>Generic</td><td>MCA-specific workflows and templates</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h4>The Kill Shot</h4>
+        <div class="talk-track">
+            "CallTools upgraded the UI from Vici. We upgraded the entire workflow. AI call summaries, automated sequences across SMS and email, and a SuperAgent that does your research and follow-up for you. That is the difference between a better dialer and a better business."
+        </div>
+    </div>
+</section>
+
+<section id="battle-readymode">
+    <h3>Readymode (formerly Xencall)</h3>
+    <div class="card">
+        <div class="card-header">🔴 What They Are</div>
+        <p>Outbound predictive dialer + CRM. 4 dialer modes, transparent pricing ($199-249/seat). Their win: Caller ID Reputation Monitoring + Autopilot for spam prevention. Fast dialing. Good support.</p>
+
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Readymode Gap</th><th>FlashRev Answer</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>No data/enrichment at all</strong> — BYO list</td><td>Real-time enrichment, people search, company search, in-market timing</td></tr>
+                    <tr><td><strong>Phone-only</strong> — no SMS, no email, no social</td><td>Multi-channel sequences: call + email + SMS + social</td></tr>
+                    <tr><td><strong>No AI agents</strong> — zero</td><td>12 SuperAgent agents + FlashAI voice agents</td></tr>
+                    <tr><td><strong>No intent data</strong></td><td>In-market timing signals, buying intent</td></tr>
+                    <tr><td><strong>Single product</strong> — point solution</td><td>Ecosystem: FlashRev → FlashAI → FlashClick → OrcaRouter</td></tr>
+                    <tr><td><strong>Predictive dialer</strong> (they win here)</td><td>Parallel + Team dialer (no predictive mode)</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h4>The Kill Shot</h4>
+        <div class="talk-track">
+            "Readymode is a great dialer. But you're paying $199/seat for the dialer, $15K+ for ZoomInfo, $100/seat for Outreach — that's three tools and $25K+ before your reps even pick up the phone. FlashRev has the dialer, the data, and the sequences in one. And the AI agents that Readymode doesn't have at all."
+        </div>
+    </div>
+</section>
+
+<section id="battle-manual">
+    <h3>Manual / Spreadsheet / Streak / No Dialer</h3>
+    <div class="card">
+        <div class="card-header">🔴 What They Are</div>
+        <p>Teams doing outbound manually — Streak, Google Sheets, or nothing. No predictive dialer. Their win: It's free (or cheap). No learning curve. They control everything.</p>
+
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Manual Pain</th><th>FlashRev Answer</th></tr></thead>
+                <tbody>
+                    <tr><td>Low connect volume — 5-8 per hour</td><td>Parallel dialer: 3-5x more connects per hour</td></tr>
+                    <tr><td>Manual follow-up — every text, every email</td><td>Automated sequences, SMS, email on disposition</td></tr>
+                    <tr><td>No visibility — can't track rep performance</td><td>Coach mode, AI summaries, per-rep dashboards</td></tr>
+                    <tr><td>Rep burnout — manual dialing kills morale</td><td>Modern interface, less grind, more results</td></tr>
+                    <tr><td>Scale ceiling — can't grow past 3-5 reps</td><td>Add seats anytime, same infrastructure</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h4>The Kill Shot</h4>
+        <div class="talk-track">
+            "Right now your best rep makes maybe 8 connects an hour and follows up manually on maybe half. With our dialer, that same rep hits 25 connects and every single one gets an automated follow-up. You are leaving 70 percent of your day on the table."
+        </div>
+    </div>
+</section>
+
+<!-- ===== OBJECTIONS ===== -->
+<section id="objections-flashrev">
+    <h2>🛡️ Objection Handling — 15 Common Objections</h2>
+
+    <h3><span class="product-badge flashrev">FlashRev</span> Objections</h3>
+
+    <div class="card">
+        <div class="objection-item">
+            <div class="objection-q">1. "We're happy with Vici/our current dialer."</div>
+            <div class="objection-a">"I hear that a lot. Most shops I talk to started on Vici five or ten years ago and it works — it's the devil they know. But what I usually find is their reps are frustrated, follow-up isn't happening, and they're leaving money on the table with manual SMS. How are you handling text follow-up after calls today?"</div>
+        </div>
+        <div class="objection-item">
+            <div class="objection-q">2. "It's too expensive."</div>
+            <div class="objection-a">"Compared to what? Vici is cheap per minute but you're paying in lost productivity — manual SMS, no AI summaries, no sequences. Add up the cost of the tools you're buying separately — ZoomInfo, a sequencer, manual SMS — and FlashRev usually comes out cheaper. And we do a 90-day POC — if it doesn't work, you walk. Zero risk."</div>
+        </div>
+        <div class="objection-item">
+            <div class="objection-q">3. "We don't do outbound — we're all inbound."</div>
+            <div class="objection-a">"Totally fair. But inbound speed-to-lead is where AI shines. When a lead comes in, your AI agent qualifies them in seconds instead of hours. We've seen shops convert 30% more inbound by reducing response time from 4 hours to under a minute."</div>
+        </div>
+        <div class="objection-item">
+            <div class="objection-q">4. "We're locked into a contract with [competitor]."</div>
+            <div class="objection-a">"When does it end? Let's put a calendar hold for the month before. I'll check in 60 days before — same deal, same terms, no pressure."</div>
+        </div>
+        <div class="objection-item">
+            <div class="objection-q">5. "Can I see it working at my competitor?"</div>
+            <div class="objection-a">"Our customers don't share their secret sauce — and honestly, you wouldn't want them to. That's why the POC exists. 90 days, exit anytime, prove it to yourself."</div>
+        </div>
+    </div>
+</section>
+
+<section id="objections-flashai">
+    <h3 style="margin-top:32px;"><span class="product-badge flashai">FlashAI</span> Objections</h3>
+
+    <div class="card">
+        <div class="objection-item">
+            <div class="objection-q">6. "AI voice agents sound robotic — my customers will hate it."</div>
+            <div class="objection-a">"We were ranked #1 of 10 vendors in a competitive evaluation for voice quality. Built on Chroma models with RAG — it understands context, handles interruptions, and adapts conversationally. Your customers won't know it's AI unless you tell them."</div>
+        </div>
+        <div class="objection-item">
+            <div class="objection-q">7. "$1.50 per call is expensive vs. $0.50 competitors."</div>
+            <div class="objection-a">"The competitor at $0.50 saves you money on paper but costs you in failed calls and customer frustration. Every call FlashAI makes is a customer relationship. A robotic AI on a collections call damages trust. And your rate drops every year — $1.20 at 10K, $1.00 at 20K — the more you use, the smaller the gap."</div>
+        </div>
+        <div class="objection-item">
+            <div class="objection-q">8. "We don't do 500 calls a month — we're too small."</div>
+            <div class="objection-a">"The minimum is there because below 500 calls it's not worth setting up the integration for either side. But if you're close — say 300-400 — let's talk. We might be able to stage it: start with 300, grow to 500 over 90 days."</div>
+        </div>
+        <div class="objection-item">
+            <div class="objection-q">9. "What about compliance? TCPA, DNC lists?"</div>
+            <div class="objection-a">"Built-in compliance. The system automatically scrubs against DNC, manages opt-outs, and enforces TCPA-compliant messaging templates. It's safer than letting individual reps text from their personal phones."</div>
+        </div>
+    </div>
+</section>
+
+<section id="objections-orcarouter">
+    <h3 style="margin-top:32px;"><span class="product-badge orcarouter">OrcaRouter</span> Objections</h3>
+
+    <div class="card">
+        <div class="objection-item">
+            <div class="objection-q">10. "We're happy with OpenAI/Anthropic — why add a layer?"</div>
+            <div class="objection-a">"OrcaRouter wraps around what you already use. You keep OpenAI/Anthropic. We add failover for outages, cost optimization, and enterprise security. Zero changes to your existing setup."</div>
+        </div>
+        <div class="objection-item">
+            <div class="objection-q">11. "We don't need security — we're not a target."</div>
+            <div class="objection-a">"Every company using AI is a target. It takes one leaked password. We've seen it happen to teams your size — the attacker accessed email, CRM data, client records. The cost of prevention is a fraction of a breach."</div>
+        </div>
+        <div class="objection-item">
+            <div class="objection-q">12. "We'll build this in-house."</div>
+            <div class="objection-a">"Fair — most teams spend 3-6 months building multi-model routing, streaming failover, and stream-safe guardrails. We've already solved those edge cases. Even if you build in-house, I'm happy to share architecture patterns."</div>
+        </div>
+        <div class="objection-item">
+            <div class="objection-q">13. "We're too small."</div>
+            <div class="objection-a">"The teams that need this most are the ones where one engineer owns the AI stack. When a model goes down at 2am, they get paged. OrcaRouter costs less than their time to build and maintain failover."</div>
+        </div>
+        <div class="objection-item">
+            <div class="objection-q">14. "What's the pricing?"</div>
+            <div class="objection-a">"Team plan is $500/month for up to 10 seats. Zero markup on model costs — you pay what the providers charge. Free tier available for testing. Enterprise for on-prem needs."</div>
+        </div>
+        <div class="objection-item">
+            <div class="objection-q">15. "How do you make money with zero markup?"</div>
+            <div class="objection-a">"Platform subscription fee. We monetize the infrastructure, not your token spend. Our incentives are aligned — we succeed when your team stays and scales, not when you use more tokens."</div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== DISCOVERY ===== -->
+<section id="discovery">
+    <h2>🔍 Discovery Framework</h2>
+
+    <h3>The Up-Front Contract (Every Discovery Call)</h3>
+    <div class="talk-track">
+        "Twenty minutes. No pitch. I ask questions, you tell me what's working and what isn't. At the end we both decide if there's a next step. Sound fair?"
+    </div>
+
+    <h3>FlashRev Discovery Questions</h3>
+    <div class="card">
+        <h4>Current Stack</h4>
+        <ol style="color:var(--gray-700);font-size:14px;padding-left:20px;margin-bottom:16px;">
+            <li>"Walk me through your tech stack — what're you using for dialing, enrichment, sequencing?"</li>
+            <li>"What does your rep spend their first hour of the day doing?"</li>
+            <li>"If I watched your best rep work for a day, what would I see?"</li>
+        </ol>
+        <h4>Pain Quantification</h4>
+        <ol start="4" style="color:var(--gray-700);font-size:14px;padding-left:20px;margin-bottom:16px;">
+            <li>"How many connects is your best rep getting in an hour? Your average rep?"</li>
+            <li>"What happens to a lead after your rep hangs up — who follows up, and how?"</li>
+            <li>"How many leads fall through the cracks in a typical week?"</li>
+            <li>"What's your current cost per booked meeting across all the tools you use?"</li>
+        </ol>
+        <h4>Scale & Future</h4>
+        <ol start="8" style="color:var(--gray-700);font-size:14px;padding-left:20px;">
+            <li>"If you wanted to double your outbound team tomorrow, what breaks?"</li>
+            <li>"What would it mean for the business if every rep booked 50% more meetings?"</li>
+        </ol>
+    </div>
+
+    <h3>MCA-Specific Pain Signals</h3>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Pain Signal</th><th>FlashRev Feature</th><th>FlashAI Angle</th></tr></thead>
+            <tbody>
+                <tr><td>"Manual SMS is killing us"</td><td>Automated SMS on disposition</td><td>AI voice agent sends SMS after call</td></tr>
+                <tr><td>"My dialer looks like Windows 95"</td><td>Modern parallel dialer + UI</td><td>AI handles outbound, no UI needed</td></tr>
+                <tr><td>"Can't tell what my reps are doing"</td><td>Insights dashboard + AI call summaries</td><td>AI transcripts on every call</td></tr>
+                <tr><td>"Our connect rate is terrible"</td><td>Local presence + number rotation</td><td>AI manages number pool</td></tr>
+                <tr><td>"We lose leads in follow-up"</td><td>Sequences + automations</td><td>AI follows up autonomously</td></tr>
+                <tr><td>"Data security scares me"</td><td>DaaS on Snowflake, your infra</td><td>Same infra, zero data retention</td></tr>
+                <tr><td>"Too many voicemails"</td><td>AMD optimization</td><td>AI leaves personalized voicemails</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- ===== DEMO FLOW ===== -->
+<section id="demo-flow">
+    <h2>🎬 Demo Flow</h2>
+
+    <h3>The 5-Meeting Arc (from LB Capital Win)</h3>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Day</th><th>Meeting</th><th>Goal</th><th>Method</th></tr></thead>
+            <tbody>
+                <tr><td>1</td><td>Discovery</td><td>Find pain, qualify</td><td>Up-front contract + pain funnel</td></tr>
+                <tr><td>3-5</td><td>Deep Demo</td><td>Show solution, get commitment</td><td>Straight Line + Thermometer</td></tr>
+                <tr><td>7-10</td><td>Onboard</td><td>Set up, lock in</td><td>Speed kills doubt</td></tr>
+                <tr><td>10-14</td><td>Config</td><td>Build automations</td><td>Their ops + our team</td></tr>
+                <tr><td>14-19</td><td>Go-Live</td><td>First calls, check-in</td><td>Proactive follow-up</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>Demo Dos and Don'ts</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div class="card">
+            <div class="card-header">✅ DO</div>
+            <ul style="color:var(--gray-700);font-size:14px;padding-left:20px;">
+                <li>Show the parallel dialer in action with a real list</li>
+                <li>Let them hear an AI voice agent call</li>
+                <li>Show AI call summaries from actual MCA calls</li>
+                <li>Deputize their tech lead — make them the hero</li>
+            </ul>
+        </div>
+        <div class="card">
+            <div class="card-header">❌ DON'T</div>
+            <ul style="color:var(--gray-700);font-size:14px;padding-left:20px;">
+                <li>Show every feature — focus on the pain they expressed</li>
+                <li>Compare to competitors by name unless they bring it up</li>
+                <li>Over-promise on timelines — under-promise, over-deliver</li>
+                <li>End without a clear next step with calendar invite</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ===== EMAIL TEMPLATES ===== -->
+<section id="email-templates">
+    <h2>📧 Email Templates</h2>
+
+    <h3>FlashRev Cold Email (MCA / Lending)</h3>
+    <div class="card" style="font-family:monospace;font-size:13px;white-space:pre-wrap;line-height:1.7;">
+Subject: [Dialer name] still working for you?
+
+Hi {first_name},
+
+Quick question — are you still on {current_dialer} for outbound?
+
+We moved a shop off Vici last month. They went from 20 apps a week to 14 in their fourth week — and they weren't even fully onboarded yet.
+
+The difference was: automated SMS after every call, AI call summaries so managers can actually coach, and a parallel dialer that 10x'd connects.
+
+Happy to show you how it works. 15-minute call, no commitment. If it's not a fit, no hard feelings.
+
+{your_name}
+    </div>
+
+    <h3>OrcaRouter Cold Email (Security Angle)</h3>
+    <div class="card" style="font-family:monospace;font-size:13px;white-space:pre-wrap;line-height:1.7;">
+Subject: What happens when your AI bot gets hacked?
+
+Hi {first_name},
+
+I noticed {company_name} is using AI for business applications. Quick question: if your AI bot got compromised tomorrow, what data would the attacker walk away with?
+
+Here's the uncomfortable truth — most AI bots in production have access to: passwords, client information, business data, and internal systems. And breaching one is as simple as finding someone's leaked email and password online.
+
+We built OrcaRouter to solve this. It's an AI security gateway that:
+- Screens every prompt for injection attacks and PII leaks
+- Governs every tool call your AI makes (file access, API calls, emails)
+- Provides full audit trails for compliance
+- Works with your existing AI setup — one line of code, zero markup
+
+Would 15 minutes to see how it works be worth preventing a breach?
+
+{your_name}
+    </div>
+</section>
+
+<!-- ===== POC & CLOSING ===== -->
+<section id="poc">
+    <h2>🔒 POC & Closing Framework</h2>
+
+    <h3>Three Paths to Close</h3>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;">
+        <div class="card">
+            <div class="card-header"><span class="tag green">Most Common</span> Path A: POC</div>
+            <div class="talk-track" style="margin:0;">"90 days, monthly payments, exit anytime. By week 4 you will be at or above your current numbers. If not, we part ways. No risk."</div>
+            <p style="font-size:13px;color:var(--gray-500);margin-top:8px;"><strong>When:</strong> They need proof, coming from legacy system, 3+ seats, skeptical.</p>
+        </div>
+        <div class="card">
+            <div class="card-header"><span class="tag blue">When Sold</span> Path B: Direct Close</div>
+            <div class="talk-track" style="margin:0;">"You know the problem. You have seen the solution. The sooner you switch, the sooner your numbers improve. One quarter commitment."</div>
+            <p style="font-size:13px;color:var(--gray-500);margin-top:8px;"><strong>When:</strong> Already sold, referral, or urgent pain.</p>
+        </div>
+        <div class="card">
+            <div class="card-header">Path C: FlashAI Standalone</div>
+            <div class="talk-track" style="margin:0;">"$1.50 per connected call, 500 call minimum. No seats, no per-user cost. Your reps focus on closing, AI handles opens."</div>
+            <p style="font-size:13px;color:var(--gray-500);margin-top:8px;"><strong>When:</strong> Labor-constrained, high volume, want to test before committing.</p>
+        </div>
+    </div>
+
+    <h3>POC Hard Rules</h3>
+    <ul style="color:var(--gray-700);font-size:14px;">
+        <li><strong>90-day terms, monthly payments</strong> — no annual lock-in during POC</li>
+        <li><strong>Exit anytime</strong> — builds trust, reduces risk perception</li>
+        <li><strong>Never refund or discount during POC</strong> — hold the line on pricing</li>
+        <li><strong>Concede on features/onboarding support, not price</strong></li>
+        <li><strong>Get them live FAST</strong> — speed kills doubt. Target 2 weeks to first calls</li>
+    </ul>
+
+    <h3>Pricing Anchoring</h3>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Product</th><th>Anchor Point</th><th>How to Frame</th></tr></thead>
+            <tbody>
+                <tr><td><strong>FlashRev</strong></td><td>$250-500/seat/month</td><td>"Includes dialer, enrichment, sequencing, AI agents. You're paying more for 3 separate tools today."</td></tr>
+                <tr><td><strong>FlashAI</strong></td><td>$1.50/call ($750/mo floor)</td><td>"Your best rep costs $4-5K/mo plus commission. FlashAI makes 10x the dials."</td></tr>
+                <tr><td><strong>OrcaRouter</strong></td><td>$499/mo (Team, 0% markup)</td><td>"Compare to building in-house: 3-6 months of engineering time. $499/mo is less than one day of an engineer."</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>The Close Checklist</h3>
+    <ul class="checklist">
+        <li>Pain confirmed in discovery — they named it, not you</li>
+        <li>Solution shown live — they saw it work, not a deck</li>
+        <li>Pricing framed against their current total cost (not just the dialer)</li>
+        <li>POC terms clear: 90 days, monthly, exit anytime</li>
+        <li>Next step scheduled: onboarding call with calendar invite</li>
+        <li>Champion identified — who's the internal seller?</li>
+    </ul>
+</section>
+
+<!-- ===== SOURCING ===== -->
+<section id="sourcing">
+    <h2>🎯 Sourcing Playbook</h2>
+
+    <h3>The Math — Why AE Sourcing Matters</h3>
+    <div class="stat-grid" style="margin-bottom:24px;">
+        <div class="stat-card">
+            <div class="stat-value">63.6%</div>
+            <div class="stat-label">AE-Sourced Win Rate</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">5.8%</div>
+            <div class="stat-label">SDR-Sourced Win Rate</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">11×</div>
+            <div class="stat-label">AE Advantage</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">8 vs 86</div>
+            <div class="stat-label">Deals Needed for 5 Wins</div>
+        </div>
+    </div>
+
+    <div class="talk-track">
+        <strong>→ AE sourcing = the difference between quota and fired.</strong>
+    </div>
+
+    <h3>Where to Find Leads</h3>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Source</th><th>Method</th><th>Volume</th><th>Quality</th></tr></thead>
+            <tbody>
+                <tr><td>MCA broker directories</td><td>Scrape broker lists, funder directories</td><td>High</td><td>Medium</td></tr>
+                <tr><td>LinkedIn Sales Nav</td><td>Filter: MCA, alternative lending, small biz finance</td><td>Medium</td><td>High</td></tr>
+                <tr><td>Vici/Five9 user base</td><td>Companies on legacy dialers = direct ICP</td><td>Medium</td><td>Very High</td></tr>
+                <tr><td>Industry events</td><td>B2B Finance Expo, Funders Forum</td><td>Low</td><td>Highest</td></tr>
+                <tr><td>Referral from won deals</td><td>Ask LB Capital, other wins for intros</td><td>Low</td><td>Highest</td></tr>
+                <tr><td>AI/ML job postings</td><td>Companies hiring AI engineers = OrcaRouter target</td><td>High</td><td>High</td></tr>
+                <tr><td>Companies posting about Claude/GPT</td><td>LinkedIn search: "Claude" OR "ChatGPT" AND "building"</td><td>Medium</td><td>High</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>Daily Sourcing Cadence (per AE)</h3>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Activity</th><th>Volume</th><th>Time</th></tr></thead>
+            <tbody>
+                <tr><td>LinkedIn outbound (connection + note)</td><td>10/day</td><td>30 min</td></tr>
+                <tr><td>Dialer prospecting (parallel dialing)</td><td>50 connects/day</td><td>2 hrs</td></tr>
+                <tr><td>Follow-up on existing warm leads</td><td>5/day</td><td>30 min</td></tr>
+                <tr><td>Research/prep for tomorrow's calls</td><td>10 min EOD</td><td>10 min</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <p><strong>3 hours/day = ~15 new conversations/week = 1-2 new qualified pipeline deals/week.</strong></p>
+
+    <h3>The One Non-Negotiable</h3>
+    <div class="talk-track">
+        <strong>Every AE sources 3 new deals per week.</strong> Not assigned. Not handed off. Self-generated. That is the difference between a 5.8% win rate and a 63.6% win rate. Three sourcing blocks of 60 minutes each, every week, protected on the calendar.
+    </div>
+</section>
+
+<!-- ===== CALL DISPOSITIONS ===== -->
+<section id="dispositions">
+    <h2>📋 Call Dispositions & Sequences</h2>
+
+    <h3>FlashRev Call Outcomes</h3>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Disposition</th><th>When to Use</th><th>Automation</th></tr></thead>
+            <tbody>
+                <tr><td><strong>MCA — Interested</strong></td><td>They want demo/more info</td><td>Enroll in "MCA Meeting Follow-Up" (SMS + email confirmation)</td></tr>
+                <tr><td><strong>MCA — Send Info</strong></td><td>Wants collateral/case studies</td><td>Enroll in "MCA Info Drip" (deck, case study, pricing over 3 days)</td></tr>
+                <tr><td><strong>MCA — Call Back</strong></td><td>Said to follow up next week/month</td><td>Enroll in "MCA Nurture" (reminder SMS day before, check-in email)</td></tr>
+                <tr><td><strong>MCA — Not Now</strong></td><td>Interested but bad timing</td><td>Enroll in "MCA Long Nurture" (monthly touchpoint)</td></tr>
+                <tr><td><strong>MCA — Wrong Person</strong></td><td>Got referral to right contact</td><td>Enroll in "MCA Referral" (intro email to right person)</td></tr>
+                <tr><td><strong>MCA — DNC</strong></td><td>Asked not to be contacted</td><td>Remove from list, do not re-enroll</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>MCA Meeting Follow-Up Sequence</h3>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Step</th><th>Delay</th><th>Channel</th><th>Content</th></tr></thead>
+            <tbody>
+                <tr><td>1</td><td>Instant</td><td>SMS</td><td>"Great speaking with you {first_name}! Just sent details. Feel free to text me here."</td></tr>
+                <tr><td>2</td><td>Instant</td><td>Email</td><td>Meeting confirmation + overview + calendar link</td></tr>
+                <tr><td>3</td><td>1 day before</td><td>SMS</td><td>"Looking forward to tomorrow at {time}. Here's a 2-min overview: [link]"</td></tr>
+                <tr><td>4</td><td>1 hour before</td><td>Email</td><td>"Quick reminder — call at {time}. Link: {meeting_link}"</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>Orca Info Drip Sequence</h3>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Step</th><th>Delay</th><th>Channel</th><th>Content</th></tr></thead>
+            <tbody>
+                <tr><td>1</td><td>Instant</td><td>Email</td><td>OrcaRouter one-pager + security overview</td></tr>
+                <tr><td>2</td><td>2 days</td><td>Email</td><td>Case study or threat model summary</td></tr>
+                <tr><td>3</td><td>4 days</td><td>Email</td><td>Pricing + "Worth a quick call?" soft ask</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- ===== BUYER PERSONAS ===== -->
+<section id="personas">
+    <h2>👤 Buyer Personas & Targeting</h2>
+
+    <h3>FlashRev / FlashAI Buyer Personas</h3>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Persona</th><th>Typical Title</th><th>Pain</th><th>Pitch Angle</th></tr></thead>
+            <tbody>
+                <tr><td><strong>The Owner-Operator</strong></td><td>CEO / Founder, 5-50 reps</td><td>"I'm the CTO, CRO, and COO. I need one system that works."</td><td>Unified platform, one vendor, fast POC</td></tr>
+                <tr><td><strong>The Sales Leader</strong></td><td>VP Sales / CRO</td><td>"I can't see what my reps are doing. Follow-up is broken."</td><td>Insights + AI summaries + automated sequences</td></tr>
+                <tr><td><strong>The Ops Guy</strong></td><td>Sales Ops / RevOps</td><td>"Data quality is terrible. Tool sprawl is killing us."</td><td>Real-time enrichment, DaaS, API, single platform</td></tr>
+                <tr><td><strong>The Skeptic</strong></td><td>Been burned by 3 dialers</td><td>"I've tried everything. Nothing works."</td><td>90-day POC, exit anytime, no risk, no annual contract</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>OrcaRouter Buyer Personas</h3>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Persona</th><th>Their Pain</th><th>OrcaRouter Pitch</th></tr></thead>
+            <tbody>
+                <tr><td><strong>VP Eng / CTO</strong></td><td>Single-provider risk, outages, build vs. buy</td><td>"One endpoint, 200+ models, auto-failover. Your team stops building plumbing."</td></tr>
+                <tr><td><strong>AI/ML Lead</strong></td><td>Spending months on routing, guardrails, monitoring</td><td>"Drop-in gateway: routing, security, observability. Day 1 infrastructure."</td></tr>
+                <tr><td><strong>VP Product</strong></td><td>AI features going down when model provider has outage</td><td>"Your product stays up even when your primary model provider doesn't."</td></tr>
+                <tr><td><strong>CISO / Security Lead</strong></td><td>AI agents making ungoverned tool calls, PII leaks, prompt injection</td><td>"Zero-trust for AI agents. Every prompt screened, every tool call governed, everything audited."</td></tr>
+                <tr><td><strong>CTO (startup)</strong></td><td>One engineer owning AI infra, getting paged at 2am</td><td>"Costs less than that engineer's time to build and maintain it in-house."</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>Targeting Priority</h3>
+    <div class="card">
+        <h4><span class="product-badge flashrev">FlashRev</span> Tier 1 (Highest Conversion)</h4>
+        <ul style="color:var(--gray-700);font-size:14px;margin-bottom:16px;">
+            <li>Direct MCA shops with 3-20 reps</li>
+            <li>Using Vici, Five9, or manual dialing</li>
+            <li>Usually owner-operated, fast decisions</li>
+        </ul>
+        <h4><span class="product-badge orcarouter">OrcaRouter</span> Best Targets</h4>
+        <ul style="color:var(--gray-700);font-size:14px;">
+            <li>Companies posting about using Claude, ChatGPT, Gemini for business</li>
+            <li>Companies hiring for AI agent roles</li>
+            <li>Healthcare + AI — compliance fear resonates hardest</li>
+            <li>Fintech / Legal — regulated industries with data sensitivity</li>
+        </ul>
+    </div>
+</section>
+
+<!-- ===== PERFORMANCE DATA ===== -->
+<section id="performance">
+    <h2>📊 Performance Data & Metrics</h2>
+
+    <div class="stat-grid">
+        <div class="stat-card">
+            <div class="stat-value">$4,800</div>
+            <div class="stat-label">Median Deal Size</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">62</div>
+            <div class="stat-label">Deals $5K-$20K (31%)</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">28</div>
+            <div class="stat-label">Deals $20K+ (14%)</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">37</div>
+            <div class="stat-label">Median Days to Close</div>
+        </div>
+    </div>
+
+    <h3>Current AE Snapshot (July 2026)</h3>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>AE</th><th>July Wins</th><th>Q2 Wins</th><th>Pipeline</th><th>Avg Deal Age</th></tr></thead>
+            <tbody>
+                <tr><td>Noah</td><td>0</td><td>10</td><td>467</td><td><span class="tag red">564d (bloated)</span></td></tr>
+                <tr><td>Danny</td><td>0</td><td>1</td><td>10</td><td><span class="tag green">40d (clean)</span></td></tr>
+                <tr><td>Jan</td><td>0</td><td>0</td><td>167</td><td><span class="tag red">192d (stale)</span></td></tr>
+                <tr><td>Koki (JP)</td><td>0</td><td>9 wins / $9.88M</td><td>—</td><td>—</td></tr>
+                <tr><td>Yuki (JP)</td><td>0</td><td>2 wins / $5.25M</td><td>—</td><td>—</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>July Goals (per AE)</h3>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Metric</th><th>Noah</th><th>Danny</th><th>Jan</th></tr></thead>
+            <tbody>
+                <tr><td>Self-sourced new deals</td><td>12</td><td>12</td><td>8</td></tr>
+                <tr><td>Meetings held</td><td>15</td><td>10</td><td>8</td></tr>
+                <tr><td>Deals moved to POC</td><td>5</td><td>3</td><td>2</td></tr>
+                <tr><td>Closed won</td><td>4</td><td>2</td><td>1</td></tr>
+                <tr><td>Pipeline purged (stale)</td><td>200+</td><td>0 (clean)</td><td>120+</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>Weekly Cadence</h3>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Day</th><th>Focus</th></tr></thead>
+            <tbody>
+                <tr><td><strong>Monday</strong></td><td>Pipeline review, prospect list generation, meeting prep for the week</td></tr>
+                <tr><td><strong>Tuesday-Wednesday</strong></td><td>Heavy sourcing — dialer blocks, LinkedIn outreach, demos</td></tr>
+                <tr><td><strong>Thursday</strong></td><td>Follow-up on all Tue/Wed conversations, second demos</td></tr>
+                <tr><td><strong>Friday</strong></td><td>Pipeline cleanup, proposal sends, next-week scheduling, team review</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- ===== DANNY TSAO DEEP DIVE ===== -->
+<section id="danny-deepdive">
+    <h2>🎧 Danny Tsao — Rep Performance Deep-Dive</h2>
+    <p class="subtitle">66 calls over 5 days (July 6–10, 2026). Real transcripts, real patterns, real coaching.</p>
+
+    <h3>Executive Summary</h3>
+    <div class="card">
+        <p>Danny is <strong>doing the work</strong> — 66 calls in 5 days at 13.2/day is solid activity. But he's fighting upstream battles: bad data, dialer latency, and a mixed ICP. Clean up the list, tune the dialer, and give him sharp competitive intel — those 66 calls become 4-5 meetings instead of 2.</p>
+    </div>
+
+    <div class="stat-grid">
+        <div class="stat-card">
+            <div class="stat-value">66</div>
+            <div class="stat-label">Total Calls (Jul 6–10)</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">13.2</div>
+            <div class="stat-label">Avg Calls / Day</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">52</div>
+            <div class="stat-label">Unique Contacts</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">2</div>
+            <div class="stat-label">Meetings Booked (3.0%)</div>
+        </div>
+    </div>
+
+    <h3>Call Outcome Breakdown</h3>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Outcome</th><th>Count</th><th>%</th></tr></thead>
+            <tbody>
+                <tr><td>Answered — No Response (Ghosted)</td><td>28</td><td><span class="tag red">42.4%</span></td></tr>
+                <tr><td>Answered — Do Not Call</td><td>19</td><td><span class="tag red">28.8%</span></td></tr>
+                <tr><td>Answered — Follow-up Required</td><td>7</td><td>10.6%</td></tr>
+                <tr><td>Connect — Orca (VM/Out of Office)</td><td>4</td><td>6.1%</td></tr>
+                <tr><td><strong>Answered — Booked Meeting</strong></td><td><strong>2</strong></td><td><strong><span class="tag green">3.0%</span></strong></td></tr>
+                <tr><td>Not Interested</td><td>2</td><td>3.0%</td></tr>
+                <tr><td>Requested Callback</td><td>1</td><td>1.5%</td></tr>
+                <tr><td>Wrong Person</td><td>1</td><td>1.5%</td></tr>
+                <tr><td>Send Email</td><td>1</td><td>1.5%</td></tr>
+                <tr><td>Unlabeled</td><td>1</td><td>1.5%</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>Pipeline Funnel</h3>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:24px;">
+        <div class="card" style="text-align:center;">
+            <div style="font-size:32px;font-weight:800;color:var(--black);">66</div>
+            <div style="font-size:12px;color:var(--gray-500);">Total Calls</div>
+        </div>
+        <div class="card" style="text-align:center;">
+            <div style="font-size:32px;font-weight:800;color:var(--gray-600);">28</div>
+            <div style="font-size:12px;color:var(--gray-500);">Ghosted (42%)</div>
+        </div>
+        <div class="card" style="text-align:center;">
+            <div style="font-size:32px;font-weight:800;color:var(--gray-600);">22</div>
+            <div style="font-size:12px;color:var(--gray-500);">Hard No (33%)</div>
+        </div>
+        <div class="card" style="text-align:center;">
+            <div style="font-size:32px;font-weight:800;color:var(--black);">10</div>
+            <div style="font-size:12px;color:var(--gray-500);">Pipeline Potential (15.2%)</div>
+        </div>
+    </div>
+
+    <div class="talk-track">
+        <strong>Pipeline potential (booked + follow-up + callback): 10 of 66 = 15.2%.</strong> That's the actual addressable pipeline from Danny's effort. Everything else is noise from bad data or tech problems.
+    </div>
+
+    <h3>🟢 The Wins: Calls That Booked</h3>
+
+    <div class="card">
+        <div class="card-header">🏆 Win #1: Jack Jeter — Jul 9, 28:03 min — The Model Call</div>
+        <p><strong>Contact:</strong> Merchant Refi | <strong>Sentiment:</strong> Positive</p>
+
+        <h4>What Went Right</h4>
+        <ul style="color:var(--gray-700);font-size:14px;">
+            <li><strong>Persistence pays.</strong> Jack played music on his keypad for minutes before engaging — Danny waited it out. Most reps hang up.</li>
+            <li><strong>Honest vulnerability.</strong> "I was kind of working up the courage to actually say something." Authenticity disarmed a skeptical prospect.</li>
+            <li><strong>Product knowledge flex.</strong> Nailed the parallel dialer pitch, deliverability rates, local presence mode, TCPA/shaken-stir compliance, and rotating numbers/emails.</li>
+            <li><strong>He listened.</strong> Jack raised litigator scrubbing, CRM integration, data sourcing (ZoomInfo/Apollo), round-robin SMS — Danny either answered or pivoted cleanly.</li>
+            <li><strong>The close:</strong> Brought in manager for next call. Booked Monday 3pm ET.</li>
+        </ul>
+
+        <h4>Prospect Gold (Jack's Words)</h4>
+        <div class="talk-track">"I've spoken to hundreds of marketing companies in the last six months alone."</div>
+        <div class="talk-track">"$250 a seat is very expensive, so it all needs to work."</div>
+        <div class="talk-track">"If you guys have a real data solution, then I'm interested."</div>
+        <div class="talk-track">"I need good data, or it's not worth my money."</div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">🥈 Win #2: Travis Y. — Jul 9, 6:43 min — The Stacked Prospect</div>
+        <p><strong>Contact:</strong> 4 Pillar Funding | <strong>Sentiment:</strong> Neutral</p>
+        <ul style="color:var(--gray-700);font-size:14px;">
+            <li>Travis already uses a "hodgepodge of tools" — parallel dialer, automated SMS/email, NRM management, AI deliverability tools, number rotation.</li>
+            <li>Danny quickly realized Travis was over-tooled and pivoted.</li>
+            <li>Travis still booked for a demo: "I'll definitely keep in mind… keep looking at you guys some more."</li>
+        </ul>
+        <p><span class="tag red">Risk:</span> Travis is comparison-shopping. Low-conversion meeting unless Danny finds an unmet need (consolidation — one platform vs. hodgepodge).</p>
+    </div>
+
+    <h3>🟡 Near-Misses: Follow-ups That Could Convert</h3>
+
+    <div class="card">
+        <div class="card-header">⚠️ Val Pinkhasov — Jul 7, 6:05 min — The Competitor Fumble</div>
+        <p><strong>Contact:</strong> SMB Lender | <strong>Disposition:</strong> DNC (but marked Follow-up Required)</p>
+        <p>Val uses <strong>Go High Level</strong> and asked Danny to compare. Danny admitted: <em>"I haven't come across this one."</em> — <strong>Major fumble.</strong> Go High Level is one of the biggest competitors in the SMB lending space. Val referred Danny to marketing lead Kenny instead.</p>
+        <div class="talk-track">
+            <strong>Lesson:</strong> "You need to know your competition." — Val Pinkhasov. Reps must know competitors cold. Admit gaps, don't fake it — but follow up immediately with competitive intel.
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">⚠️ Boris Kataev — Jul 7, 39 sec — No Hook</div>
+        <p><strong>Contact:</strong> Whitebridge Funding Group CEO</p>
+        <p>Danny got the full pitch out, Boris said "thank you, thank you" and hung up. No objection — just no hook. Needs different angle on re-contact.</p>
+    </div>
+
+    <h3>🧪 Danny's Talk Track Report Card</h3>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Element</th><th>Grade</th><th>Notes</th></tr></thead>
+            <tbody>
+                <tr><td>Opening hook</td><td><span class="tag red">C+</span></td><td>"My name is Danny with FlashLabs" — no value prop in first 5 seconds</td></tr>
+                <tr><td>Personalization</td><td><span class="tag">B</span></td><td>References prospect's company/role, but generic</td></tr>
+                <tr><td>Discovery questions</td><td><span class="tag">B-</span></td><td>Asks about outbound efforts, but doesn't always listen to answers</td></tr>
+                <tr><td>Objection handling</td><td><span class="tag">B</span></td><td>Handles "I'm covered" well, fumbles on competitor comparisons</td></tr>
+                <tr><td>Product knowledge</td><td><span class="tag">B+</span></td><td>Solid on FlashRev features, weaker on competitive landscape</td></tr>
+                <tr><td>Closing</td><td><span class="tag green">A-</span></td><td>Booked 2 meetings, direct ask, calendar invite sent live</td></tr>
+                <tr><td>Authenticity/Likability</td><td><span class="tag green">A</span></td><td>Prospects respond to his honesty. <strong>This is his superpower.</strong></td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section id="danny-patterns">
+    <h2>🔴 The Patterns: What's Going Wrong</h2>
+
+    <div class="card">
+        <div class="card-header">Pattern 1: The 42% Ghost Rate</div>
+        <p><strong>28 of 66 calls = answered but zero response.</strong> Prospect picks up, hears Danny's intro, says nothing or hangs up instantly.</p>
+        <h4>Root Cause Hypothesis</h4>
+        <p>The parallel dialer connects Danny AFTER the prospect has been waiting. By the time Danny gets the live transfer, the prospect has already said "hello" 3-4 times and given up. Jack Jeter explicitly flagged this:</p>
+        <div class="talk-track">"When I finally answered the call, I didn't get connected to you for about two or three minutes. I had to start playing games with the keypad." — Jack Jeter</div>
+        <p><strong>Fix:</strong> Reduce dialer concurrency or adjust connect-delay settings. The 42% ghost rate is likely a <strong>technology problem, not a rep problem.</strong></p>
+    </div>
+
+    <div class="card">
+        <div class="card-header">Pattern 2: The 29% DNC Rate</div>
+        <p><strong>19 of 66 calls = Do Not Call.</strong> Prospects are aggressively shutting down.</p>
+        <h4>Common DNC Triggers</h4>
+        <ul style="color:var(--gray-700);font-size:14px;">
+            <li>Danny leading with company name before building any rapport</li>
+            <li>Prospects not recognizing the number (parallel dialer shows random DID)</li>
+            <li>No local presence warm-up</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <div class="card-header">Pattern 3: Company Name Inconsistency</div>
+        <p>Danny uses at least <strong>three different company names</strong> across calls:</p>
+        <ul style="color:var(--gray-700);font-size:14px;margin-bottom:12px;">
+            <li>"flashlabs.ai"</li>
+            <li>"flashlobs.ai" (transcription error or actual mispronunciation)</li>
+            <li>"FlashLog.ai"</li>
+        </ul>
+        <p><strong>Prospects notice this.</strong> Consistency matters for credibility. Pick one: <strong>"FlashLabs.ai"</strong> — and use it every time.</p>
+    </div>
+
+    <div class="card">
+        <div class="card-header">Pattern 4: Wrong ICP Targeting</div>
+        <p>At least 1 confirmed wrong person (Michael Vas Nunes — CPA, not the lender), and multiple calls where Danny pitched SMB lending tools to people in completely different industries (AI infrastructure, healthcare).</p>
+        <p><strong>Data quality is the upstream bottleneck.</strong> If the list were cleaner, the same effort yields 2-3x more meetings.</p>
+    </div>
+</section>
+
+<section id="danny-coaching">
+    <h2>🎯 Actionable Coaching Priorities for Danny</h2>
+
+    <div class="card">
+        <div class="card-header">Priority 1: Fix the Ghost Rate (Tech/Process)</div>
+        <ul style="color:var(--gray-700);font-size:14px;">
+            <li>Investigate parallel dialer latency settings</li>
+            <li>Consider reducing concurrent dials from 10 to 5</li>
+            <li>Test "whisper mode" if available (agent hears prospect before connection drops)</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <div class="card-header">Priority 2: Opening Hook Overhaul</div>
+        <p><strong>Current:</strong> <em style="color:var(--gray-500);">"My name is Danny with FlashLabs.ai"</em></p>
+        <p><strong>Better:</strong></p>
+        <div class="talk-track">"Hey [Name], I saw you're leading outbound at [Company] — quick question: are you happy with your dialer's connect rates?"</div>
+        <p>Lead with the <strong>pain point</strong>, not the company name. Give them a reason to engage in the first 3 seconds.</p>
+    </div>
+
+    <div class="card">
+        <div class="card-header">Priority 3: Competitive Knowledge — Danny Needs Flashcards On:</div>
+        <ul style="color:var(--gray-700);font-size:14px;">
+            <li>Go High Level (features, pricing, weaknesses)</li>
+            <li>Orum, Nooks, ConnectAndSell (parallel dialer competitors)</li>
+            <li>ZoomInfo vs. Apollo data quality arguments</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <div class="card-header">Priority 4: ICP Discipline</div>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>If Prospect Is...</th><th>Pitch</th></tr></thead>
+                <tbody>
+                    <tr><td>SMB lenders</td><td><strong>FlashRev</strong></td></tr>
+                    <tr><td>AI/tech companies with heavy LLM usage</td><td><strong>OrcaRouter</strong></td></tr>
+                    <tr><td>⚠️ Don't mix them on the same call</td><td>—</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">Priority 5: Company Name Consistency</div>
+        <p>Pick one: <strong>"FlashLabs.ai"</strong> — and use it every time. Consistency = credibility.</p>
+    </div>
+
+    <h3>Where OrcaRouter Fits — Don't Cross-Sell on Cold Calls</h3>
+    <div class="card">
+        <p>Danny is <strong>exclusively pitching FlashRev</strong> on his current calling list (SMB lenders). These prospects don't care about AI model routing or inference cost optimization. They care about: data quality, deliverability, CRM integration, cost per seat vs. ROI.</p>
+        <p><strong>OrcaRouter's ICP is completely different:</strong> VP Eng, CTO, Head of AI/ML at companies that spend $100K+/month on AI inference, use multiple LLM providers, have uptime/reliability concerns, and need security guardrails.</p>
+        <div class="talk-track"><strong>If a prospect mentions AI usage</strong> (like Travis Y. talking about GPT Live, or Val mentioning AI tokens): 1) Note it in CRM, 2) Flag for OrcaRouter specialist follow-up, 3) Stay focused on FlashRev for that call.</div>
+    </div>
+</section>
+
+<section id="danny-takeaways">
+    <h2>💡 Big-Picture Takeaways</h2>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div class="card">
+            <div class="card-header"><span class="tag green">✅ What's Working</span></div>
+            <ol style="color:var(--gray-700);font-size:14px;padding-left:20px;">
+                <li><strong>Danny's authenticity is his edge.</strong> Prospects buy from people they like. The Jack Jeter call proves this — 28 minutes, real conversation, booked.</li>
+                <li><strong>Power Dialer volume is real.</strong> 66 calls in 5 days = 13/day. Solid activity.</li>
+                <li><strong>He books when he gets real conversations.</strong> 2 meetings from ~10 real conversations = 20% conversion on actual dialogues.</li>
+            </ol>
+        </div>
+        <div class="card">
+            <div class="card-header"><span class="tag red">❌ What's Broken</span></div>
+            <ol style="color:var(--gray-700);font-size:14px;padding-left:20px;">
+                <li><strong>Data quality is killing efficiency.</strong> 42% ghost rate + wrong numbers + wrong industry = massive waste.</li>
+                <li><strong>The dialer technology may be hurting more than helping.</strong> High concurrency = high ghost rate = burned leads.</li>
+                <li><strong>No clear OrcaRouter motion.</strong> Danny has a hammer (FlashRev) and everything looks like a nail. OrcaRouter needs its own dedicated pipeline.</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="card" style="margin-top:20px;">
+        <div class="card-header">🔮 Bottom Line</div>
+        <p style="font-size:16px;font-weight:600;color:var(--black);">Danny is doing the work. His effort is high. But he's fighting upstream battles — bad data, dialer latency, and a mixed ICP. Clean up the list, tune the dialer, and give him sharp competitive intel, and those 66 calls become 4-5 meetings instead of 2.</p>
+    </div>
+</section>
+
+<!-- ===== ORCAROUTER PROSPECTING PLAYBOOK ===== -->
+<section id="orca-signals">
+    <h2>🚨 OrcaRouter Prospecting — The 5 Urgency Signals</h2>
+    <p class="subtitle">Forget "they use AI." Every company uses AI. You need signals of <strong>active pain.</strong> Here are the five that scream urgency.</p>
+
+    <h3>Signal 1: THEY'VE BEEN BURNED BY AN OUTAGE ⚡</h3>
+    <div class="card">
+        <p><strong>Why it's urgent:</strong> Nothing sells failover like scars. A company that lost revenue because OpenAI went down is already shopping for a solution. They don't need education — they need a vendor.</p>
+        <h4>How to Find Them</h4>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Method</th><th>Search/Scan For</th></tr></thead>
+                <tbody>
+                    <tr><td>Twitter/X</td><td><code>"OpenAI down" AND "our product"</code> — find outage-day tweets from companies whose product broke</td></tr>
+                    <tr><td>Hacker News</td><td>Search for outage postmortems, especially if a CTO/eng posted about impact</td></tr>
+                    <tr><td>LinkedIn</td><td>Posts from CTOs/VP Eng complaining about provider reliability</td></tr>
+                    <tr><td>Status page watchers</td><td>Companies running their own status page that tracks OpenAI/Anthropic uptime</td></tr>
+                    <tr><td>GitHub issues</td><td>Repos with <code>openai outage</code> or <code>anthropic down</code> in issue titles</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="talk-track"><strong>The pitch to lead with:</strong> "I saw you got hit during the [OpenAI/Anthropic] outage on [date]. Your team shouldn't have to build manual failover — we handle it at the gateway level, sub-50ms failover across 5+ models. One base_url change."</div>
+    </div>
+
+    <h3>Signal 2: THEY'RE HIRING FOR AI INFRASTRUCTURE 🏗️</h3>
+    <div class="card">
+        <p><strong>Why it's urgent:</strong> A company posting an "AI Platform Engineer" or "ML Infrastructure" role has already decided to build something. You want to intercept them <strong>before</strong> they spend 3-6 months building it themselves.</p>
+        <h4>How to Find Them</h4>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Method</th><th>Search/Scan For</th></tr></thead>
+                <tbody>
+                    <tr><td>LinkedIn Jobs</td><td><code>"AI infrastructure" OR "LLM platform" OR "ML platform engineer" OR "AI gateway"</code></td></tr>
+                    <tr><td>Indeed/Glassdoor</td><td><code>"model routing" OR "prompt engineering platform" OR "AI orchestration"</code></td></tr>
+                    <tr><td>Company careers pages</td><td>Tech companies → Engineering → search for "AI platform" or "ML infra"</td></tr>
+                    <tr><td>Y Combinator jobs</td><td>All YC companies hiring "AI/ML Platform" roles — young, scaling, no legacy routing</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <h4>What to Look for in the JD</h4>
+        <ul style="color:var(--gray-700);font-size:14px;">
+            <li><span class="tag green">Buy signal</span> "Experience with multiple LLM providers" → they're multi-model already</li>
+            <li><span class="tag green">Buy signal</span> "Build internal AI platform/tooling" → they're about to DIY what you sell</li>
+            <li><span class="tag green">Buy signal</span> "Reliability, failover, observability" → they know the pain points</li>
+            <li><span class="tag green">Buy signal</span> "Cost optimization for LLM usage" → they're feeling the bill</li>
+            <li style="margin-top:8px;"><span class="tag red">Too late</span> "5+ years building AI gateways" — they've already built one</li>
+            <li><span class="tag red">Too late</span> "Design and maintain our internal routing layer" — you're too late</li>
+        </ul>
+        <div class="talk-track"><strong>The pitch to lead with:</strong> "I saw you're hiring an AI Platform Engineer to build out multi-model routing — before your team spends months on streaming failover edge cases and guardrail injection, I'd love to show you what we've already solved. One endpoint, 200+ models, shipping today."</div>
+    </div>
+
+    <h3>Signal 3: THEIR AI SPEND IS VISIBLE AND MATERIAL 💸</h3>
+    <div class="card">
+        <p><strong>Why it's urgent:</strong> A company publicly discussing their AI costs — or one whose scale makes the math obvious — feels the burn monthly. 30-50% savings isn't theoretical.</p>
+        <h4>How to Find Them</h4>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Method</th><th>Search/Scan For</th></tr></thead>
+                <tbody>
+                    <tr><td>Earnings calls transcripts</td><td>Search for "AI costs," "LLM spend," "model inference costs" — public companies disclose this</td></tr>
+                    <tr><td>Tech blogs / engineering blogs</td><td>Posts about "how we reduced our OpenAI bill" or "our LLM cost journey"</td></tr>
+                    <tr><td>Conference talks</td><td>Speakers discussing AI infrastructure at scale — they're sharing real numbers</td></tr>
+                    <tr><td>Crunchbase funding</td><td>Startups that raised and cited "AI infrastructure" as a use of proceeds</td></tr>
+                    <tr><td>GitHub</td><td>Companies with high-volume API key usage patterns in public repos</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <h4>Scale Heuristics</h4>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>If they have...</th><th>Estimated Monthly AI Spend</th><th>Urgency</th></tr></thead>
+                <tbody>
+                    <tr><td>AI as core product feature</td><td>$50K–$500K+/mo</td><td><span class="tag red">Critical</span></td></tr>
+                    <tr><td>AI copilot/assistant in product</td><td>$10K–$100K/mo</td><td><span class="tag" style="background:#fff7ed;color:#9a3412;">High</span></td></tr>
+                    <tr><td>Internal AI tools only</td><td>$1K–$10K/mo</td><td><span class="tag" style="background:#fefce8;color:#854d0e;">Medium</span></td></tr>
+                    <tr><td>Experimenting with AI</td><td>&lt;$1K/mo</td><td><span class="tag green">Low — wait</span></td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="talk-track"><strong>The pitch to lead with:</strong> "Companies your scale are typically routing every prompt — even 'summarize this email' — through the most expensive model. OrcaRouter's auto-router sends simple queries to cheap models and complex ones to smart models. Same output quality. 30-50% less on your bill. No code changes."</div>
+    </div>
+
+    <h3>Signal 4: THEY'RE DEPLOYING AI AGENTS WITH TOOL USE 🤖</h3>
+    <div class="card">
+        <p><strong>Why it's urgent:</strong> Agents that call APIs, access databases, or execute code create a <strong>security surface area</strong> that most companies haven't addressed. One prompt injection → data exfiltration → legal liability. The CISO doesn't know it's a problem yet — but the eng team does, or will soon.</p>
+        <h4>How to Find Them</h4>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Method</th><th>Search/Scan For</th></tr></thead>
+                <tbody>
+                    <tr><td>GitHub</td><td>Companies importing <code>langchain</code>, <code>crewai</code>, <code>autogen</code>, <code>openai function calling</code></td></tr>
+                    <tr><td>Product launches</td><td>"AI agent" in Product Hunt, TechCrunch, VentureBeat announcements</td></tr>
+                    <tr><td>Job postings</td><td><code>"AI agent" OR "tool calling" OR "function calling" OR "agent orchestration"</code></td></tr>
+                    <tr><td>Tech blogs</td><td>Posts about "building AI agents that..." — they're sharing architecture decisions</td></tr>
+                    <tr><td>Security conferences</td><td>Talks about "securing AI agents" or "prompt injection in production"</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <p><strong>The urgency escalator:</strong> The moment an agent gets production access to a database, the clock is ticking. OrcaRouter's firewall + tool-call governance is the solution:</p>
+        <div class="talk-track">Tool call allow/deny lists → egress control → HITL approvals for dangerous operations → audit trail</div>
+        <div class="talk-track"><strong>The pitch to lead with:</strong> "Your agents are probably calling APIs and databases right now. What's stopping a prompt injection from exfiltrating customer data through those tool calls? OrcaRouter's firewall sits between the LLM and your infrastructure — allow/deny/sanitize every tool call, require human approval for dangerous operations, full audit trail."</div>
+    </div>
+
+    <h3>Signal 5: THEY'RE IN A REGULATED INDUSTRY AND USING AI 🏥</h3>
+    <div class="card">
+        <p><strong>Why it's urgent:</strong> Healthcare, finance, gov contractors, legal tech — they all face audits. If they're using AI without a compliance framework (HIPAA BAA, SOC 2, PCI DSS), they're exposed. The compliance team may not even know what the eng team is building. When they find out, they'll mandate a gateway solution.</p>
+        <h4>How to Find Them</h4>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Method</th><th>Search/Scan For</th></tr></thead>
+                <tbody>
+                    <tr><td>Job postings in regulated industries</td><td><code>"AI" OR "LLM"</code> at Kaiser, UnitedHealth, JPMorgan, Goldman, Cigna, Anthem, Booz Allen</td></tr>
+                    <tr><td>SOC 2 / HIPAA compliance pages</td><td>Companies that list AI/ML in their product but don't mention AI in compliance docs</td></tr>
+                    <tr><td>Regulatory filings</td><td>10-K mentions of "AI risk" or "third-party AI"</td></tr>
+                    <tr><td>Conference speaking</td><td>HIMSS (healthcare), Money20/20 (fintech), RSA (security) — companies presenting on AI</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <h4>Specific Sub-Signals</h4>
+        <ul style="color:var(--gray-700);font-size:14px;">
+            <li>Healthcare company building a clinical AI tool → HIPAA BAA needed from all vendors</li>
+            <li>Fintech processing customer data through LLMs → PCI DSS + SOC 2 needed</li>
+            <li>Gov contractor handling CUI/FCI → FedRAMP/NIST requirements</li>
+        </ul>
+        <div class="talk-track"><strong>The pitch to lead with:</strong> "Your eng team is probably routing PHI through direct API calls right now. Most AI providers won't sign a BAA. OrcaRouter deploys inside your compliance boundary, de-identifies data before it leaves, and routes only to BAA-eligible providers. You get HIPAA compliance across your entire AI stack."</div>
+    </div>
+</section>
+
+<section id="orca-scan">
+    <h2>✅ The Quick-Scan Checklist (5 Minutes Per Target)</h2>
+    <p class="subtitle">Run this against any company and score them.</p>
+
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Check</th><th>Points</th><th>How to Verify</th></tr></thead>
+            <tbody>
+                <tr><td>☐ Multi-model already (2+ LLM APIs in use)</td><td>+3</td><td>Job postings, tech blog, GitHub</td></tr>
+                <tr><td>☐ Hiring "AI Platform" / "ML Infrastructure" role</td><td>+3</td><td>LinkedIn Jobs, careers page</td></tr>
+                <tr><td>☐ Publicly discussed AI spend or outage impact</td><td>+3</td><td>Twitter, HN, earnings call, tech blog</td></tr>
+                <tr><td>☐ Deploying agents with tool use</td><td>+2</td><td>GitHub (LangChain, function calling), Product Hunt</td></tr>
+                <tr><td>☐ Regulated industry (healthcare, finance, gov)</td><td>+2</td><td>Company description, compliance page</td></tr>
+                <tr><td>☐ Enterprise security page exists (bug bounty, SOC 2)</td><td>+1</td><td>Security page, HackerOne, trust report</td></tr>
+                <tr><td>☐ 50+ engineers or AI/ML team > 5 people</td><td>+1</td><td>LinkedIn, team page</td></tr>
+                <tr><td>☐ Raised Series B+ or public company</td><td>+1</td><td>Crunchbase</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>Scoring Tiers</h3>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:24px;">
+        <div class="card" style="text-align:center;">
+            <div style="font-size:28px;font-weight:800;color:#991b1b;">8–14 pts</div>
+            <div style="font-size:14px;font-weight:600;color:var(--gray-700);">Call This Week</div>
+            <div style="font-size:12px;color:var(--gray-500);">Urgent need</div>
+        </div>
+        <div class="card" style="text-align:center;">
+            <div style="font-size:28px;font-weight:800;color:#9a3412;">5–7 pts</div>
+            <div style="font-size:14px;font-weight:600;color:var(--gray-700);">Warm — Nurture</div>
+            <div style="font-size:12px;color:var(--gray-500);">Content + outreach in 2 weeks</div>
+        </div>
+        <div class="card" style="text-align:center;">
+            <div style="font-size:28px;font-weight:800;color:var(--gray-500);">0–4 pts</div>
+            <div style="font-size:14px;font-weight:600;color:var(--gray-700);">Cold</div>
+            <div style="font-size:12px;color:var(--gray-500);">Check back quarterly</div>
+        </div>
+    </div>
+</section>
+
+<section id="orca-archetypes">
+    <h2>🎯 The "Call Right Now" Archetypes</h2>
+    <p class="subtitle">The 5 company profiles most likely to buy OrcaRouter this month.</p>
+
+    <div class="card">
+        <div class="card-header">1. The AI-Native Startup That Just Raised</div>
+        <p><strong>Profile:</strong> Series A/B, $10M-$50M raised, AI is the product, 20-50 engineers.</p>
+        <p><strong>Why urgent:</strong> They're spending $50K+/mo on inference and about to hire platform engineers. Intercept before they build.</p>
+        <p><strong>Find them:</strong> Crunchbase + filter by "AI/ML" + recent funding.</p>
+    </div>
+
+    <div class="card">
+        <div class="card-header">2. The Enterprise That Got Burned</div>
+        <p><strong>Profile:</strong> Public company or late-stage private, product broke during an OpenAI/Anthropic outage, CTO posted about it.</p>
+        <p><strong>Why urgent:</strong> They have budget, authority, and scars. No education needed.</p>
+        <p><strong>Find them:</strong> Twitter/X search + HN outage threads + LinkedIn CTO posts.</p>
+    </div>
+
+    <div class="card">
+        <div class="card-header">3. The Agent Company Hitting Production</div>
+        <p><strong>Profile:</strong> Shipping "AI agent" features, tool-calling in production, 10-100 engineers.</p>
+        <p><strong>Why urgent:</strong> They're about to discover prompt injection the hard way. Firewall sells itself after the first incident.</p>
+        <p><strong>Find them:</strong> Product Hunt "AI agent" launches + GitHub LangChain/CrewAI imports.</p>
+    </div>
+
+    <div class="card">
+        <div class="card-header">4. The Healthcare AI Build</div>
+        <p><strong>Profile:</strong> Health-tech or provider building clinical AI, HIPAA required, probably using OpenAI API directly right now.</p>
+        <p><strong>Why urgent:</strong> Their compliance team doesn't know what eng is doing. When they audit, they'll mandate a gateway. Be in the room before that moment.</p>
+        <p><strong>Find them:</strong> HIMSS speakers + healthcare AI job postings + health-tech Crunchbase.</p>
+    </div>
+
+    <div class="card">
+        <div class="card-header">5. The "Hiring an AI Platform Team" Signal</div>
+        <p><strong>Profile:</strong> Any company with an open "AI Platform Engineer" or "ML Infrastructure" req.</p>
+        <p><strong>Why urgent:</strong> They've allocated headcount and budget to build what you sell. Beat the hire to the punch.</p>
+        <p><strong>Find them:</strong> LinkedIn Jobs search <code>"AI platform" OR "LLM infrastructure"</code> — filter by posted in last 30 days.</p>
+    </div>
+</section>
+
+<section id="orca-anti">
+    <h2>❌ What NOT to Chase</h2>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Waste of Time</th><th>Why</th><th>Better Move</th></tr></thead>
+            <tbody>
+                <tr><td>Pre-revenue startups</td><td>Token spend is trivial. They'll care when they scale.</td><td>Check back in 6 months</td></tr>
+                <tr><td>OpenAI-only shops by policy</td><td>Multi-provider pitch doesn't land.</td><td>Pitch firewall/guardrails only</td></tr>
+                <tr><td>Companies that already built their own gateway</td><td>They're not switching for routing.</td><td>Pitch security layer as add-on</td></tr>
+                <tr><td>Companies with &lt;5 engineers</td><td>No bandwidth to integrate a gateway.</td><td>Wait for Series A</td></tr>
+                <tr><td>Academic labs / research groups</td><td>No budget, no urgency, no compliance driver.</td><td>Skip</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- ===== LINKEDIN OUTREACH ===== -->
+<section id="li-influencers">
+    <h2>🔗 LinkedIn — How We Actually Get Meetings</h2>
+
+    <div class="card" style="background:var(--gray-100);border-left:4px solid var(--black);">
+        <p style="font-size:14px;color:var(--gray-800);margin:0;"><strong>The reality check:</strong> Average LinkedIn connection acceptance is 28.5%. Reply rate on connection notes? 3%. DM reply rate? 10.4%. That's from 13.2 million outreach attempts analyzed in 2026. Seven out of ten connection requests get ignored by default. The playbook below is what actually works — not theory.</p>
+    </div>
+
+    <h3>The Problem With Most LinkedIn Outreach</h3>
+    <div class="card">
+        <p>Over half of long-form LinkedIn posts are AI-generated now. Prospects are drowning in the same five templates rearranged slightly. They can smell it instantly. The bar for "this feels human" has never been lower — which means if you write like an actual person, you win by default.</p>
+        <p>Here's what kills response rates: connection requests that pitch immediately (LinkedIn literally bans for this), DMs that sound like they were assembled from a dropdown menu of variables, follow-ups that say "just checking in" (which translates to "I need something from you" — actual quote from a top-performing post), and AI that pulls in facts about someone but adds zero opinion or personality.</p>
+    </div>
+
+    <h3>👑 People to Pay Attention To (Not Just "Follow")</h3>
+    <p style="color:var(--gray-600);font-size:14px;">These aren't theoretical influencers. These are the people who sell what you sell, or lead the team. Engage with their content. Comment when you actually have something to say — not "great post!" — something that adds to the conversation. Prospects notice whose posts you're in the comments of.</p>
+
+    <div class="card">
+        <div class="card-header">Jaccob Truax — CEO, FlashLabs</div>
+        <p style="font-size:13px;color:var(--gray-600);">Product vision, OrcaRouter go-to-market, how he thinks about positioning. Follow his lead on messaging. If he's talking about AI security as the wedge, that's the wedge.</p>
+    </div>
+    <div class="card">
+        <div class="card-header">Noah Liam — AE, FlashLabs</div>
+        <p style="font-size:13px;color:var(--gray-600);">10 wins in Q2. Noah posts about deal tactics and objection handling that actually happened — not hypothetical frameworks. Study how he sequences his outreach and when he pushes for close.</p>
+    </div>
+    <div class="card">
+        <div class="card-header">Danny Tsao — AE, FlashLabs</div>
+        <p style="font-size:13px;color:var(--gray-600);">Danny's superpower is authenticity. Prospects respond because he sounds like a person, not a pitch. His cold calls and DMs feel unrehearsed — and that's the point. Look at how he handles objections without sounding like he's reading from a card.</p>
+    </div>
+    <div class="card">
+        <div class="card-header">Jan Diana — AE, FlashLabs</div>
+        <p style="font-size:13px;color:var(--gray-600);">Deep platform knowledge. Jan's content focuses on what FlashLabs actually does under the hood — valuable when prospects ask technical questions. Recall Results case study is worth referencing.</p>
+    </div>
+    <div class="card">
+        <div class="card-header">Koki Kobayashi — AE (Japan), FlashLabs</div>
+        <p style="font-size:13px;color:var(--gray-600);">9 wins, $9.88M in Q2. Enterprise FlashAI deals in Japan. Different market, but his positioning around voice quality (#1 of 10 vendors) works everywhere. Worth watching how he handles longer enterprise cycles.</p>
+    </div>
+
+    <h3>The Pre-Outreach Foundation (Do This First or Don't Bother)</h3>
+    <div class="card">
+        <ol style="color:var(--gray-700);font-size:14px;padding-left:20px;">
+            <li><strong>Your profile is the first thing they see.</strong> Before a prospect reads your message, they see your face, your headline, mutual connections, and your last 3 posts. If your profile looks like a generic sales rep, they've already decided to ignore you before reading word one. Fix your headline. Have real posts — not just company announcements.</li>
+            <li><strong>Engage before you reach out.</strong> Comment on their posts for 1-2 weeks. Not "Great insight!" — actually respond to what they said. Add something. Disagree respectfully. When you eventually DM, they recognize your name. This alone doubles response rates.</li>
+            <li><strong>Find a real reason to reach out.</strong> The highest-performing outreach in 2026 references something specific and verifiable: a job change, a funding round, a post they wrote, a product launch, a hiring signal. If you can't name one specific thing about them that made you reach out, don't send the message.</li>
+        </ol>
+    </div>
+</section>
+
+<section id="li-orca">
+    <h3>🔐 OrcaRouter DM Templates (Steal These, Don't Copy-Paste)</h3>
+
+    <p style="color:var(--gray-600);font-size:14px;margin-bottom:12px;">The point isn't to send these verbatim. The point is the structure: <strong>specific observation → why it matters to them → one clear question → easy out.</strong> Change the details. Make it about the actual person you're messaging.</p>
+
+    <h4>Connection Request — Keep It Clean</h4>
+    <div class="talk-track">
+        No pitch. Ever. LinkedIn bans accounts for pitching in connection notes. Just: "Saw you're leading AI at {company} — would love to connect." Sometimes even no note at all works better. 300 characters max.
+    </div>
+
+    <h4>First DM — The "I Actually Read Your Work" Angle</h4>
+    <div class="card" style="font-family:monospace;font-size:13px;white-space:pre-wrap;line-height:1.7;">
+Hey {first_name} — that post you wrote about {specific topic they posted about} got me thinking. We've been solving the same multi-model routing problem over at FlashLabs and took a different approach.
+
+We built a gateway that sits in front of 200+ models — one API endpoint, automatic failover when providers go down, and security screening on every prompt. Your team doesn't have to touch their existing setup.
+
+No pitch, just thought you might find the architecture interesting given what you're building. Happy to share what we learned either way.
+    </div>
+
+    <h4>First DM — The "I Saw You're Hiring" Angle</h4>
+    <div class="card" style="font-family:monospace;font-size:13px;white-space:pre-wrap;line-height:1.7;">
+Hey {first_name} — saw the AI platform engineer role you posted. Guessing that means you're building multi-model infrastructure in-house right now.
+
+Before your team spends a quarter on routing and failover, mind if I show you what we already solved? One endpoint, 200+ models, zero markup on tokens. Takes about 10 minutes to walk through.
+
+No worries if the timing's off — just figured I'd save you the headache if I can.
+    </div>
+
+    <h4>First DM — The Security Angle (Highest Converting)</h4>
+    <div class="card" style="font-family:monospace;font-size:13px;white-space:pre-wrap;line-height:1.7;">
+Hey {first_name} — random question. If someone got access to your AI bot's API key tomorrow, what data would they walk away with?
+
+That's the problem we built OrcaRouter to solve. It sits between your app and any LLM provider — screens every prompt for injection, governs every tool call, logs everything for audit. Your team keeps using whatever models they want. We add the safety net.
+
+Morbid question, I know. But I'd rather you think about it now than after a breach.
+    </div>
+
+    <h4>Follow-Up DM — The "Here's Something Useful" Play</h4>
+    <div class="card" style="font-family:monospace;font-size:13px;white-space:pre-wrap;line-height:1.7;">
+Hey {first_name} — I put together a quick breakdown of how we handle model failover at FlashLabs. Thought it might be relevant given what you're building at {company}.
+
+{specific insight or link}
+
+No pitch — just figured it'd be more useful than another follow-up asking if you saw my last message.
+    </div>
+
+    <div class="card" style="background:var(--gray-100);">
+        <p style="font-size:13px;color:var(--gray-700);margin:0;"><strong>Why this works:</strong> Every message references something real about them. None of them lead with the product. All of them give them an easy "no thanks." The security angle converts best because it creates urgency without being pushy — it's a genuine problem most AI teams haven't thought about.</p>
+    </div>
+</section>
+
+<section id="li-flashai">
+    <h3>🎙️ FlashAI DM Templates</h3>
+
+    <h4>Connection Request</h4>
+    <div class="talk-track">
+        No note, or: "Also in the SMB lending space — connecting with folks in the industry." No product mention. No pitch.
+    </div>
+
+    <h4>First DM — After They Accept</h4>
+    <div class="card" style="font-family:monospace;font-size:13px;white-space:pre-wrap;line-height:1.7;">
+Hey {first_name} — thanks for connecting. Curious how you're handling outbound right now. Most of the MCA shops I talk to are capped at 50-80 dials per rep and drowning in manual follow-up.
+
+We built an AI voice agent that handles the outbound — calls, qualifies, sends follow-up texts — and only passes ready-to-close leads to your team. Ranked #1 for voice quality against 9 other vendors. $1.50 per connected call.
+
+Not sure if that's even on your radar, but figured I'd mention it since you're in the space.
+    </div>
+
+    <h4>Follow-Up — After No Response</h4>
+    <div class="card" style="font-family:monospace;font-size:13px;white-space:pre-wrap;line-height:1.7;">
+Hey {first_name} — quick thought. Your best rep probably costs $4-5K/month plus commission and makes maybe 50 calls a day. An AI voice agent does 500-1000 for $750/month.
+
+Even if you're not looking right now, might be worth 10 minutes just to see what the tech can do now. It's gotten a lot better since last year. No pressure.
+    </div>
+</section>
+
+<section id="li-cadence">
+    <h3>📅 Daily LinkedIn Routine (15 Minutes, Every Day)</h3>
+
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>When</th><th>What</th><th>Why</th><th>Time</th></tr></thead>
+            <tbody>
+                <tr><td>Morning</td><td>Comment on 2-3 posts from people in your ICP or FlashLabs leadership</td><td>Your name shows up. Algorithms notice. Prospects notice. Social proof compounds.</td><td>3 min</td></tr>
+                <tr><td>Morning</td><td>Send 5 connection requests. No pitch. No note, or one sentence.</td><td>Keep it under LinkedIn's radar (10/day limit is the safety ceiling).</td><td>3 min</td></tr>
+                <tr><td>Midday</td><td>Check who accepted. DM 2-3 new connections.</td><td>Don't wait. Strike while your name is fresh. But don't pitch — ask a question about them.</td><td>5 min</td></tr>
+                <tr><td>EOD</td><td>Scroll your feed. Engage with 2 posts from prospects. Like, comment, share if genuinely good.</td><td>This is the "warm-up" that makes your DMs land better next week.</td><td>4 min</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="talk-track">
+        <strong>Weekly math:</strong> ~25 connection requests → ~7 acceptances (28.5% avg) → ~3-4 conversations started → 1-2 meetings booked. Multiply by 4 weeks = 4-8 meetings/month from LinkedIn alone. That's quota-moving volume for 15 minutes a day.
+    </div>
+</section>
+
+<section id="li-content">
+    <h3>📝 What to Post About (So Prospects Actually Read Your Stuff)</h3>
+
+    <p style="color:var(--gray-600);font-size:14px;">LinkedIn's algorithm changed in 2026. It now rewards "Depth and Authority" over viral reach. Documents (PDF carousels) hit 6.6% engagement — the highest format. Video grew 36% YoY. Polls are dead — 0.07% engagement. Here's what to post:</p>
+
+    <div class="card">
+        <div class="card-header">📌 Format That Works: The "Here's What I Learned" Post</div>
+        <p style="font-size:13px;color:var(--gray-600);">Specific experience → what went wrong/right → one actionable takeaway. Not theory. Something that happened to you this week.</p>
+        <p style="font-size:12px;color:var(--gray-500);"><strong>Real example:</strong> "Had a prospect tell me our pricing was too high yesterday. Instead of defending it, I asked what they're currently paying across all their tools. They were spending $3,200/month on 4 separate platforms. We're $750. They signed. Lesson: never defend price in isolation — anchor it against their total stack."</p>
+    </div>
+
+    <div class="card">
+        <div class="card-header">📌 Format That Works: The Number Post</div>
+        <p style="font-size:13px;color:var(--gray-600);">Hard numbers from your actual work. Conversion rates, call stats, win/loss patterns. People share data they can't get elsewhere.</p>
+        <p style="font-size:12px;color:var(--gray-500);"><strong>Real example:</strong> "AE-sourced deals at FlashLabs: 63.6% win rate. SDR-sourced: 5.8%. That's 11x. Here's what the top AEs do differently..."</p>
+    </div>
+
+    <div class="card">
+        <div class="card-header">📌 Format That Works: The Contrarian Take</div>
+        <p style="font-size:13px;color:var(--gray-600);">Disagree with something everyone believes. Respectfully. With receipts. These get shared.</p>
+        <p style="font-size:12px;color:var(--gray-500);"><strong>Real example:</strong> "Everyone says cold calling is dead. I watched Danny Tsao make 66 calls in a day and book meetings from it. The problem isn't the channel — it's that most people sound like robots."</p>
+    </div>
+
+    <h4>Posting Cadence</h4>
+    <div class="talk-track">
+        3 posts a week minimum. Not 5. Not daily. Three good ones beats five AI-generated ones. The algorithm rewards consistency, not volume. Tuesday-Wednesday-Thursday tend to perform best for B2B audiences. And for the love of god, don't use AI to write your posts. 50%+ of LinkedIn long-form is AI-generated now. Human writing stands out by default.
+    </div>
+</section>
+
+<section id="li-safety">
+    <h3>🛡️ Don't Get Your Account Nuked</h3>
+
+    <div class="card">
+        <h4>Hard Rules</h4>
+        <ul style="color:var(--gray-700);font-size:14px;">
+            <li><strong>Max 10 connection requests per day.</strong> LinkedIn's safety ceiling. Push past this consistently and you'll get restricted. No exceptions.</li>
+            <li><strong>Max 20-50 messages per day.</strong> If you're sending identical messages at identical intervals, LinkedIn detects the pattern and flags you as automation.</li>
+            <li><strong>Never use automation tools</strong> like Dux-Soup, WeConnect, Expandi, or any LinkedIn bot. LinkedIn's detection has gotten significantly better. A restricted account means zero outreach for weeks.</li>
+            <li><strong>Never pitch in a connection request.</strong> This is the fastest way to get reported as spam. Connect first. Talk later.</li>
+            <li><strong>Vary your messages.</strong> If every DM starts with "Hey {first_name}" and follows the same structure, you'll get caught. Write like a human who messages different people differently.</li>
+            <li><strong>Don't name competitors by name</strong> in public posts. "We help teams upgrade from legacy dialers" — professional. "Vici sucks" — gets you in trouble and makes you look small.</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h4>What Keeps You Safe</h4>
+        <ul style="color:var(--gray-700);font-size:14px;">
+            <li><strong>Engage like a real person.</strong> Vary your activity. Some days you comment more, some days you DM more. Don't follow a scripted pattern.</li>
+            <li><strong>Profile views are normal.</strong> Viewing 20+ profiles a day is fine if you're actually doing research. The alarm bells ring when it's automated.</li>
+            <li><strong>Track everything in CRM.</strong> Every connection, DM, response, meeting booked. If LinkedIn ever questions your activity, you have a paper trail showing legitimate business development.</li>
+        </ul>
+    </div>
+</section>
+
+<section id="li-meetings">
+    <h3>🎧 From Our Own Training Sessions</h3>
+
+    <div class="card">
+        <div class="card-header">🗓️ July 15 — OrcaRouter Sales Training (Jaccob)</div>
+        <ul style="color:var(--gray-700);font-size:14px;">
+            <li><strong>Security fear is the opener that stops the scroll.</strong> "If your AI bot gets hacked..." — CTOs stop and read. It's specific, visceral, and most haven't considered it.</li>
+            <li><strong>Elevator pitch in one breath:</strong> 200 models. One API endpoint. Zero markup. Security and compliance built in. One line of code.</li>
+            <li><strong>Cost savings is the closer, not the opener.</strong> Lead with security. Then mention: "By the way, we also route simple queries to cheap models — most teams save 30-50% on inference without touching quality."</li>
+            <li><strong>Use SuperAgent for prospect research.</strong> Let the agent do the digging on who to reach out to. You do the human part — the actual conversation.</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <div class="card-header">🗓️ July 22 — Weekly Enablement</div>
+        <ul style="color:var(--gray-700);font-size:14px;">
+            <li>Working on tightening the FlashRev + FlashAI combined story for MCA — too many reps are selling them separately when the combo is the real win</li>
+            <li>Pipeline cleanup accountability — stale deals need a decision. Close or kill. Don't let them rot.</li>
+            <li>"We'll build it in-house" is the #1 OrcaRouter objection — have the architecture patterns ready to share. Be helpful even if they don't buy.</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <div class="card-header">🗓️ July 6 — Kick-Off (Jaccob)</div>
+        <ul style="color:var(--gray-700);font-size:14px;">
+            <li>12+ qualified meetings per SDR target</li>
+            <li>Email deliverability needs work — if your emails aren't landing in inbox, your LinkedIn becomes your primary channel</li>
+            <li>LinkedIn engagement is a core activity now. Not optional. 15 minutes/day, every day.</li>
+        </ul>
+    </div>
+</section>
+
+<!-- ===== QUICK REFERENCE ===== -->
+<section id="quick-ref">
+    <h2>⚡ Quick Reference Card</h2>
+
+    <h3>FlashLabs at a Glance</h3>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Product</th><th>Category</th><th>Pricing</th><th>One-Liner</th></tr></thead>
+            <tbody>
+                <tr><td><strong>FlashRev</strong></td><td>GTM OS / Revenue Platform</td><td>Seat-based</td><td>AI-powered revenue acceleration — enrichment + dialer + sequences + AI agents</td></tr>
+                <tr><td><strong>FlashAI</strong></td><td>Voice AI / Contact Center</td><td>$1.50/call ($750/mo min)</td><td>Autonomous voice agents — #1 of 10 in voice quality</td></tr>
+                <tr><td><strong>FlashClick</strong></td><td>Partner Enablement</td><td>Contact</td><td>Partner tracking, analytics, fraud protection</td></tr>
+                <tr><td><strong>OrcaRouter</strong></td><td>AI Gateway</td><td>Free / $499/mo / Custom</td><td>200+ models, zero markup, one line, enterprise security</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>Key Links</h3>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Resource</th><th>URL</th></tr></thead>
+            <tbody>
+                <tr><td>FlashLabs Homepage</td><td><a href="https://flashlabs.ai" target="_blank">flashlabs.ai</a></td></tr>
+                <tr><td>FlashRev</td><td><a href="https://flashrev.ai" target="_blank">flashrev.ai</a></td></tr>
+                <tr><td>OrcaRouter</td><td><a href="https://orcarouter.ai" target="_blank">orcarouter.ai</a></td></tr>
+                <tr><td>OrcaRouter Docs</td><td><a href="https://docs.orcarouter.ai" target="_blank">docs.orcarouter.ai</a></td></tr>
+                <tr><td>OrcaRouter GitHub</td><td><a href="https://github.com/Continuum-AI-Corp/OrcaRouter-O2" target="_blank">github.com/Continuum-AI-Corp/OrcaRouter-O2</a></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>Cross-Sell Map</h3>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>If They Buy...</th><th>Cross-Sell...</th><th>Because...</th></tr></thead>
+            <tbody>
+                <tr><td><strong>FlashRev</strong></td><td>FlashAI Voice Agents</td><td>FlashAI powers the calling layer of FlashRev — natural upgrade</td></tr>
+                <tr><td><strong>FlashRev</strong></td><td>OrcaRouter</td><td>If they're building custom AI on top, they need model routing</td></tr>
+                <tr><td><strong>FlashAI</strong></td><td>FlashRev</td><td>Voice agents need data — FlashRev provides enrichment and sequencing</td></tr>
+                <tr><td><strong>FlashClick</strong></td><td>FlashRev</td><td>Partners drive leads — FlashRev converts them</td></tr>
+                <tr><td><strong>OrcaRouter</strong></td><td>FlashRev</td><td>AI gateway customers are building AI — they may also need GTM AI</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<div style="border-top:2px solid var(--black);padding:20px 0;margin-top:48px;color:var(--gray-500);font-size:12px;">
+    <p>Built from: FlashLabs wiki, LB Capital win analysis, OrcaRouter SDR/AE playbook, MCA sourcing playbook, competitive battle cards, HubSpot pipeline data, Danny Tsao call analysis (July 2026).</p>
+</div>
+
+</main>
+</div>
+
+<script>
+// Simple active nav tracking
+document.querySelectorAll('.sidebar a').forEach(link => {
+    link.addEventListener('click', function() {
+        document.querySelectorAll('.sidebar a').forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
+    });
+});
+
+// Highlight current section on scroll
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.sidebar a');
+
+window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop - 80;
+        if (window.scrollY >= sectionTop) {
+            current = section.getAttribute('id');
+        }
+    });
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+            link.classList.add('active');
+        }
+    });
+});
+</script>
+
+</body>
+</html>

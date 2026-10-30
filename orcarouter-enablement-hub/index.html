@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OrcaRouter — Enablement Hub</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --black: #000000;
+      --white: #ffffff;
+      --gray-50: #f9f9f9;
+      --gray-100: #f0f0f0;
+      --gray-200: #e5e5e5;
+      --gray-300: #d4d4d4;
+      --gray-400: #a3a3a3;
+      --gray-500: #737373;
+      --gray-600: #525252;
+      --gray-700: #404040;
+      --gray-800: #262626;
+      --gray-900: #171717;
+      --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      --font-mono: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--black);
+      color: var(--white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── Navigation ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(0,0,0,.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gray-800);
+      padding: 0 24px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    nav .logo {
+      font-weight: 600;
+      font-size: 16px;
+      letter-spacing: -.02em;
+    }
+    nav .logo span { color: var(--gray-400); }
+
+    nav .nav-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+      align-items: center;
+    }
+    nav .nav-links a {
+      color: var(--gray-400);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      transition: color .15s;
+    }
+    nav .nav-links a:hover { color: var(--white); }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--white);
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    /* ─── Hero ─── */
+    .hero {
+      padding: 120px 24px 80px;
+      max-width: 840px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .hero .badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--gray-400);
+      border: 1px solid var(--gray-700);
+      border-radius: 100px;
+      padding: 4px 14px;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: clamp(36px, 6vw, 64px);
+      font-weight: 700;
+      letter-spacing: -.04em;
+      line-height: 1.05;
+      margin-bottom: 16px;
+    }
+    .hero h1 .highlight {
+      background: var(--white);
+      color: var(--black);
+      padding: 0 8px;
+      border-radius: 4px;
+    }
+    .hero p {
+      font-size: 18px;
+      color: var(--gray-400);
+      max-width: 640px;
+      margin: 0 auto 32px;
+    }
+    .hero .cta-row {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .hero .cta-row a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all .15s;
+    }
+    .hero .cta-row a.primary {
+      background: var(--white);
+      color: var(--black);
+    }
+    .hero .cta-row a.primary:hover { background: var(--gray-200); }
+    .hero .cta-row a.secondary {
+      border: 1px solid var(--gray-700);
+      color: var(--white);
+    }
+    .hero .cta-row a.secondary:hover { background: var(--gray-900); }
+
+    /* ─── Section ─── */
+    .section {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 80px 24px;
+    }
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--gray-500);
+      margin-bottom: 12px;
+    }
+    .section h2 {
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 700;
+      letter-spacing: -.03em;
+      margin-bottom: 24px;
+      line-height: 1.15;
+    }
+    .section > p.lead {
+      font-size: 16px;
+      color: var(--gray-400);
+      max-width: 640px;
+      margin-bottom: 48px;
+    }
+    .section .divider {
+      width: 40px;
+      height: 2px;
+      background: var(--gray-700);
+      margin-bottom: 24px;
+    }
+
+    /* ─── Cards Grid ─── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .card {
+      background: var(--gray-900);
+      border: 1px solid var(--gray-800);
+      border-radius: 12px;
+      padding: 24px;
+      transition: border-color .15s;
+    }
+    .card:hover { border-color: var(--gray-600); }
+    .card .icon { font-size: 24px; margin-bottom: 12px; display: block; }
+    .card h3 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      letter-spacing: -.01em;
+    }
+    .card p {
+      font-size: 13px;
+      color: var(--gray-400);
+      line-height: 1.5;
+    }
+    .card .tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: var(--gray-500);
+      border: 1px solid var(--gray-700);
+      border-radius: 4px;
+      padding: 2px 8px;
+      margin-top: 12px;
+    }
+
+    /* ─── The Three Pillars ─── */
+    .pillars {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+      margin: 48px 0;
+    }
+    .pillar {
+      background: var(--gray-900);
+      border: 1px solid var(--gray-800);
+      border-radius: 12px;
+      padding: 28px;
+    }
+    .pillar .num {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--gray-600);
+      margin-bottom: 8px;
+      line-height: 1;
+    }
+    .pillar h3 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+    .pillar .sub { font-size: 12px; color: var(--gray-500); margin-bottom: 12px; }
+    .pillar p { font-size: 13px; color: var(--gray-400); line-height: 1.5; }
+
+    /* ─── Pitches ─── */
+    .pitch-list { display: flex; flex-direction: column; gap: 12px; }
+    .pitch-item {
+      background: var(--gray-900);
+      border: 1px solid var(--gray-800);
+      border-radius: 10px;
+      padding: 20px;
+      cursor: pointer;
+      transition: border-color .15s;
+    }
+    .pitch-item:hover { border-color: var(--gray-600); }
+    .pitch-item .pitch-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    .pitch-item .pitch-header h3 {
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .pitch-item .pitch-header .pitch-badge {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      padding: 2px 10px;
+      border-radius: 100px;
+      white-space: nowrap;
+    }
+    .pitch-item .pitch-header .pitch-badge.security { background: #1a1a2e; color: #8b8bcb; border: 1px solid #2a2a4e; }
+    .pitch-item .pitch-header .pitch-badge.cost { background: #1a2e1a; color: #6b8b6b; border: 1px solid #2a4e2a; }
+    .pitch-item .pitch-header .pitch-badge.reliability { background: #2e1a1a; color: #cb8b8b; border: 1px solid #4e2a2a; }
+    .pitch-item .pitch-header .pitch-badge.antilockin { background: #1a1a1a; color: #ababab; border: 1px solid #333; }
+    .pitch-item .pitch-quote {
+      margin-top: 10px;
+      padding: 10px 14px;
+      background: var(--gray-800);
+      border-radius: 8px;
+      font-size: 13px;
+      color: var(--gray-300);
+      line-height: 1.5;
+      border-left: 2px solid var(--gray-600);
+    }
+    .pitch-item .pitch-quote::before { content: '"'; }
+    .pitch-item .pitch-quote::after { content: '"'; }
+    .pitch-item .pitch-target {
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--gray-500);
+    }
+
+    /* ─── Accounts Table ─── */
+    .account-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .account-table th {
+      text-align: left;
+      padding: 10px 14px;
+      font-weight: 600;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--gray-500);
+      border-bottom: 1px solid var(--gray-800);
+    }
+    .account-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--gray-800);
+      vertical-align: top;
+    }
+    .account-table tr:hover td { background: var(--gray-900); }
+    .account-table .status-dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      margin-right: 6px;
+    }
+    .account-table .status-dot.hot { background: #fff; }
+    .account-table .status-dot.warm { background: var(--gray-400); }
+    .account-table .status-dot.cold { background: var(--gray-600); }
+    .account-table .angle-tag {
+      display: inline-block;
+      font-size: 10px;
+      padding: 1px 8px;
+      border-radius: 4px;
+      background: var(--gray-800);
+      color: var(--gray-400);
+      margin: 1px 2px;
+      white-space: nowrap;
+    }
+
+    /* ─── Objections ─── */
+    .objection-list { display: flex; flex-direction: column; gap: 10px; }
+    .objection {
+      background: var(--gray-900);
+      border: 1px solid var(--gray-800);
+      border-radius: 10px;
+      padding: 18px 20px;
+    }
+    .objection .q {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+    .objection .a {
+      font-size: 13px;
+      color: var(--gray-400);
+      line-height: 1.55;
+    }
+    .objection .a::before { content: "→ "; color: var(--gray-500); }
+
+    /* ─── Pricing ─── */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+    }
+    .pricing-card {
+      background: var(--gray-900);
+      border: 1px solid var(--gray-800);
+      border-radius: 12px;
+      padding: 28px;
+      text-align: center;
+    }
+    .pricing-card.featured {
+      border-color: var(--gray-400);
+    }
+    .pricing-card .tier-name {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--gray-500);
+      margin-bottom: 4px;
+    }
+    .pricing-card .price {
+      font-size: 36px;
+      font-weight: 700;
+      letter-spacing: -.03em;
+      margin-bottom: 2px;
+    }
+    .pricing-card .price-detail {
+      font-size: 13px;
+      color: var(--gray-400);
+      margin-bottom: 14px;
+    }
+    .pricing-card .price-note {
+      font-size: 12px;
+      color: var(--gray-500);
+      line-height: 1.5;
+    }
+
+    /* ─── Discovery Qs ─── */
+    .discovery-qs { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 10px; }
+    .dq {
+      background: var(--gray-900);
+      border: 1px solid var(--gray-800);
+      border-radius: 8px;
+      padding: 14px 16px;
+      font-size: 13px;
+      color: var(--gray-300);
+      line-height: 1.5;
+    }
+    .dq strong { color: var(--white); font-weight: 600; }
+
+    /* ─── The 30-Second Pitch ─── */
+    .pitch-30 {
+      background: var(--gray-900);
+      border: 1px solid var(--gray-700);
+      border-radius: 12px;
+      padding: 28px 32px;
+      font-size: 15px;
+      line-height: 1.6;
+      border-left: 3px solid var(--white);
+      margin-bottom: 24px;
+    }
+    .pitch-30::before { content: ""; }
+    .pitch-30 .label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--gray-500);
+      margin-bottom: 8px;
+    }
+
+    /* ─── Quick Ref ─── */
+    .quick-refs { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 10px; }
+    .qr {
+      background: var(--gray-900);
+      border: 1px solid var(--gray-800);
+      border-radius: 8px;
+      padding: 14px 16px;
+    }
+    .qr .qr-trigger {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      color: var(--gray-500);
+      margin-bottom: 4px;
+    }
+    .qr .qr-accounts {
+      font-size: 12px;
+      color: var(--gray-400);
+      margin-bottom: 4px;
+    }
+    .qr .qr-say {
+      font-size: 13px;
+      color: var(--white);
+      line-height: 1.5;
+    }
+
+    /* ─── Cross-Sell Map ─── */
+    .cross-sell-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .cross-sell-table th {
+      text-align: left;
+      padding: 10px 14px;
+      font-weight: 600;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--gray-500);
+      border-bottom: 1px solid var(--gray-800);
+    }
+    .cross-sell-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--gray-800);
+    }
+
+    /* ─── Footer ─── */
+    footer {
+      border-top: 1px solid var(--gray-800);
+      padding: 32px 24px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--gray-500);
+    }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 640px) {
+      nav .nav-links { display: none; }
+      .mobile-menu-btn { display: block; }
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 56px;
+        left: 0; right: 0;
+        background: var(--black);
+        border-bottom: 1px solid var(--gray-800);
+        padding: 16px 24px;
+        gap: 12px;
+      }
+      .hero { padding: 100px 16px 60px; }
+      .section { padding: 60px 16px; }
+      .account-table th, .account-table td { padding: 8px 10px; font-size: 12px; }
+      .account-table .angle-tag { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── Nav ─── -->
+  <nav>
+    <div class="logo">OrcaRouter <span>Enablement</span></div>
+    <button class="mobile-menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+    <ul class="nav-links">
+      <li><a href="#pillars">Pillars</a></li>
+      <li><a href="#pitches">Pitches</a></li>
+      <li><a href="#accounts">Accounts</a></li>
+      <li><a href="#objections">Objections</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#quickref">Quick Ref</a></li>
+      <li><a href="#crosssell">Cross-Sell</a></li>
+    </ul>
+  </nav>
+
+  <!-- ─── Hero ─── -->
+  <section class="hero">
+    <div class="badge">Enablement Doc — July 2026</div>
+    <h1>One Gateway.<br><span class="highlight">Route Smarter.</span> Ship Safer. Spend Less.</h1>
+    <p>OrcaRouter: the multi-provider AI gateway with zero-trust security. Zero markup on model costs. 200+ models, one endpoint. Everything you need to sell it.</p>
+    <div class="cta-row">
+      <a href="#pitches" class="primary">→ See the Pitches</a>
+      <a href="#accounts" class="secondary">20 Enterprise Accounts</a>
+      <a href="#quickref" class="secondary">Quick Reference</a>
+    </div>
+  </section>
+
+  <!-- ─── What Is It ─── -->
+  <section class="section" id="what">
+    <div class="divider"></div>
+    <div class="section-label">OrcaRouter Explained</div>
+    <h2>A traffic cop for AI.</h2>
+    <p class="lead">When a company uses AI — ChatGPT, Claude, Gemini — OrcaRouter sits in between. Instead of the app talking directly to one AI, it talks to OrcaRouter, which picks the best model for every question. If one goes down, it auto-fails over. The user never notices. <strong>It's like an electrical surge protector, but for AI.</strong></p>
+
+    <div class="card-grid">
+      <div class="card">
+        <span class="icon">🔀</span>
+        <h3>Smart Routing</h3>
+        <p>Sends simple questions to cheap models, complex ones to powerful models. Saves 30–50% on AI costs automatically.</p>
+        <span class="tag">Cost</span>
+      </div>
+      <div class="card">
+        <span class="icon">🔄</span>
+        <h3>Auto-Failover</h3>
+        <p>When a provider goes down, traffic routes to the next-best model in &lt;50ms. Your product never breaks. No 2am pages.</p>
+        <span class="tag">Reliability</span>
+      </div>
+      <div class="card">
+        <span class="icon">🛡️</span>
+        <h3>Security Layer</h3>
+        <p>Screens every prompt and every tool call. Prevents PII leaks, prompt injection, and ungoverned agent actions.</p>
+        <span class="tag">Security</span>
+      </div>
+      <div class="card">
+        <span class="icon">🔓</span>
+        <h3>Zero Lock-In</h3>
+        <p>OpenAI-compatible endpoint. Change one line of code to switch providers. You're never locked into any vendor.</p>
+        <span class="tag">Flexibility</span>
+      </div>
+      <div class="card">
+        <span class="icon">💰</span>
+        <h3>Zero Markup</h3>
+        <p>You pay the provider's published price per token. OrcaRouter makes money from subscriptions, not by inflating your bill.</p>
+        <span class="tag">Cost</span>
+      </div>
+      <div class="card">
+        <span class="icon">🔌</span>
+        <h3>Drop-In Compatible</h3>
+        <p>Point your existing OpenAI SDK at api.orcarouter.ai/v1. Everything else — streaming, tools, vision, reasoning — works exactly as expected.</p>
+        <span class="tag">Dev Experience</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── The Three Pillars ─── -->
+  <section class="section" id="pillars">
+    <div class="divider"></div>
+    <div class="section-label">The Three Pillars</div>
+    <h2>Every pitch hits at least one.</h2>
+    <p class="lead">Every OrcaRouter conversation maps to one of these three core narratives. Pick the pillar that matches your prospect's signal.</p>
+
+    <div class="pillars">
+      <div class="pillar">
+        <div class="num">01</div>
+        <h3>Reliability</h3>
+        <div class="sub">Model fallback chains</div>
+        <p>When OpenAI or Anthropic goes down — and they do go down — your customer's product doesn't stop working. Traffic auto-routes before users notice latency. <strong>Who cares:</strong> Anyone with customer-facing AI.</p>
+      </div>
+      <div class="pillar">
+        <div class="num">02</div>
+        <h3>Security</h3>
+        <div class="sub">PII Shield + Firewall + Compliance</div>
+        <p>Every prompt and tool call is screened — passwords, PII, API keys, destructive commands. SOC2, HIPAA, GDPR compliance packs ship as live policies, not PDFs. <strong>Who cares:</strong> Enterprise, fintech, healthcare.</p>
+      </div>
+      <div class="pillar">
+        <div class="num">03</div>
+        <h3>Cost</h3>
+        <div class="sub">Auto-route + Zero markup</div>
+        <p>Simple tasks go to cheap models; complex ones go to powerful models. Same quality, 30–50% less spend. Zero markup on token costs at every tier. <strong>Who cares:</strong> High-volume API consumers, CFOs.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 4 Pitches ─── -->
+  <section class="section" id="pitches">
+    <div class="divider"></div>
+    <div class="section-label">The 4 Pitches</div>
+    <h2>Four ways to sell OrcaRouter.</h2>
+    <p class="lead">Different audiences need different angles. Here's your playbook for each buyer persona.</p>
+
+    <div class="pitch-list">
+
+      <div class="pitch-item">
+        <div class="pitch-header">
+          <h3>#1 — Security First</h3>
+          <span class="pitch-badge security">Closes the most deals</span>
+        </div>
+        <div class="pitch-quote">If someone gets access to your company's AI bot, they get access to everything that bot has access to: passwords, client data, business information. All they need is a leaked email and password — and those are publicly available from data breaches. OrcaRouter screens every prompt, governs every tool call, and logs everything. We're the security layer between your AI and the world.</div>
+        <div class="pitch-target"><strong>When to use:</strong> CTOs, CISOs, security-conscious companies, healthcare, finance, legal.</div>
+      </div>
+
+      <div class="pitch-item">
+        <div class="pitch-header">
+          <h3>#2 — Cost Savings</h3>
+          <span class="pitch-badge cost">Easiest to prove</span>
+        </div>
+        <div class="pitch-quote">Most companies are overpaying 30–50% on AI. They're routing every question — even 'summarize this email' — through an expensive model. OrcaRouter automatically sends simple tasks to cheap models and complex ones to powerful models. Same quality, 40% less spend. Zero code changes.</div>
+        <div class="pitch-target"><strong>When to use:</strong> Companies with &gt;$10K/month AI spend, cost-conscious startups, CFOs.</div>
+      </div>
+
+      <div class="pitch-item">
+        <div class="pitch-header">
+          <h3>#3 — Reliability</h3>
+          <span class="pitch-badge reliability">Engineering-sympathetic</span>
+        </div>
+        <div class="pitch-quote">When OpenAI or Anthropic goes down — and they do go down — your product stops working. OrcaRouter automatically fails over to another model. Users never see a 5xx error. Your engineers stop getting paged at 2am.</div>
+        <div class="pitch-target"><strong>When to use:</strong> Engineering-led companies, products with AI at their core, companies that have experienced outages.</div>
+      </div>
+
+      <div class="pitch-item">
+        <div class="pitch-header">
+          <h3>#4 — Anti-Lock-In</h3>
+          <span class="pitch-badge antilockin">CFO & CTO favorite</span>
+        </div>
+        <div class="pitch-quote">You're not locked into OpenAI or Anthropic. With OrcaRouter, you can switch models by changing one string. If a provider raises prices or degrades quality, you move. We're the escape hatch.</div>
+        <div class="pitch-target"><strong>When to use:</strong> Procurement conversations, companies worried about vendor concentration, long-term planning discussions.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── 30-Second Pitch ─── -->
+  <section class="section">
+    <div class="divider"></div>
+    <div class="section-label">The 30-Second Pitch</div>
+    <h2>What to say in half a minute.</h2>
+    <div class="pitch-30">
+      <div class="label">Memorize this</div>
+      "OrcaRouter is an AI gateway — one API endpoint that connects to 200+ models, handles failover when models go down, saves 30–50% on AI costs, and screens every prompt for security. Zero markup on model costs. One line of code. Companies spending $10K+/month on AI save thousands immediately."
+    </div>
+  </section>
+
+  <!-- ─── 20 Enterprise Accounts ─── -->
+  <section class="section" id="accounts">
+    <div class="divider"></div>
+    <div class="section-label">Target Accounts</div>
+    <h2>20 enterprise accounts, mapped.</h2>
+    <p class="lead">Verified July 14, 2026 — 8 Hot / 10 Warm / 2 Cold. Every account has a specific angle and entry wedge.</p>
+
+    <div style="overflow-x:auto;">
+      <table class="account-table">
+        <thead>
+          <tr>
+            <th>Priority</th>
+            <th>Company</th>
+            <th>Cluster</th>
+            <th>Entry Wedge</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td><strong>Replit</strong></td>
+            <td>AI Code Platforms</td>
+            <td><span class="angle-tag">Cap_cost</span> <span class="angle-tag">Runaway compute</span></td>
+            <td><span class="status-dot hot"></span>Hot</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td><strong>Sourcegraph</strong></td>
+            <td>AI Code Platforms</td>
+            <td><span class="angle-tag">Tool-call firewall</span></td>
+            <td><span class="status-dot hot"></span>Hot</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td><strong>Intercom</strong></td>
+            <td>Enterprise SaaS AI</td>
+            <td><span class="angle-tag">PII Shield</span> <span class="angle-tag">Guardrails</span></td>
+            <td><span class="status-dot hot"></span>Hot</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td><strong>Box</strong></td>
+            <td>Enterprise SaaS AI</td>
+            <td><span class="angle-tag">HIPAA</span> <span class="angle-tag">PII Shield</span></td>
+            <td><span class="status-dot hot"></span>Hot</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td><strong>Cursor</strong></td>
+            <td>AI Code Platforms</td>
+            <td><span class="angle-tag">Agent firewall</span></td>
+            <td><span class="status-dot warm"></span>Warm</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td><strong>Notion</strong></td>
+            <td>Enterprise SaaS AI</td>
+            <td><span class="angle-tag">Claude outage</span> <span class="angle-tag">Brand safety</span></td>
+            <td><span class="status-dot warm"></span>Warm</td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td><strong>GitLab</strong></td>
+            <td>Enterprise SaaS AI</td>
+            <td><span class="angle-tag">Secrets in prompts</span> <span class="angle-tag">SOC2</span></td>
+            <td><span class="status-dot warm"></span>Warm</td>
+          </tr>
+          <tr>
+            <td>8</td>
+            <td><strong>Databricks</strong></td>
+            <td>Infra & Platform</td>
+            <td><span class="angle-tag">Cost optimization</span></td>
+            <td><span class="status-dot warm"></span>Warm</td>
+          </tr>
+          <tr>
+            <td>9</td>
+            <td><strong>Codeium</strong></td>
+            <td>AI Code Platforms</td>
+            <td><span class="angle-tag">Zero-markup routing</span></td>
+            <td><span class="status-dot warm"></span>Warm</td>
+          </tr>
+          <tr>
+            <td>10</td>
+            <td><strong>HashiCorp</strong></td>
+            <td>Infra & Platform</td>
+            <td><span class="angle-tag">Tool-call governance</span></td>
+            <td><span class="status-dot warm"></span>Warm</td>
+          </tr>
+          <tr>
+            <td>11</td>
+            <td><strong>Benchling</strong></td>
+            <td>Regulated</td>
+            <td><span class="angle-tag">HIPAA</span> <span class="angle-tag">PHI risk</span></td>
+            <td><span class="status-dot warm"></span>Warm</td>
+          </tr>
+          <tr>
+            <td>12</td>
+            <td><strong>Plaid</strong></td>
+            <td>Regulated</td>
+            <td><span class="angle-tag">Financial compliance</span></td>
+            <td><span class="status-dot warm"></span>Warm</td>
+          </tr>
+          <tr>
+            <td>13</td>
+            <td><strong>Temporal</strong></td>
+            <td>Infra & Platform</td>
+            <td><span class="angle-tag">Agent durability</span></td>
+            <td><span class="status-dot warm"></span>Warm</td>
+          </tr>
+          <tr>
+            <td>14</td>
+            <td><strong>Grafana</strong></td>
+            <td>Infra & Platform</td>
+            <td><span class="angle-tag">PII in logs</span></td>
+            <td><span class="status-dot warm"></span>Warm</td>
+          </tr>
+          <tr>
+            <td>15</td>
+            <td><strong>Confluent</strong></td>
+            <td>Infra & Platform</td>
+            <td><span class="angle-tag">Data pipeline guardrails</span></td>
+            <td><span class="status-dot warm"></span>Warm</td>
+          </tr>
+          <tr>
+            <td>16</td>
+            <td><strong>LaunchDarkly</strong></td>
+            <td>Infra & Platform</td>
+            <td><span class="angle-tag">Multi-model A/B test</span></td>
+            <td><span class="status-dot warm"></span>Warm</td>
+          </tr>
+          <tr>
+            <td>17</td>
+            <td><strong>Sentry</strong></td>
+            <td>Infra & Platform</td>
+            <td><span class="angle-tag">PII in error traces</span></td>
+            <td><span class="status-dot warm"></span>Warm</td>
+          </tr>
+          <tr>
+            <td>18</td>
+            <td><strong>Figma</strong></td>
+            <td>Enterprise SaaS AI</td>
+            <td><span class="angle-tag">Cost optimization</span> <span class="angle-tag">IP protection</span></td>
+            <td><span class="status-dot warm"></span>Warm</td>
+          </tr>
+          <tr>
+            <td>19</td>
+            <td><strong>Twilio Segment</strong></td>
+            <td>Infra & Platform</td>
+            <td><span class="angle-tag">Low priority</span></td>
+            <td><span class="status-dot cold"></span>Cold</td>
+          </tr>
+          <tr>
+            <td>20</td>
+            <td><strong>Cockroach Labs</strong></td>
+            <td>Infra & Platform</td>
+            <td><span class="angle-tag">SQL generation security</span></td>
+            <td><span class="status-dot cold"></span>Cold</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card-grid" style="margin-top:24px;">
+      <div class="card">
+        <h3>🔥 Hot (Week 1)</h3>
+        <p><strong>Replit</strong> — Call + email. Reference Claude enterprise + Claude Code integration.</p>
+        <p><strong>Sourcegraph</strong> — Lead with tool-call firewall. They publicly discuss this.</p>
+        <p><strong>Intercom</strong> — PII in support tickets + guardrails.</p>
+        <p><strong>Box</strong> — HIPAA + PII Shield + Claude fallback.</p>
+      </div>
+      <div class="card">
+        <h3>🔥 Warm (Week 2)</h3>
+        <p><strong>Cursor, Notion, GitLab, Databricks, Codeium, HashiCorp</strong> — Medium urgency, high impact. Each has a specific wedge.</p>
+      </div>
+      <div class="card">
+        <h3>⏳ Warm (Week 3)</h3>
+        <p><strong>Benchling, Plaid, Temporal, Grafana, Confluent, LaunchDarkly, Sentry, Figma</strong> — Active but lower priority queue.</p>
+      </div>
+      <div class="card">
+        <h3>🧊 Cold (Week 4)</h3>
+        <p><strong>Twilio Segment</strong> — Parent too large. <strong>Cockroach Labs</strong> — Smaller and growing. Low priority.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Discovery Questions ─── -->
+  <section class="section">
+    <div class="divider"></div>
+    <div class="section-label">Discovery Call</div>
+    <h2>Questions that open deals.</h2>
+    <p class="lead">Use these in every discovery call. They're your diagnostic for which pillar to lead with.</p>
+
+    <div class="discovery-qs">
+      <div class="dq"><strong>What AI models</strong> are you using today?</div>
+      <div class="dq"><strong>What's your failover strategy</strong> when one goes down?</div>
+      <div class="dq"><strong>How are you handling security</strong> — PII, prompt injection, tool call governance?</div>
+      <div class="dq"><strong>Are you routing</strong> different tasks to different models, or everything to one?</div>
+      <div class="dq"><strong>What's your monthly AI spend</strong> looking like?</div>
+      <div class="dq"><strong>How do you handle</strong> degraded performance vs. full outage?</div>
+      <div class="dq"><strong>When your platform generates code / queries</strong> via AI — what's the safety layer between the LLM and execution?</div>
+      <div class="dq"><strong>Your AI platform job posts</strong> mention multi-model — what's the part of agent safety that keeps you up?</div>
+    </div>
+  </section>
+
+  <!-- ─── Objections ─── -->
+  <section class="section" id="objections">
+    <div class="divider"></div>
+    <div class="section-label">Objection Handling</div>
+    <h2>What they'll say. How to answer.</h2>
+    <p class="lead">Every objection has been answered in the field. Here's the playbook.</p>
+
+    <div class="objection-list">
+      <div class="objection">
+        <div class="q">"We're happy with OpenAI. Why add a layer?"</div>
+        <div class="a">You keep OpenAI. OrcaRouter wraps around it. Zero code changes. What you get: failover when they go down, the ability to route simple stuff to cheaper models, and enterprise security. It's insurance — and insurance that pays for itself.</div>
+      </div>
+      <div class="objection">
+        <div class="q">"We'll build this in-house."</div>
+        <div class="a">Respect that. Most teams spend 3–6 months building multi-model routing, streaming failover, and stream-safe guardrails. We've already solved those. Happy to share architecture patterns even if you build it yourself — that conversation alone is worth the call.</div>
+      </div>
+      <div class="objection">
+        <div class="q">"We're too small."</div>
+        <div class="a">The teams that need this most are the ones where one engineer owns the AI stack. When a model goes down at 2am, that engineer gets paged. OrcaRouter costs less than their time.</div>
+      </div>
+      <div class="objection">
+        <div class="q">"What about lock-in on your side?"</div>
+        <div class="a">It's an OpenAI-compatible endpoint. Your code speaks standard format. You can leave with zero code changes. We're the escape hatch FROM lock-in, not a new one.</div>
+      </div>
+      <div class="objection">
+        <div class="q">"How do you make money with zero markup?"</div>
+        <div class="a">Platform subscription. We're aligned — we succeed when your team stays and scales, not when you use more tokens. OpenRouter makes money when you spend more. We don't.</div>
+      </div>
+      <div class="objection">
+        <div class="q">"Is this adding latency?"</div>
+        <div class="a">Less than 1ms for routing. Less than 5ms for security checks. The AI models themselves take 500ms to 5 seconds — our overhead is invisible.</div>
+      </div>
+      <div class="objection">
+        <div class="q">"We built model failover internally."</div>
+        <div class="a">How are you handling degraded performance vs. full outage? What about partial failures where the model returns garbage instead of errors? OrcaRouter catches those too.</div>
+      </div>
+      <div class="objection">
+        <div class="q">"We use OpenRouter."</div>
+        <div class="a">OpenRouter routes. OrcaRouter governs. Zero markup either way — but only OrcaRouter ships agent firewall, PII Shield, PCI/HIPAA compliance packs, and zero data retention.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Pricing ─── -->
+  <section class="section" id="pricing">
+    <div class="divider"></div>
+    <div class="section-label">Pricing</div>
+    <h2>Keep it simple.</h2>
+    <p class="lead">Zero markup on AI model costs at every tier. OrcaRouter makes money from the platform subscription — not by taxing your tokens.</p>
+
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="tier-name">Hacker</div>
+        <div class="price">Free</div>
+        <div class="price-detail">Individual devs, testing, side projects</div>
+        <div class="price-note">Zero markup on token costs</div>
+      </div>
+      <div class="pricing-card featured">
+        <div class="tier-name">Team</div>
+        <div class="price">$499</div>
+        <div class="price-detail">/month — 10 seats</div>
+        <div class="price-note">Your sweet spot. Startups & growing teams. Zero markup on token costs.</div>
+      </div>
+      <div class="pricing-card">
+        <div class="tier-name">Enterprise</div>
+        <div class="price">Custom</div>
+        <div class="price-detail">On-prem, 99.99% SLA, dedicated infra</div>
+        <div class="price-note">Zero markup on token costs</div>
+      </div>
+    </div>
+
+    <div style="margin-top:24px; background:var(--gray-900); border:1px solid var(--gray-800); border-radius:10px; padding:20px;">
+      <p style="font-size:13px; color:var(--gray-400); line-height:1.6;">
+        <strong style="color:var(--white);">💡 The key differentiator:</strong> Unlike OpenRouter (which takes ~5% hidden fee), OrcaRouter makes money from the platform subscription — not by taxing your tokens. <strong style="color:var(--white);">This is THE talking point that crushes OpenRouter in deals.</strong>
+      </p>
+      <p style="font-size:13px; color:var(--gray-400); line-height:1.6; margin-top:8px;">
+        <strong style="color:var(--white);">Residual math for your pocket:</strong> Sell 1 Team account = $499/mo subscription. That same customer routing $20K/month through OrcaRouter = spread on top. One $500K/month AI shop = significant monthly residual, indefinitely.
+      </p>
+    </div>
+  </section>
+
+  <!-- ─── Quick Reference ─── -->
+  <section class="section" id="quickref">
+    <div class="divider"></div>
+    <div class="section-label">Quick Reference</div>
+    <h2>Triggers & responses.</h2>
+    <p class="lead">What to say when you spot the signal.</p>
+
+    <div class="quick-refs">
+      <div class="qr">
+        <div class="qr-trigger">🔔 Claude enterprise customer</div>
+        <div class="qr-accounts">Replit, Cursor, Notion, Box</div>
+        <div class="qr-say">"When Claude degrades, your product degrades. We prevent that."</div>
+      </div>
+      <div class="qr">
+        <div class="qr-trigger">🔔 Hiring agent infra engineers</div>
+        <div class="qr-accounts">Sourcegraph, Replit, Cursor, Codeium</div>
+        <div class="qr-say">"Your job post describes the problem we solve."</div>
+      </div>
+      <div class="qr">
+        <div class="qr-trigger">🔔 Customer-facing AI agents</div>
+        <div class="qr-accounts">Intercom</div>
+        <div class="qr-say">"PII in support tickets + multi-model routing. We do both."</div>
+      </div>
+      <div class="qr">
+        <div class="qr-trigger">🔔 HIPAA / Regulated</div>
+        <div class="qr-accounts">Box, Benchling</div>
+        <div class="qr-say">"PII Shield + HIPAA recipe out of the box."</div>
+      </div>
+      <div class="qr">
+        <div class="qr-trigger">🔔 SOC2 / Enterprise security</div>
+        <div class="qr-accounts">GitLab, Plaid, Sentry</div>
+        <div class="qr-say">"Compliance recipes + audit trail. Deploy in your VPC."</div>
+      </div>
+      <div class="qr">
+        <div class="qr-trigger">🔔 High API volume</div>
+        <div class="qr-accounts">Codeium, Databricks, Confluent</div>
+        <div class="qr-say">"Zero-markup passthrough. We don't add margin to your inference bill."</div>
+      </div>
+      <div class="qr">
+        <div class="qr-trigger">🔔 Infrastructure tool-calling</div>
+        <div class="qr-accounts">HashiCorp, Temporal, Cockroach Labs</div>
+        <div class="qr-say">"Tool-call firewall. Generated code shouldn't execute unchecked."</div>
+      </div>
+      <div class="qr">
+        <div class="qr-trigger">🔔 Cold email subject lines</div>
+        <div class="qr-accounts">Any prospect</div>
+        <div class="qr-say">"What happens when [their AI provider] goes down?" / "One leaked password. That's all it takes." / "Your AI bill is probably 30–50% too high"</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Cross-Sell ─── -->
+  <section class="section" id="crosssell">
+    <div class="divider"></div>
+    <div class="section-label">FlashLabs Cross-Sell Map</div>
+    <h2>Four products. One GTM stack.</h2>
+    <p class="lead">FlashLabs has four products that form a complete AI GTM stack. Each one sells into the next. Start with the product that matches their pain, then expand.</p>
+
+    <div class="card-grid" style="margin-bottom:32px;">
+      <div class="card">
+        <span class="icon">📈</span>
+        <h3>FlashRev</h3>
+        <p>Revenue acceleration platform — 12 autonomous AI agents, predictive dialer, AI sequencing, real-time enrichment.</p>
+        <span class="tag">Front Door</span>
+      </div>
+      <div class="card">
+        <span class="icon">🎙️</span>
+        <h3>FlashAI</h3>
+        <p>Voice agents and parallel dialing. AI handles outbound/inbound calls on Chroma models + RAG. $1.50 per connected conversation.</p>
+        <span class="tag">Outreach Layer</span>
+      </div>
+      <div class="card">
+        <span class="icon">🔀</span>
+        <h3>OrcaRouter</h3>
+        <p>AI gateway with zero-trust security. 200+ models, one endpoint, zero markup. This is what you're selling.</p>
+        <span class="tag">Infrastructure Layer</span>
+      </div>
+      <div class="card">
+        <span class="icon">🤝</span>
+        <h3>FlashClick</h3>
+        <p>Partner enablement — the channel layer. Partners drive leads, FlashRev converts them.</p>
+        <span class="tag">Channel Layer</span>
+      </div>
+    </div>
+
+    <table class="cross-sell-table">
+      <thead>
+        <tr>
+          <th>If They Buy...</th>
+          <th>Cross-Sell...</th>
+          <th>Because</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>FlashRev</td><td>FlashAI</td><td>Voice layer powers the calling engine</td></tr>
+        <tr><td>FlashRev</td><td>OrcaRouter</td><td>If they're building custom AI, they need routing</td></tr>
+        <tr><td>FlashAI</td><td>OrcaRouter</td><td>Voice agents need reliable AI — OrcaRouter provides failover</td></tr>
+        <tr><td>OrcaRouter</td><td>FlashRev</td><td>AI gateway customers are building AI — they may also need GTM</td></tr>
+        <tr><td>FlashClick</td><td>FlashRev</td><td>Partners drive leads — FlashRev converts them</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ─── Footer ─── -->
+  <footer>
+    <p>OrcaRouter Enablement Hub — July 2026 · Built for the FlashLabs team</p>
+    <p style="margin-top:4px;">Questions? Slack Jaccob or Noah. Need deal support? Loop in your manager for technical deep-dives.</p>
+  </footer>
+
+  <script>
+    // Smooth scroll for nav links
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const target = document.querySelector(link.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+        // Close mobile menu
+        document.querySelector('.nav-links')?.classList.remove('open');
+      });
+    });
+  </script>
+
+</body>
+</html>

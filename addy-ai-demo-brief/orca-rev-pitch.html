@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OrcaRouter + FlashRev — The Addy AI Demo Brief</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #141414;
+    --border: #2a2a2a;
+    --text: #e0e0e0;
+    --text-muted: #888;
+    --accent: #ffffff;
+    --orca: #00d4aa;
+    --rev: #ff6b35;
+    --flash: #6366f1;
+    --warning: #ffb347;
+    --danger: #ef4444;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* Header */
+  .header {
+    background: var(--surface); border-bottom: 1px solid var(--border);
+    padding: 20px 32px; text-align: center;
+  }
+  .header h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; }
+  .header p { color: var(--text-muted); font-size: 13px; margin-top: 4px; }
+
+  /* Persona bar */
+  .persona-bar {
+    background: var(--surface); border-bottom: 1px solid var(--border);
+    padding: 12px 32px; display: flex; justify-content: center; gap: 32px;
+    font-size: 12px; color: var(--text-muted); flex-wrap: wrap;
+  }
+  .persona-bar span { display: flex; align-items: center; gap: 4px; }
+  .persona-bar strong { color: var(--text); }
+
+  /* Tabs */
+  .tab-nav {
+    display: flex; justify-content: center; gap: 0;
+    background: var(--surface); border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 10;
+  }
+  .tab-btn {
+    padding: 14px 36px; background: none; border: none;
+    color: var(--text-muted); font-size: 14px; font-weight: 600;
+    cursor: pointer; position: relative; transition: color 0.2s; letter-spacing: -0.3px;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active { color: var(--text); }
+  .tab-btn.active::after {
+    content: ''; position: absolute; bottom: 0; left: 20px; right: 20px;
+    height: 2px; border-radius: 1px;
+  }
+  .tab-btn.active.tab-orca::after { background: var(--orca); }
+  .tab-btn.active.tab-rev::after { background: var(--rev); }
+  .tab-btn.active.tab-demo::after { background: var(--flash); }
+  .tab-badge {
+    display: inline-block; font-size: 10px; font-weight: 700;
+    padding: 2px 8px; border-radius: 4px; margin-left: 8px;
+    position: relative; top: -1px; letter-spacing: 0.5px;
+  }
+  .badge-orca { background: rgba(0,212,170,0.15); color: var(--orca); }
+  .badge-rev { background: rgba(255,107,53,0.15); color: var(--rev); }
+  .badge-flash { background: rgba(99,102,241,0.15); color: var(--flash); }
+
+  .tab-content { display: none; padding: 0; }
+  .tab-content.active { display: block; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 32px 24px 64px; }
+
+  /* Hero */
+  .hero { text-align: center; padding: 40px 24px 36px; }
+  .hero h2 { font-size: 32px; font-weight: 800; letter-spacing: -1px; line-height: 1.2; margin-bottom: 10px; }
+  .hero .highlight { color: var(--orca); }
+  .hero .highlight-rev { color: var(--rev); }
+  .hero .highlight-flash { color: var(--flash); }
+  .hero p.sub { font-size: 15px; color: var(--text-muted); max-width: 680px; margin: 0 auto; }
+
+  /* Killer Line */
+  .killer-line {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 24px 28px; margin: 24px 0; text-align: center;
+  }
+  .killer-line .quote { font-size: 18px; font-weight: 600; font-style: italic; letter-spacing: -0.3px; line-height: 1.5; }
+  .killer-line .attribution { font-size: 11px; color: var(--text-muted); margin-top: 6px; text-transform: uppercase; letter-spacing: 1px; }
+
+  /* Stat Cards */
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 24px 0; }
+  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; text-align: center; }
+  .stat-card .number { font-size: 28px; font-weight: 800; letter-spacing: -1px; color: var(--accent); }
+  .stat-card .number.orca-num { color: var(--orca); }
+  .stat-card .number.rev-num { color: var(--rev); }
+  .stat-card .label { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+  /* Section Title */
+  .section-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); margin: 36px 0 16px; }
+  .section-title.orca-section { color: var(--orca); }
+  .section-title.rev-section { color: var(--rev); }
+  .section-title.flash-section { color: var(--flash); }
+
+  /* Feature Grid */
+  .feature-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .feature-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 20px; transition: border-color 0.2s;
+  }
+  .feature-card:hover { border-color: #444; }
+  .feature-card .icon { font-size: 20px; margin-bottom: 8px; }
+  .feature-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; letter-spacing: -0.3px; }
+  .feature-card p { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+  /* Pain / Fix Table */
+  .compare-table { width: 100%; border-collapse: separate; border-spacing: 0 8px; margin: 20px 0; }
+  .compare-table td { padding: 14px; font-size: 13px; vertical-align: top; }
+  .compare-table .pain-col { background: rgba(255,255,255,0.03); border-radius: 8px 0 0 8px; }
+  .compare-table .fix-col { background: rgba(0,212,170,0.06); border-radius: 0 8px 8px 0; }
+  .label-tag {
+    display: inline-block; font-size: 9px; font-weight: 700;
+    padding: 2px 8px; border-radius: 4px; margin-bottom: 4px; letter-spacing: 0.5px;
+  }
+  .tag-pain { background: rgba(255,107,53,0.15); color: var(--rev); }
+  .tag-fix { background: rgba(0,212,170,0.15); color: var(--orca); }
+
+  /* Workflow */
+  .workflow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin: 20px 0; }
+  .workflow-step {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px 12px; text-align: center; position: relative;
+  }
+  .workflow-step .step-num {
+    width: 28px; height: 28px; border-radius: 50%;
+    color: var(--bg); display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 13px; margin: 0 auto 8px;
+  }
+  .workflow-step .step-num.rev-step { background: var(--rev); }
+  .workflow-step .step-num.flash-step { background: var(--flash); }
+  .workflow-step h4 { font-size: 12px; font-weight: 700; margin-bottom: 3px; }
+  .workflow-step p { font-size: 10px; color: var(--text-muted); line-height: 1.4; }
+
+  /* Feature List */
+  .feature-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .feature-item {
+    display: flex; align-items: flex-start; gap: 8px; padding: 12px 14px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px; font-size: 13px;
+  }
+  .feature-item .check { font-weight: 700; font-size: 15px; flex-shrink: 0; }
+  .check-orca { color: var(--orca); }
+  .check-rev { color: var(--rev); }
+
+  /* Highlight Box */
+  .highlight-box {
+    background: rgba(255,107,53,0.05); border: 1px solid rgba(255,107,53,0.18);
+    border-radius: 12px; padding: 24px 28px; margin: 24px 0;
+  }
+  .highlight-box h3 { font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--rev); letter-spacing: -0.3px; }
+  .highlight-box p { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 10px; }
+  .highlight-box strong { color: var(--text); }
+
+  .highlight-box-orca {
+    background: rgba(0,212,170,0.05); border: 1px solid rgba(0,212,170,0.18);
+    border-radius: 12px; padding: 24px 28px; margin: 24px 0;
+  }
+  .highlight-box-orca h3 { font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--orca); letter-spacing: -0.3px; }
+  .highlight-box-orca p { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 10px; }
+  .highlight-box-orca strong { color: var(--text); }
+
+  /* SMS Card */
+  .sms-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 20px; margin: 0; font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+  }
+  .sms-card .phone-bubble {
+    background: rgba(255,107,53,0.06); border-radius: 10px; padding: 12px 16px;
+    font-size: 12px; color: var(--text); line-height: 1.5; max-width: 440px;
+    border: 1px solid rgba(255,107,53,0.12);
+  }
+  .sms-card .phone-bubble .meta { font-size: 10px; color: var(--text-muted); margin-top: 6px; padding-top: 6px; border-top: 1px solid rgba(255,107,53,0.1); }
+  .sms-card h4 { font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+
+  /* Disposition Grid */
+  .dispo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 20px 0; }
+  .dispo-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px;
+  }
+  .dispo-card .dispo-tag {
+    display: inline-block; font-size: 10px; font-weight: 700; padding: 3px 8px;
+    border-radius: 5px; margin-bottom: 10px; letter-spacing: 0.5px;
+  }
+  .dispo-booked { background: rgba(0,212,170,0.12); color: var(--orca); }
+  .dispo-interested { background: rgba(255,179,71,0.15); color: var(--warning); }
+  .dispo-notnow { background: rgba(255,255,255,0.06); color: var(--text-muted); }
+  .dispo-card h4 { font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+  .dispo-card p { font-size: 11px; color: var(--text-muted); line-height: 1.5; margin-bottom: 8px; }
+  .dispo-card ul { list-style: none; }
+  .dispo-card ul li { font-size: 11px; color: var(--text-muted); padding: 2px 0; padding-left: 12px; position: relative; }
+  .dispo-card ul li::before { content: '→'; position: absolute; left: 0; color: var(--rev); font-size: 10px; }
+
+  /* Demo Strategy Grid */
+  .demo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  .demo-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px;
+  }
+  .demo-card .angle-tag {
+    display: inline-block; font-size: 10px; font-weight: 700; padding: 3px 8px;
+    border-radius: 5px; margin-bottom: 12px; letter-spacing: 0.5px;
+  }
+  .angle-warm { background: rgba(255,107,53,0.12); color: var(--rev); }
+  .angle-tech { background: rgba(0,212,170,0.12); color: var(--orca); }
+  .demo-card h3 { font-size: 18px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 8px; }
+  .demo-card h4 { font-size: 13px; font-weight: 700; color: var(--text-muted); margin: 14px 0 6px; text-transform: uppercase; letter-spacing: 0.8px; }
+  .demo-card p { font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 6px; }
+  .demo-card ol { padding-left: 18px; margin: 8px 0; }
+  .demo-card ol li { font-size: 12px; color: var(--text-muted); padding: 2px 0; }
+  .demo-card .hook-quote {
+    font-style: italic; font-size: 14px; padding: 12px 16px;
+    background: rgba(255,255,255,0.03); border-radius: 8px;
+    border-left: 3px solid var(--rev); margin: 12px 0; color: var(--text);
+  }
+  .demo-card .hook-quote.orca-q { border-left-color: var(--orca); }
+
+  /* Objection table */
+  .obj-table { width: 100%; border-collapse: separate; border-spacing: 0 6px; margin: 16px 0; }
+  .obj-table td { padding: 12px 14px; font-size: 12px; vertical-align: top; border-radius: 6px; }
+  .obj-table .obj-if { background: rgba(239,68,68,0.08); width: 35%; border-radius: 6px 0 0 6px; }
+  .obj-table .obj-then { background: rgba(0,212,170,0.06); border-radius: 0 6px 6px 0; }
+
+  /* Discovery */
+  .discovery-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin: 12px 0; }
+  .discovery-item {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    padding: 12px 14px; font-size: 12px; color: var(--text);
+    display: flex; align-items: flex-start; gap: 8px;
+  }
+  .discovery-item .q-num {
+    width: 22px; height: 22px; border-radius: 50%; background: var(--flash);
+    color: #fff; display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 11px; flex-shrink: 0;
+  }
+
+  /* CTA */
+  .cta-bar {
+    text-align: center; padding: 32px 24px; margin-top: 32px; border-top: 1px solid var(--border);
+  }
+  .cta-bar p { font-size: 14px; color: var(--text-muted); margin-bottom: 12px; }
+  .cta-links { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+  .cta-link {
+    display: inline-block; padding: 9px 22px; border-radius: 8px;
+    font-size: 12px; font-weight: 600; text-decoration: none; transition: opacity 0.2s;
+  }
+  .cta-link:hover { opacity: 0.8; }
+  .cta-orca { background: var(--accent); color: var(--bg); }
+  .cta-rev { background: var(--rev); color: #fff; }
+  .cta-outline { border: 1px solid var(--border); color: var(--text); }
+
+  /* Flash.ai callout */
+  .flash-callout {
+    background: rgba(99,102,241,0.06); border: 1px solid rgba(99,102,241,0.2);
+    border-radius: 10px; padding: 16px 20px; margin: 20px 0; display: flex; gap: 12px; align-items: flex-start;
+  }
+  .flash-callout .fc-icon { font-size: 20px; flex-shrink: 0; }
+  .flash-callout p { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+  .flash-callout strong { color: var(--flash); }
+
+  /* Note box */
+  .note-box {
+    background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+    border-radius: 8px; padding: 12px 16px; margin: 12px 0; font-size: 12px; color: var(--text-muted);
+    display: flex; gap: 8px; align-items: flex-start;
+  }
+  .note-box .nb-icon { flex-shrink: 0; }
+
+  @media (max-width: 768px) {
+    .stat-grid, .workflow { grid-template-columns: repeat(2, 1fr); }
+    .dispo-grid, .demo-grid { grid-template-columns: 1fr; }
+    .feature-grid, .feature-list, .discovery-list { grid-template-columns: 1fr; }
+    .tab-btn { padding: 14px 18px; font-size: 13px; }
+    .hero h2 { font-size: 24px; }
+    .persona-bar { gap: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Addy AI Demo Brief — OrcaRouter + FlashRev</h1>
+  <p>Prepared for Polyhronis "Paul" Apostolakis, Head of AI Adoption</p>
+</div>
+
+<div class="persona-bar">
+  <span>🎯 <strong>Paul Apostolakis</strong></span>
+  <span>📍 Royal Oak, MI</span>
+  <span>🔧 20+ yrs mortgage · Built "Mortgage AI" GPT · 10 GPTs</span>
+  <span>📞 Mentioned <strong>"rep follow-up"</strong> — entry point</span>
+</div>
+
+<div class="tab-nav">
+  <button class="tab-btn active tab-orca" onclick="switchTab('orca')">
+    🐳 OrcaRouter <span class="tab-badge badge-orca">AI GATEWAY</span>
+  </button>
+  <button class="tab-btn tab-rev" onclick="switchTab('rev')">
+    ⚡ Lead Follow Up with FlashLabs <span class="tab-badge badge-rev">SALES AI</span>
+  </button>
+  <button class="tab-btn tab-demo" onclick="switchTab('demo')">
+    🎯 Meeting Agenda <span class="tab-badge badge-flash">GAME PLAN</span>
+  </button>
+</div>
+
+<!-- ==================== ORCA TAB ==================== -->
+<div class="tab-content active" id="tab-orca">
+<div class="container">
+
+  <div class="hero">
+    <h2>You built <span class="highlight">Mortgage AI</span>. Let's talk infrastructure.</h2>
+    <p class="sub">Addy AI runs multiple AI agents — mortgage chatbot, LO assistant, document AI, email AI — all hitting LLM APIs. OrcaRouter is the gateway layer that routes, secures, and optimizes every one of those calls. At zero markup.</p>
+  </div>
+
+  <div class="note-box">
+    <span class="nb-icon">ℹ️</span>
+    <span><strong>Note:</strong> We don't know for certain which AI gateway or LLM provider Addy AI uses today. They built <strong>LangDrive</strong> (open-source LLM training API), so they have infrastructure chops — but are they routing through OpenRouter? Going direct to OpenAI? This is a key discovery question on the call. The value prop holds either way.</span>
+  </div>
+
+  <div class="stat-grid">
+    <div class="stat-card"><div class="number orca-num">40%</div><div class="label">Avg cost reduction via smart routing</div></div>
+    <div class="stat-card"><div class="number orca-num">11</div><div class="label">Providers, one endpoint</div></div>
+    <div class="stat-card"><div class="number orca-num">&lt;50ms</div><div class="label">Mid-stream failover</div></div>
+    <div class="stat-card"><div class="number">0%</div><div class="label">Token markup, ever</div></div>
+  </div>
+
+  <div class="killer-line">
+    <p class="quote">"You built Mortgage AI, you know LLM APIs inside out. Every agent at Addy — the chatbot, the LO assistant, the document AI — they're hitting APIs directly. OrcaRouter sits between them and any provider, routes to the best model, handles failures, screens for PII, and costs you zero markup. It's the gateway layer LangDrive is missing."</p>
+    <p class="attribution">— The pitch for Paul specifically</p>
+  </div>
+
+  <div class="section-title orca-section">Addy AI's LLM Stack — Pain Points → OrcaRouter Fix</div>
+  <table class="compare-table">
+    <tr>
+      <td class="pain-col"><span class="label-tag tag-pain">THE PAIN</span><br><strong>Every agent hard-codes one provider.</strong> Chatbot → OpenAI. Doc AI → OpenAI. LO Assistant → OpenAI. Single point of failure across the entire platform.</td>
+      <td class="fix-col"><span class="label-tag tag-fix">THE FIX</span><br><strong>Automatic failover across 11 providers.</strong> &lt;50ms mid-stream failover. gpt-4o → Claude → Gemini. The mortgage chatbot never goes dark — and nobody notices.</td>
+    </tr>
+    <tr>
+      <td class="pain-col"><span class="label-tag tag-pain">THE PAIN</span><br><strong>Mortgage applications = PII firehose.</strong> SSNs, tax returns, bank statements going through your chatbot. Prompt injection risk. What happens if PII leaks through a tool call?</td>
+      <td class="fix-col"><span class="label-tag tag-fix">THE FIX</span><br><strong>Agent Firewall + PII Shield.</strong> Detects SSNs, tax IDs, bank details mid-stream. Blocks before they hit the provider. Refunds the token. Full audit trail. SOC 2 auditor's dream.</td>
+    </tr>
+    <tr>
+      <td class="pain-col"><span class="label-tag tag-pain">THE PAIN</span><br><strong>No cost visibility per agent.</strong> What's the chatbot costing vs. the doc AI? Which agent is the biggest spender? You built LangDrive — you care about this stuff.</td>
+      <td class="fix-col"><span class="label-tag tag-fix">THE FIX</span><br><strong>Scoped API keys + per-agent observability.</strong> One key per agent with credit caps and model limits. Full structured logs: cost, model, latency, failure reason. Per-agent dashboards.</td>
+    </tr>
+    <tr>
+      <td class="pain-col"><span class="label-tag tag-pain">THE PAIN</span><br><strong>LangDrive is for training — not routing.</strong> You built the open-source API to train 100+ LLMs. But production routing, security, failover? That's a different beast. Months of engineering.</td>
+      <td class="fix-col"><span class="label-tag tag-fix">THE FIX</span><br><strong>One base_url change.</strong> 200+ models. 11 providers. Zero data retention by default. HIPAA-ready. The production-scale gateway LangDrive doesn't cover.</td>
+    </tr>
+  </table>
+
+  <div class="highlight-box-orca">
+    <h3>🔐 The Compliance Angle Paul Will Care About</h3>
+    <p>Addy AI is <strong>SOC 2 compliant</strong> and handles mortgage applications — that means SSNs, tax returns, bank statements, W-2s. OrcaRouter's security architecture (130+ pages of docs) gives them:</p>
+    <p><strong>→ PII Shield</strong> — Detects and blocks sensitive data mid-stream, before it reaches the provider<br>
+    <strong>→ Zero data retention (default)</strong> — Prompts and outputs never hit disk on OrcaRouter servers<br>
+    <strong>→ Agent Firewall</strong> — Tool-call governance, prompt injection defense, content filtering<br>
+    <strong>→ Full audit trails</strong> — Every prompt, every tool call, every routing decision logged and traceable<br>
+    <strong>→ Scoped API keys</strong> — One key per agent, with model limits and credit caps</p>
+  </div>
+
+  <div class="section-title orca-section">What OrcaRouter Brings</div>
+  <div class="feature-grid">
+    <div class="feature-card"><div class="icon">🎯</div><h4>Adaptive Smart Routing</h4><p>Grades every prompt. Routes to cheapest model that clears quality bar. Balanced, quality, cheapest, or fully adaptive. Per-workspace.</p></div>
+    <div class="feature-card"><div class="icon">🛡️</div><h4>Zero-Trust Security & Firewall</h4><p>Prompt guardrails, PII redaction, content filtering, agent firewall. 130+ pages of security architecture. Built for regulated industries.</p></div>
+    <div class="feature-card"><div class="icon">📊</div><h4>Full Observability</h4><p>Structured logs on every call: cost, model, latency, failure reason. Trace every prompt and tool call end-to-end for audit compliance.</p></div>
+    <div class="feature-card"><div class="icon">🔌</div><h4>Drop-In Compatible</h4><p>OpenAI SDK, Anthropic SDK, Google GenAI, LangChain, Vercel AI SDK, MCP server. Change one line — everything else stays the same.</p></div>
+    <div class="feature-card"><div class="icon">🌐</div><h4>200+ Models, 11 Providers</h4><p>OpenAI, Anthropic, Google Gemini, DeepSeek, xAI Grok, Alibaba Qwen, Moonshot Kimi, MiniMax, Z.ai GLM, Kling, ByteDance Seedance.</p></div>
+    <div class="feature-card"><div class="icon">💰</div><h4>Zero Markup, Forever</h4><p>You pay the provider's published price per token. Revenue comes from optional subscriptions, not from inflating your costs.</p></div>
+  </div>
+
+  <div class="section-title orca-section">The Right Model for Every Addy AI Agent</div>
+  <div class="feature-list">
+    <div class="feature-item"><span class="check check-orca">✓</span> <strong>Mortgage chatbot (customer-facing)</strong> → GPT-4o or Claude Sonnet 4.6</div>
+    <div class="feature-item"><span class="check check-orca">✓</span> <strong>Document AI (OCR + classification)</strong> → Gemini 2.5 Flash (cheap + strong vision)</div>
+    <div class="feature-item"><span class="check check-orca">✓</span> <strong>LO Assistant (reasoning)</strong> → o3-mini-high or Claude Opus 4.7</div>
+    <div class="feature-item"><span class="check check-orca">✓</span> <strong>Email AI (simple generation)</strong> → GPT-4o-mini or Gemini Flash-Lite</div>
+    <div class="feature-item"><span class="check check-orca">✓</span> <strong>Income/pricing math</strong> → DeepSeek Reasoner or o3-mini</div>
+    <div class="feature-item"><span class="check check-orca">✓</span> <strong>Auto-fallback safety net</strong> → Chain all models, &lt;50ms failover across providers</div>
+  </div>
+
+  <div class="section-title orca-section">Pricing Snapshot</div>
+  <div class="feature-list">
+    <div class="feature-item"><span class="check check-orca">✓</span> <strong>Hacker Tier</strong> → Free forever. Great for testing and small projects.</div>
+    <div class="feature-item"><span class="check check-orca">✓</span> <strong>Team Tier</strong> → $499/mo. Scoped keys, guardrails, firewall, observability.</div>
+    <div class="feature-item"><span class="check check-orca">✓</span> <strong>Token Pricing</strong> → You pay exactly what the provider charges. No markup.</div>
+    <div class="feature-item"><span class="check check-orca">✓</span> <strong>Enterprise</strong> → Custom. Dedicated infrastructure, SSO, advanced compliance.</div>
+  </div>
+
+</div>
+</div>
+
+<!-- ==================== FLASHREV TAB ==================== -->
+<div class="tab-content" id="tab-rev">
+<div class="container">
+
+  <div class="hero">
+    <h2>Every sales call is <span class="highlight-rev">untapped revenue</span></h2>
+    <p class="sub">Addy AI's team is talking to lenders, loan officers, and enterprise prospects every day. FlashRev + Hermes captures every conversation, automates follow-up, and surfaces deal intelligence — so no lead falls through the cracks.</p>
+  </div>
+
+  <div class="stat-grid">
+    <div class="stat-card"><div class="number rev-num">100%</div><div class="label">Call coverage, auto-recorded</div></div>
+    <div class="stat-card"><div class="number rev-num">0</div><div class="label">Missed follow-ups</div></div>
+    <div class="stat-card"><div class="number rev-num">10x</div><div class="label">Faster post-call workflow</div></div>
+    <div class="stat-card"><div class="number rev-num">95%</div><div class="label">SMS deliverability</div></div>
+  </div>
+
+  <div class="killer-line">
+    <p class="quote">"Most outreach tools give you a dialer and sequences. FlashRev gives you the intelligence layer — Hermes captures what actually happens on every call, surfaces which deals need attention, and automates follow-up. Your reps spend less time in the CRM and more time closing loans."</p>
+    <p class="attribution">— The competitive knife</p>
+  </div>
+
+  <!-- Features -->
+  <div class="section-title rev-section">What FlashRev + Hermes Brings to Addy AI</div>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="icon">🎙️</div>
+      <h4>Hermes Meeting Bot</h4>
+      <p>Your differentiator. Sits in on every consultation. Auto-captures loan scenarios, rates, and next steps. Generates follow-up tasks and email drafts. Reps never manually log call notes again.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🧠</div>
+      <h4>SuperAgent Intelligence Layer</h4>
+      <p>While Outreach/GoHighLevel give you a dialer and sequences, FlashRev tells you which deals are slipping <em>before</em> the rep updates anything. Pipeline health from call data, not CRM data.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">⚡</div>
+      <h4>Disposition-Based Automation</h4>
+      <p>Call outcome ("Booked Demo", "Interested", "Not Now") triggers unique workflows. Each disposition has its own follow-up sequence, templated messaging, and CRM actions — fully automatic.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">📱</div>
+      <h4>Instant SMS Follow-Up</h4>
+      <p>Call ends → SMS fires immediately with app link, getting started guide, or next steps. Templated to avoid spam-trigger words. Prospect gets the link while the conversation is still fresh.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">📞</div>
+      <h4>Parallel Dialer + Sequences</h4>
+      <p>Table stakes, but it's all in one workspace. Reps don't bounce between 5 tools. Dialer, sequences, enrichment, and pipeline intelligence — one screen.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">📊</div>
+      <h4>CRM Auto-Sync & Pipeline Hygiene</h4>
+      <p>Call outcomes, next steps, and deal stage updates sync automatically to your CRM. Pipeline stays current. Hermes catches what reps miss.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🔍</div>
+      <h4>Buying Signal Detection</h4>
+      <p>AI flags when a lender mentions budget, timeline, competitors, or pain points. Reps get real-time alerts. Hot signals never go cold.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">📈</div>
+      <h4>Call Analytics & Coaching</h4>
+      <p>Track talk/listen ratios, objection patterns, and win/loss trends across all calls. Coach reps with data, not guesses.</p>
+    </div>
+  </div>
+
+  <!-- Disposition-Based Automation -->
+  <div class="section-title rev-section">Disposition-Based Automation — The Right Follow-Up, Every Time</div>
+  <p style="font-size:13px;color:var(--text-muted);margin-bottom:6px;">When a call ends, the rep selects a disposition. FlashRev instantly triggers the right workflow — no thinking, no forgetting, no dropped leads.</p>
+
+  <div class="dispo-grid">
+    <div class="dispo-card">
+      <span class="dispo-tag dispo-booked">✅ DEMO BOOKED</span>
+      <h4>Immediate Onboarding Flow</h4>
+      <p>Call ends with a booked demo. FlashRev fires:</p>
+      <ul>
+        <li>SMS with app download link (spam-safe template)</li>
+        <li>Calendar invite with meeting details</li>
+        <li>"Getting Started" email with training docs</li>
+        <li>CRM deal stage → "Demo Scheduled"</li>
+      </ul>
+    </div>
+    <div class="dispo-card">
+      <span class="dispo-tag dispo-interested">🟡 INTERESTED — FOLLOW UP</span>
+      <h4>Structured Nurture Cadence</h4>
+      <p>Prospect is warm but not ready. FlashRev triggers:</p>
+      <ul>
+        <li>Thank-you SMS within 60 seconds (no spam triggers)</li>
+        <li>Case study + ROI one-pager sent next day</li>
+        <li>Check-in call task created for 5 days out</li>
+        <li>CRM deal stage → "Nurturing"</li>
+      </ul>
+    </div>
+    <div class="dispo-card">
+      <span class="dispo-tag dispo-notnow">⚪ NOT NOW / NO ANSWER</span>
+      <h4>Don't Let It Die</h4>
+      <p>Not the right time, or they didn't pick up:</p>
+      <ul>
+        <li>Gentle SMS follow-up (no pressure, just value)</li>
+        <li>Adds to quarterly check-in cadence</li>
+        <li>Auto-surfaces in CRM after 90 days</li>
+        <li>Industry news / product update drip begins</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Instant SMS -->
+  <div class="section-title rev-section">Instant Post-Call SMS — Link in Their Hand Before They Check Email</div>
+  <div class="highlight-box">
+    <h3>🔥 The "Hang Up → Ping" Moment</h3>
+    <p>The most critical window for follow-up is the <strong>first 60 seconds after a call ends</strong>. That's when the prospect is most engaged and most likely to take action. FlashRev automates this perfectly:</p>
+    <p><strong>1.</strong> Rep hangs up → Hermes detects call end<br>
+    <strong>2.</strong> Rep selects disposition ("Booked Demo") with one tap<br>
+    <strong>3.</strong> FlashRev instantly sends a templated SMS with the app link<br>
+    <strong>4.</strong> Prospect taps the link while the conversation is still fresh<br>
+    <strong>5.</strong> Calendar invite + welcome email land simultaneously</p>
+    <p style="margin-top:10px;font-size:11px;color:var(--text-muted);">⚡ Average time from hang-up to SMS delivered: <strong style="color:var(--text);">under 3 seconds</strong></p>
+  </div>
+
+  <div class="section-title rev-section">Spam-Safe SMS — Compliance First</div>
+  <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;">Mortgage-related keywords ("loan", "rate", "approve", "pre-qualify") are known SMS spam triggers. FlashRev templates use <strong>clean, neutral language</strong> that stays compliant with carrier filtering and TCPA guidelines.</p>
+
+  <div class="feature-grid">
+    <div class="sms-card">
+      <h4>📱 After a Booked Demo</h4>
+      <div class="phone-bubble">
+        <strong>Addy AI</strong><br><br>
+        Great speaking with you! Here's the link to get started:<br><br>
+        📲 [addy.ai/start]<br><br>
+        Your onboarding specialist will reach out shortly. Looking forward to helping your team move faster! 🏠
+        <div class="meta">Sent 2s after call end • Delivered • Opened 18s ago</div>
+      </div>
+    </div>
+    <div class="sms-card">
+      <h4>📱 After an Interest Call (Nurture)</h4>
+      <div class="phone-bubble">
+        <strong>Addy AI</strong><br><br>
+        Thanks for the conversation today! I'll send over the information we discussed shortly.<br><br>
+        In the meantime, here's a quick look at how teams are using our platform:<br><br>
+        📊 [addy.ai/cases]<br><br>
+        Talk soon!
+        <div class="meta">Sent 2s after call end • Delivered • Opened 42s ago</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px;margin-top:14px;">
+    <h4 style="font-size:13px;font-weight:700;margin-bottom:8px;">🛡️ SMS Compliance Built In</h4>
+    <div class="feature-list" style="margin-top:8px;">
+      <div class="feature-item" style="font-size:12px;"><span class="check check-rev">✓</span> <strong>Spam-trigger word filter</strong> — Auto-strips or replaces flagged terms</div>
+      <div class="feature-item" style="font-size:12px;"><span class="check check-rev">✓</span> <strong>TCPA-compliant opt-in tracking</strong> — Only sends to contacts with verified consent</div>
+      <div class="feature-item" style="font-size:12px;"><span class="check check-rev">✓</span> <strong>Carrier deliverability monitoring</strong> — Real-time SMS status tracking</div>
+      <div class="feature-item" style="font-size:12px;"><span class="check check-rev">✓</span> <strong>Opt-out handling</strong> — Instant removal on "STOP" reply, auto-logged to CRM</div>
+      <div class="feature-item" style="font-size:12px;"><span class="check check-rev">✓</span> <strong>Templated message library</strong> — Pre-approved per disposition, A/B tested</div>
+      <div class="feature-item" style="font-size:12px;"><span class="check check-rev">✓</span> <strong>Send window enforcement</strong> — Respects timezone-based quiet hours</div>
+    </div>
+  </div>
+
+  <!-- Powered by FlashLabs Callout -->
+  <div class="flash-callout">
+    <span class="fc-icon">⚡</span>
+    <p><strong>FlashRev is powered by FlashLabs</strong> — the same AI infrastructure behind SuperAgent. Every call Hermes captures, every disposition-triggered workflow, and every pipeline insight runs on the same enterprise-grade AI engine that processes millions of agent tasks daily. This isn't a thin wrapper on someone else's API — it's purpose-built intelligence for revenue teams.</p>
+  </div>
+
+  <!-- Use Cases -->
+  <div class="section-title rev-section">Addy AI Use Cases</div>
+  <div class="feature-list">
+    <div class="feature-item"><span class="check check-rev">✓</span> <strong>Enterprise lender demos</strong> → Hermes captures all requirements → personalized proposal auto-generated within minutes</div>
+    <div class="feature-item"><span class="check check-rev">✓</span> <strong>Loan officer onboarding</strong> → "Booked" disposition triggers SMS with setup link → calendar invite → training doc sequence</div>
+    <div class="feature-item"><span class="check check-rev">✓</span> <strong>Trade show follow-up</strong> → Rep dispositions each booth chat → auto SMS → CRM contact → nurture sequence</div>
+    <div class="feature-item"><span class="check check-rev">✓</span> <strong>Customer success check-ins</strong> → AI flags at-risk accounts from sentiment → auto-creates escalation</div>
+    <div class="feature-item"><span class="check check-rev">✓</span> <strong>Partner & integration calls</strong> → Action items from ICE/Encompass/MeridianLink calls captured → assigned automatically</div>
+    <div class="feature-item"><span class="check check-rev">✓</span> <strong>Inbound demo requests (addy.com)</strong> → Instant AI qualification → calendar booked → pre-call reminder → post-call automation</div>
+  </div>
+
+</div>
+</div>
+
+<!-- ==================== MEETING AGENDA TAB ==================== -->
+<div class="tab-content" id="tab-demo">
+<div class="container">
+
+  <div class="hero">
+    <h2>Our Call: <span class="highlight-flash">What to Expect</span></h2>
+    <p class="sub">Two quick demos built around the challenges you mentioned — rep follow-up, and the AI infrastructure powering Addy's agents. ~30 minutes, casual conversation.</p>
+  </div>
+
+  <!-- Timeline -->
+  <div class="section-title flash-section">Agenda — 30 Minutes</div>
+
+  <div style="display:flex;flex-direction:column;gap:16px;margin:20px 0;">
+
+    <!-- Block 1 -->
+    <div style="display:flex;gap:16px;align-items:flex-start;">
+      <div style="flex-shrink:0;width:48px;height:48px;border-radius:50%;background:var(--rev);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;color:#fff;">1</div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px 22px;flex:1;">
+        <h4 style="font-size:15px;font-weight:700;margin-bottom:4px;">Rep Follow-Up Automation <span style="font-size:10px;color:var(--text-muted);margin-left:8px;">~10 min</span></h4>
+        <p style="font-size:13px;color:var(--text-muted);line-height:1.5;margin-bottom:8px;">You mentioned rep follow-up is a pain point. We'll show you how FlashRev + Hermes captures every conversation, automates what happens after the call, and surfaces deal intelligence your reps are missing today.</p>
+        <div style="font-size:12px;color:var(--text-muted);">
+          <span style="color:var(--rev);">→</span> See Hermes join a call and auto-capture the conversation<br>
+          <span style="color:var(--rev);">→</span> Watch instant SMS + email fire after hang-up (spam-safe templates)<br>
+          <span style="color:var(--rev);">→</span> Pipeline view with deal health surfaced from call data, not CRM hygiene
+        </div>
+      </div>
+    </div>
+
+    <!-- Block 2 -->
+    <div style="display:flex;gap:16px;align-items:flex-start;">
+      <div style="flex-shrink:0;width:48px;height:48px;border-radius:50%;background:var(--orca);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;color:#000;">2</div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px 22px;flex:1;">
+        <h4 style="font-size:15px;font-weight:700;margin-bottom:4px;">AI Infrastructure for Addy's Agents <span style="font-size:10px;color:var(--text-muted);margin-left:8px;">~12 min</span></h4>
+        <p style="font-size:13px;color:var(--text-muted);line-height:1.5;margin-bottom:8px;">Given your background — building Mortgage AI, 10 GPTs, LangDrive — we think you'll find this interesting. OrcaRouter is the gateway layer that routes, secures, and optimizes every LLM call across all of Addy's agents. Zero markup.</p>
+        <div style="font-size:12px;color:var(--text-muted);">
+          <span style="color:var(--orca);">→</span> Smart routing — one endpoint picks the best model for each task automatically<br>
+          <span style="color:var(--orca);">→</span> PII Shield — catch SSNs and sensitive data before they hit any provider<br>
+          <span style="color:var(--orca);">→</span> Fallback chains — if OpenAI goes down, your chatbot doesn't<br>
+          <span style="color:var(--orca);">→</span> Scoped API keys — one per agent, with credit caps and model limits
+        </div>
+      </div>
+    </div>
+
+    <!-- Block 3 -->
+    <div style="display:flex;gap:16px;align-items:flex-start;">
+      <div style="flex-shrink:0;width:48px;height:48px;border-radius:50%;background:var(--flash);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;color:#fff;">3</div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px 22px;flex:1;">
+        <h4 style="font-size:15px;font-weight:700;margin-bottom:4px;">Open Discussion & Next Steps <span style="font-size:10px;color:var(--text-muted);margin-left:8px;">~8 min</span></h4>
+        <p style="font-size:13px;color:var(--text-muted);line-height:1.5;margin-bottom:8px;">We'd love to understand more about Addy's stack and where we can help. No hard pitch — just a conversation about what matters to you.</p>
+        <div style="font-size:12px;color:var(--text-muted);">
+          <span style="color:var(--flash);">→</span> How your agents are running today — models, providers, spend<br>
+          <span style="color:var(--flash);">→</span> How your sales team handles outreach and follow-up<br>
+          <span style="color:var(--flash);">→</span> What would make either tool a no-brainer for Addy<br>
+          <span style="color:var(--flash);">→</span> Next steps: trial access, technical deep-dive, or intro to your team
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Why This Matters -->
+  <div class="section-title flash-section">Why These Two Products?</div>
+  <div class="demo-grid">
+    <div class="demo-card">
+      <span class="angle-tag angle-warm">⚡ FLASHREV + HERMES</span>
+      <h3>Because rep follow-up shouldn't be manual</h3>
+      <p>Your team sells to mortgage lenders and brokers. Every call has a dozen next steps — app links, training docs, calendar invites, follow-up tasks. Most of that falls through the cracks today. FlashRev automates it all in under 3 seconds post-call.</p>
+      <div class="hook-quote">
+        "Most outreach tools give you a dialer and sequences. FlashRev gives you the intelligence layer — Hermes captures what actually happens on every call, surfaces which deals need attention, and automates follow-up. Your reps spend less time in the CRM and more time closing loans."
+      </div>
+    </div>
+    <div class="demo-card">
+      <span class="angle-tag angle-tech">🐳 ORCAROUTER</span>
+      <h3>Because your agents deserve better infrastructure</h3>
+      <p>Addy runs multiple AI agents — chatbot, LO assistant, document AI, email AI. Each one is hitting LLM APIs directly. OrcaRouter gives you smart routing, provider failover, PII screening, and cost optimization — with one line of code and zero markup.</p>
+      <div class="hook-quote orca-q">
+        "You built Mortgage AI, you know LLM APIs inside out. OrcaRouter sits between your agents and any provider, routes to the best model, handles failures, screens for PII, and costs you zero markup. It's the gateway layer LangDrive is missing."
+      </div>
+    </div>
+  </div>
+
+  <!-- About Addy AI — Quick Context -->
+  <div class="section-title flash-section">About Addy AI</div>
+  <div class="feature-list">
+    <div class="feature-item" style="font-size:12px;"><span class="check" style="color:var(--flash);">•</span> <strong>"World's first Agentic AI platform for mortgage"</strong> — closes loans 90% faster</div>
+    <div class="feature-item" style="font-size:12px;"><span class="check" style="color:var(--flash);">•</span> Products: AI chatbot, LO Assistant, Document AI, Email AI, Chrome Extension</div>
+    <div class="feature-item" style="font-size:12px;"><span class="check" style="color:var(--flash);">•</span> Integrates with <strong>ICE Encompass, MeridianLink, CRMs</strong></div>
+    <div class="feature-item" style="font-size:12px;"><span class="check" style="color:var(--flash);">•</span> Built <strong>LangDrive</strong> — open-source API to train 100+ LLMs on private data</div>
+    <div class="feature-item" style="font-size:12px;"><span class="check" style="color:var(--flash);">•</span> CEO: <strong>Michael Vandi</strong> (ex-AWS, CMU) · CRO: <strong>Shaun Groves</strong> (ex-SVP Sales, UWM)</div>
+    <div class="feature-item" style="font-size:12px;"><span class="check" style="color:var(--flash);">•</span> SOC 2 compliant, San Francisco</div>
+  </div>
+
+</div>
+</div>
+
+<!-- Footer CTA -->
+<div class="cta-bar">
+  <p>Want a 15-minute demo script or a Google Doc version?</p>
+  <div class="cta-links">
+    <a href="https://orcarouter.ai" class="cta-link cta-orca" target="_blank">🐳 OrcaRouter</a>
+    <a href="https://addy.com" class="cta-link cta-outline" target="_blank">🏠 Addy AI</a>
+    <span class="cta-link cta-rev" style="cursor:default">⚡ FlashRev</span>
+  </div>
+</div>
+
+<script>
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.querySelector('#tab-' + tab).classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    if (b.getAttribute('onclick').includes("'" + tab + "'")) b.classList.add('active');
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
